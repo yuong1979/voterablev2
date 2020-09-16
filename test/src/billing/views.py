@@ -141,11 +141,14 @@ class SelectPlan(LoginRequiredMixin, TemplateView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(SelectPlan, self).get_context_data(*args, **kwargs)
 
-		Plan04 = get_object_or_404(PriceToDays, subplan="Plan04")
-		Plan05 = get_object_or_404(PriceToDays, subplan="Plan05")
-		Plan06 = get_object_or_404(PriceToDays, subplan="Plan06")
 
-		
+
+		Plan04 = get_object_or_404(PriceToDays, subplan="Plan01")
+		Plan05 = get_object_or_404(PriceToDays, subplan="Plan03")
+		Plan06 = get_object_or_404(PriceToDays, subplan="Plan05")
+
+
+
 		totaltipcount = (PollItem.objects.filter(allowed=True).count())
 
 		#Price per days
