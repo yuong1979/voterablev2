@@ -1,0 +1,27 @@
+<div class="row">
+{% if pollcreatelist %}
+  <div class="col-sm-12" >
+    <div class="mainboxstyle">
+
+        <div class="mainheaderstyle"><i class="fas fa-magic fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Your Created Tips</div>
+
+    </div><!-- mainboxstyle -->
+  </div>
+
+  <div class="col-sm-12">
+
+    {% for i in pollcreatelist %}
+
+      <div class="greyboxstyle">
+
+          <a href="/polls/?create={{ i.slug }}"><b style="line-height: 200%;">{{ i.title }}</b></a>
+
+      </div>
+
+    {% endfor %}
+
+  </div>
+
+  <br><br><br>
+{% endif %}
+</div>

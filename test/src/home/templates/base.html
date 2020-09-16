@@ -1,0 +1,1265 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="google-site-verification" content="wgDqrd9St3JQSG3Hkt35m3vccyIPYRLgxjyxdeZZ7ME" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<!--     <meta name="viewport" content="height=device-height, 
+                      width=device-width, initial-scale=1.0, 
+                      minimum-scale=1.0, maximum-scale=1.0, 
+                      user-scalable=no, target-densitydpi=device-dpi"> -->
+
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="../../favicon.ico">
+ -->
+
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon_1.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32_1.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16_1.png' %}">
+    <link rel="manifest" href="{% static 'favicon/manifest.json' %}">
+    <link rel="mask-icon" href="{% static 'favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <link rel="shortcut icon" href="{% static 'favicon/favicon1.ico' %}">
+    <meta name="msapplication-config" content="{% static 'favicon/browserconfig.xml' %}">
+    <meta name="theme-color" content="#ffffff">
+
+<!-- {% block firebase %}{% endblock %} -->
+<!--   this outdated below is removed but because there is a later version - but if I remove this the email notification fails -->
+<!--     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
+
+<!-- This is an updated version of the above -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <!-- The two links below are for bootstrap toggles -->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
+
+<!--     mining script -->
+<!--     <script src="https://coinhive.com/lib/coinhive.min.js"></script> -->
+
+
+
+
+
+
+<!--     <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-106024449-1', 'auto');
+      ga('send', 'pageview');
+
+    </script> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-106024449-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-106024449-2');
+</script>
+
+
+
+{% block pwa %} {% endblock %}
+
+
+{% block meta %}
+     <meta name="title" content="Business Hacks">
+     <meta name="description" content="Voterable - Vote and favorite your favorite hacks!">
+     <meta name="keywords" content=": sales hacks, business hacks, marketing hacks, social media hacks">
+{% endblock %}
+
+
+
+
+    <title>{% block head_title %}Voterable{% endblock %}</title>
+
+{% include 'head_css.html' %}
+
+      <style>
+
+
+        {% block style %}
+
+        {% endblock %}
+
+
+/*        body,h1,h2,h3,h4,h5,h6 {font-family: "Verdana", Helvetica, sans-serif;}*/
+
+/*        body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", Helvetica, sans-serif;}*/
+
+        body,h1,h2,h3,h4,h5,h6 {font-family: Roboto, Arial, sans-serif;}
+
+/*        body,h1,h2,h3,h4,h5,h6 {font-family: "Trebuchet MS", Helvetica, sans-serif;}*/
+
+/*        body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica Neue", Helvetica;}*/
+
+/*        body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}*/
+
+        body {
+          background: #F0F0F0;
+        }
+
+/*        navbar hover color*/
+        a:hover {
+            text-decoration: yellow;
+        }
+
+/*        .shadow {
+            box-shadow: 3px 3px 4px grey;
+        }*/
+
+
+
+
+/*        To keep tags from touching each other across all templates - not used*/
+/*        .tagmargin {
+            margin-top: 3px;
+            margin-bottom: 3px;
+            border-color: #0A8082;
+            border-radius: 20px;
+            border-width: 2px;
+            font-color: red;
+            font-weight: bold;
+            font-size: small;
+        }*/
+
+        /*
+        Change the panel color for all the panels below orginal color is - #008080*/
+        /*panel heading affects all the heading of about/faq/mission*/
+/*        .panel > .panel-heading {
+            background-color: gray;
+            color: white;
+        }*/
+
+        /*regulates buttons across all the templates*/
+        .buttonspace {
+            margin: 10px 10px 10px 10px;
+            width: 180px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+
+
+
+/*        not used*/
+        .allfontcolor {
+          color: #0A8082;
+        }
+
+/*        regulates all icon button colors across the project*/
+/*        .allbtniconcolor {
+          color:  dodgerblue;
+        }*/
+
+
+
+        .footermenu {
+          position: fixed;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          background-color: white;
+          color: white;
+          text-align: center;
+          z-index: 1;
+
+          padding:15px 15px 0px 15px; 
+          border-style: solid; border-width: 1px; 
+          border-top-color: lightgrey;
+
+        }
+
+
+        .footiconholder {
+          float:left; 
+/*          padding: 0% 80% 0% 10%;*/
+/*          font-size: 20px;*/
+        }
+
+
+
+
+
+
+        .mainheaderstyle {
+          font-size: 130%;
+          color: #0A8082;
+        }
+
+        .mainboxstyle {
+          background-color:white; 
+/*          margin-left:-7px;
+          margin-right:-7px;*/
+          margin-top:7px;
+          margin-bottom: 7px; 
+          padding:15px;
+          border-radius: 3px;
+        }
+
+
+        .maincontainerstyle {
+          margin:20px
+        }
+
+
+        .tagstyle {
+          margin-top: 3px;
+          margin-bottom: 3px;
+
+          margin-left: -5px;
+          margin-right: -5px;
+
+          padding-top: 0px;
+          padding-bottom: 0px;
+/*          border-color: #0A8082;*/
+          border-radius: 20px;
+          border-width: 2px;
+          font-color: red;
+/*          font-weight: bold;*/
+          font-size: 90%;
+          font-weight: bold;
+        }
+
+
+          /* font size for poll list and detail */
+/*        .fontstyle18 {
+          font-size: 18px;
+          font-weight:bolder;    
+        }*/
+
+
+          /* font size for poll list and detail */
+        .fontstyle110 {
+          font-weight:bolder;
+          font-size: 110%;
+/*          margin-left: 10px;*/
+        }
+
+
+          /* font size for poll list and detail */
+        .fontstyle100 {
+          font-weight:bolder;
+          font-size: 100%;
+        }
+
+          /* font size for poll list and detail */
+        .fontstyle90 {
+          font-weight: bolder;
+          font-size: 90%;
+        }
+
+          /* font size for poll list and detail */
+        .fontstyle85 {
+          font-weight: bolder;
+          font-size: 85%;
+        }
+
+        /* content font size for poll list and detail */
+        .contentstyle {
+          font-size: 85%;
+        }
+
+        /* line break for poll list */
+/*        .tiplinebreak {
+          margin:-1px    
+        }*/
+
+
+        /* time stamp for poll list */
+        .timestampstyle {
+          font-size: 85%;
+          color: grey;
+          margin-top: 3px;
+        }
+
+        /* read more btn for poll list and detail */
+        .readmorebtn {
+          padding:0px; 
+          margin-top:-10px;
+          margin-bottom:-20px;
+          font-size: small;
+        }
+
+        /* credit font size for poll list and detail */
+        .creditstyle {
+          font-size: 85%;
+        }
+
+        /* margin size between for tags for poll list */
+        .tagsbox {
+          margin:2px
+        }
+
+
+        .commentbox {
+          background-color: #F0F0F0; 
+          border-radius: 6px;
+        }
+
+
+
+
+        /* box style for holding tips */
+        .greyboxstyle {
+          
+
+          background-color:white;
+/*          margin: 10px;*/
+/*          margin: 5px -7px 5px -7px; */
+
+          margin: 2% -7% 2% -7%;
+/*          margin-left:-7px;
+          margin-right:-7px;
+          margin-top:7px;
+          margin-bottom: 7px; */
+/*          padding: 2px 15px 2px 20px ;*/
+          padding: 0% 10% 0% 12% ;        
+          border-radius: 3px;
+
+/*          background-color: #F0F0F0;  /*original color #d3d3d3*/
+
+        /*  height: 100%;*/
+/*          min-height: 30px;*/
+          font-size: 95%;
+
+/*          padding: 0px 6px 0px 6px;*/
+/*          margin: 0px 4px 0px 4px;*/
+
+/*          border: 3px;
+          border-color: #F0F0F0;
+          border-style: solid;*/
+
+/*          border-radius: 5px;*/
+
+/*          position: relative;
+          transform: translateY(-50%); 
+          top: 50%;
+*/
+        }
+
+        .badgestyle {
+          font-size: 85%;
+        }
+
+/*        .tipcardbodystyle {
+          margin-right: -15px
+        }*/
+
+
+        #id_search {
+          margin: 0%;
+          width: 110%;
+        }
+
+
+/*        this is for the icons - for elements to be stacked on top of one another*/
+        #parent { 
+          padding:0px;
+          margin:0% 1% 5% 0%;
+
+/*          background-color: green;*/
+        }
+
+        .child {
+          height:14px;
+          margin:0px 2px 10px 2px;
+/*          background-color: red;*/
+        }
+
+
+/*        this for for the searchbox data loading message*/
+        .loadmsg {
+          margin:30px;
+        }        
+
+        .icontext {
+          font-size: 12px;
+          color: dodgerblue;
+          font-weight: bold;
+/*          background-color: blue;*/
+          width: 60px;
+          text-align: center;
+        }
+
+        .iconshape {
+          font-size: 20px;
+/*          background-color: yellow;*/          
+        }
+
+
+
+        .iconfixfav {
+          font-size: 22px
+        }
+
+        .iconfixshare {
+          font-size: 22px
+        }
+
+        .iconfixcomment {
+          font-size: 20px;
+        }
+
+
+
+/*polllist image across polllist fav/create/all/preview/details*/
+
+        .polllistimg
+        {
+            width: 100%;
+            height: auto;
+            max-width: 400px;
+        /*    clip: rect(0px,200px,200px,0px);
+            position: absolute;*/
+        /*    object-fit: contain;*/
+            border-radius: 4px;
+        }
+
+
+/*regulates the size of the image photo in poll detail and preview*/
+        .cpimgsmall
+        {
+            border-radius: 50%;
+            margin: 5px 5px 5px 5px;
+            height: 40px;
+            width: 40px;
+            object-fit: cover;
+        }
+
+
+/*regulates the size of the image photo for home and user details*/
+        .imgtn
+        {
+            object-fit: cover;
+            height: 55px; 
+            width: 55px;
+        }
+
+        .imgdetail
+        {
+            max-width: 70px;
+            max-height: 70px;
+            border-radius: 40px;
+            object-fit: cover;
+        }
+
+
+
+
+
+
+
+
+
+
+
+/*        change the footer attributes*/
+        #foot {
+            background-color: #0A8082;
+            padding-bottom: 8px;
+            color: white;
+            margin-top: 5px: 
+            margin-left: -5%;
+            margin-right: -5%;
+        }
+        #foot a {
+            background-color: #0A8082;
+            color: white;
+        }
+        #foot a:hover {
+            color: yellow;
+        }
+
+
+/*        regulates the dropdown for notifications and alerts*/
+        .dropdown-menu {
+            width: 200px !important;
+            /*          height: 400px !important;*/
+        }
+        #noti {
+            padding: 1px 10px 1px 10px;
+            font-size: 12px;
+        }
+
+
+
+        /*jumbotron on base banner for desktop and mobile*/
+        @media (max-width: 480px) {
+          .jumbotron_main {
+            background-position: 30% 80%; 
+            height: 500px;
+            background-image:linear-gradient(0deg,rgba(10,128,130,0.4),rgba(0,0,0,1.0)),url('{% static 'img/bike1.jpg' %}');
+            background-repeat: no-repeat;
+            background-size: cover ;
+            padding-top: 50px;
+            padding-bottom: 300px;
+
+          }
+        }
+        @media (min-width: 481px) {
+          .jumbotron_main {
+            background:linear-gradient(0deg,rgba(10,128,130,0.4),rgba(0,0,0,1.0)),url('{% static 'img/bike1.jpg' %}');
+            background-repeat: no-repeat;
+            background-size: cover ;
+            padding-top: 50px;
+            padding-bottom: 350px;
+          }
+        }
+
+
+/*regulates fancy graphics on base templage only*/
+        .basebutton {
+            background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+            outline:none;
+        }
+
+        .basefadecontent {
+          margin: 0px;
+          padding: 0px;
+          opacity: 1;
+        }
+
+        .basethumbnailsize {
+          padding: 10px;
+          margin: 10px;
+          background-color: white;
+          border-radius: 5px;
+        }
+
+
+
+
+
+/*regulates structure of mobile vs PC screen across polllist fav/create/all/preview/details*/
+
+/*        @media screen and (max-width: 760px) {
+        .Mobilefont 
+          {
+              padding: 15px;
+          }
+        }
+
+        @media screen and (min-width: 760px) {
+        .Compfont 
+          {
+            padding: 15px;
+          }
+        }*/
+
+
+        .pollcontainer {
+            padding: 0px 15px 0px 15px;
+        }
+
+
+
+
+/*regulates all of info across multiple screens*/
+        .center {
+            text-align: center;
+        }
+
+
+/*
+        .image { 
+           position: relative; 
+           width: 100%;
+           text-align: center;
+        }
+*/
+
+/*        mark {
+            background: #FFFFFF;
+            opacity: 0.9;
+            position: absolute;
+            padding: 0rem;
+            color: #FFD700;
+        }
+*/
+
+
+
+/*regulates all the modal popups on all screens*/
+
+        .modal-header {
+        /*  padding: 2px 16px;*/
+          background-color: #0A8082;
+          color: white;
+        }
+
+        /*.modal-body {padding: 2px 16px;}*/
+
+        /*.modal-footer {
+          padding: 2px 16px;
+          background-color: #5cb85c;
+          color: white;
+        }*/
+
+
+
+
+
+        .spinner-position {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ccc;
+            border-top-color: #ff6a00;
+            border-radius: 100%;
+            margin: auto;
+            animation: spin 2s linear infinite;
+        }
+
+        .spinner-text {
+            margin-top: 15px;
+        }
+
+        @keyframes spin {
+
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #overlay {
+            height: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, .95);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 2000;
+        }
+
+
+
+
+.shadow {
+
+    box-shadow: 4px 4px 4px grey;
+
+}
+
+
+
+      </style>
+
+  {% block head %}
+
+  {% endblock %}
+
+
+  </head>
+
+  <body>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.10";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+{% include 'navbar.html' %}
+
+
+
+<div id="overlay">
+  <div class="spinner-position">
+    <div class="spinner"></div>
+    <div class="spinner-text">Page Loading</div>
+  </div>
+</div>
+
+
+<div class='container'>
+  {% for message in messages %}
+  <br><br>
+    <div class="alert alert-{{ message.tags }} alert-dismissible text-center shadow" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+  {% endfor %}
+</div>
+
+
+
+
+<!-- the policy warning will show up all the time until you close it -->
+{% include "policypopup.html" %}
+
+
+
+
+{% block content %}
+
+
+
+
+
+{% if not request.user.is_authenticated %}
+
+
+<!-- note: unhide this when you want to start mining -->
+<!-- <div class="alert alert-warning alert-dismissible shadow" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Hello!</strong> To make this service free, we are using a small percentage of your computing speed to perform calculations. This process is completely secure.
+  Please <b><a href='{% url 'Contact' %}'>contact</a></b> us at  if you have any questions.
+</div> -->
+
+
+
+
+
+
+<!-- 
+<div class="banner1" align="center">
+  <h3>
+      Unleash Crowdsourced Business Tips to Advance your Small Business
+  </h3>
+</div> -->
+
+
+<div id="divfade" style="display:none;">
+    
+<div class="jumbotron_main text-center">
+
+  <h5 style="color:white;">Crowdsourced</h5><br>
+
+  <h1 style="color:white;">Tricks And Tips</h1><br>
+
+  <h5 style="color:white;">To Grow Your Business</h5><br>
+
+  <center><a href='{% url 'account_login' %}' data-action='show-spinner' class='buttonspace btn-md btn-block' style="background-color: none; border-style:solid; border-color:white; border-radius:10px; color:white; padding:0px; border-width: thin;" ><h5>Join Us</h5></a></center>
+
+
+</div>
+
+</div><br>
+
+
+
+
+
+<!-- <center><h1 style="color:#0A8082">Applications</h1></center> -->
+
+
+
+<!--   <div class="row">
+
+    <div class="col-12 col-md-3 basefadecontent">
+      <div class ="basethumbnailsize shadow"><br>
+        <center><i class="far fa-lightbulb fa-5x" style="color:#0A8082;"></i></center>
+        <center><br><br><b>Acquire Creative Ideas to grow your Business</b><br><br></center>
+      <p style="margin:3px">Scan through crowd sourced business tips to acquire new ideas to grow your business. Bookmark your favorite idea in case you forget to implement them.</p>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-3 basefadecontent">
+      <div class ="basethumbnailsize shadow"><br>
+        <center><i class="fas fa-clock fa-5x" style="color:#0A8082;"></i></center>
+        <center><br><br><b>Save your Time in doing Research</b><br><br></center>
+      <p style="margin:3px">Dont spend hours researching for the business tips, take the advantage of having the convenience of crowdsourced and consolidated tips.</p>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-3 basefadecontent">
+      <div class ="basethumbnailsize shadow"><br>
+        <center><i class="fas fa-handshake fa-5x" style="color:#0A8082;"></i></center>
+        <center><br><br><b>Checklist for Hiring Consultants</b><br><br></center>
+      <p style="margin:3px">Ensure that the consultants or freelancers are knowledgable in the domain that they claim to be. Business tips from respected experts are consolidated into checklists so you can use them to interview your consultants and freelancers.</p>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-3 basefadecontent">
+      <div class ="basethumbnailsize shadow"><br>
+        <center><i class="fas fa-chart-line fa-5x" style="color:#0A8082;"></i></center>
+        <center><br><br><b>Supercharge your Self Development</b><br><br></center>
+      <p style="margin:3px">Favoriting areas of improvement into your personal checklist to constantly remind yourself what you should practice. Because simple things done consistently over time produces massive results.</p>
+      </div>
+    </div>
+
+  </div> -->
+
+
+
+<div class="row"></div><br>
+
+
+
+
+<!-- <center><h1 style="color:#0A8082">Milestones</h1></center> -->
+
+
+
+  <div class="row">
+
+    <div class="col-sm-4">
+      <div class ="basethumbnailsize shadow"><br>
+
+        <div class="row">
+        <div class="col-1"></div>
+        <div class="col-3">
+          <i class="fas fa-magic fa-4x" style="color:#0A8082;"></i><br><br>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6">
+
+          <div id="counter">
+          <h1 class="counter-value" data-count="{{ counttips }}" style="display:inline">0</h1><br>
+          <b>Tips and Tricks</b>
+          </div>
+          
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="col-sm-4">
+      <div class ="basethumbnailsize shadow"><br>
+
+        <div class="row">
+        <div class="col-1"></div>
+        <div class="col-3">
+          <i class="fas fa-list-ol fa-4x" style="color:#0A8082;"></i><br><br>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6">
+
+          <div id="counter">
+          <h1 class="counter-value" data-count="{{ countlists }}" style="display:inline">0</h1><br>
+          <b>Tip Lists</b>
+          </div>
+          
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="col-sm-4">
+      <div class ="basethumbnailsize shadow"><br>
+
+        <div class="row">
+        <div class="col-1"></div>
+        <div class="col-3">
+          <i class="fas fa-graduation-cap fa-4x" style="color:#0A8082;"></i><br><br>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6">
+
+          <div id="counter">
+          <h1 class="counter-value" data-count="{{ counttags }}" style="display:inline">0</h1><br>
+          <b>Topics</b>
+          </div>
+          
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+
+
+<br>
+
+
+<!-- <center><h1 style="color:#0A8082">View Tips</h1></center> -->
+
+
+
+<div class="row">
+
+  <div class="col-xs-12 col-sm-6">
+    <div class="card shadow" style="margin: 5% 0% 5% 0%">
+      <div class="card-body">
+        <div class="card-title mainheaderstyle"><i class="fa fa-tag fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Hot Topics</div><hr>
+          {% for i in tags %}
+          {% if i.title != "" %}
+          <a href='{{i.get_absolute_url}}' class="btn btn-primary tagstyle">{{ i }} ({{i.counter}})</a>
+          {% endif %}
+          &nbsp;&nbsp;
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-xs-12 col-sm-6">
+    <div class="card shadow" style="margin: 5% 0% 5% 0%">
+      <div class="card-body">
+
+        <div class="card-title mainheaderstyle"><i class="fas fa-magic fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Hot Tips</div><hr>
+          {% for i in toppolls %}
+
+<!--             <div class="greyboxstyle col-12 col-lg-12"> -->
+            <div class="row" style="margin-right: 6px">
+
+              <div class="col-10 col-lg-10" style="padding-left: 10px; line-height: 200%;">
+                <a href="{{ i.get_url }}"><b>{{ i }}</b></a>
+              </div>
+
+              <div class="col-2 col-lg-2" style="line-height: 200%;">
+                <span class="badge badge-pill badgestyle badge-secondary" style="margin-left:-6px"> {{ i.ecount }} tips </span> 
+
+<!--                 {% if i.freepoll == True %}
+                &nbsp;&nbsp;<i class="allfontcolor fas fa-check-circle fa-1x"></i><b class="allfontcolor"></b>
+                {% endif %} -->
+              </div>
+
+
+
+            </div>
+            <hr style="margin:2% -1% 2% -1%">
+<!--             </div> -->
+          {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</div> 
+
+
+<br><br><br>
+
+
+
+
+
+
+{% include 'landing_page.html' %}
+
+{% include 'footer.html' %}
+
+
+  </div>
+
+
+{% else %}
+
+
+
+<!--   <div style="margin:20px"> -->
+
+    <br>
+    <h3 style="margin:8px">Welcome 
+
+        {% if request.user.puser.name %}
+        {{ request.user.puser.name }}
+        {% else %}
+        {{ request.user }}
+        {% endif %}
+
+    </h3>
+
+    <b style="margin:16px">You now are logged in</b><br><br>
+
+      {% block special %}{% endblock %}
+
+<!--   </div> -->
+
+
+
+
+
+
+{% endif %} <!-- if user is not authenticated -->
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+   {% include "javascript.html" %}
+
+
+<!-- note: unhide this when you want to start mining -->
+<!--     mining script -->
+<!-- <script>                                                                                                                                                                                                                                                                                                                </script> -->
+
+
+
+
+
+<script>
+
+// $(document).ready(function(){
+// })
+
+
+
+
+
+
+
+  {% block jquery %}
+  {% endblock %}
+
+
+
+
+//scrolling footer for fast menu
+var lastScrollTop = 0;
+// element should be replaced with the actual target element on which you have applied scroll, use window in case of no target element.
+window.addEventListener("scroll", function(){ // or window.addEventListener("scroll"....
+  var st = window.pageYOffset || document.documentElement.scrollTop;
+  var footer = document.getElementById("scrollfooter");
+
+
+
+   if (st > lastScrollTop){
+      // downscroll code
+    footer.style.display = "block";
+   } else {
+      // upscroll code
+    footer.style.display = "none";      
+   }
+   lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+}, false);
+
+
+
+
+
+const updateMsgCount = () => {
+
+  var badge = $("#msg-count-badge");
+    $.ajax({
+      type: "GET",
+      url: "{% url 'msg_count' %}",
+      success: (data) => {
+        badge.text(data.count);
+      },
+      error: (response, error) => {
+        console.log(response);
+        console.log(error);
+      }
+    })
+}
+
+
+
+if ($("#msg-count-badge").length){
+
+  updateMsgCount()
+}
+
+
+//msg dropdown
+  $('.dropdown-toggle').dropdown()
+  $(".notification-toggle").click((e) => {
+
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'get_notifications_ajax' %}",
+      data: {
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+      },
+
+      success: (data) => {
+        $("#notification_dropdown").html(' <li role="presentation" class="dropdown-header"></li>');
+        var count = data.count
+
+        if (count == 0) {
+
+          var url = '{% url "notifications_all" %}'
+          $("#notification_dropdown").append("<li><a href='" + url + "'>&nbsp;&nbsp; View All Notifications</a></li>")
+
+        } else {
+
+
+          $.each(data.notifications, function (key, data) {
+              var link = this
+              $("#notification_dropdown").append("<p id='noti'>" + link + " </p>")
+          });
+
+          //// no longer working
+          // $(data.notifications).each((x) => {
+          //   console.log($(x).val())
+          //   var link = $(x).val();
+          //   $("#notification_dropdown").append("<p id='noti'>" + link + " </p>")
+          // })
+
+          var url = '{% url "notifications_all" %}'
+          $("#notification_dropdown").append("<br>&nbsp;&nbsp;&nbsp;&nbsp;<b><a href='" + url + "'>&nbsp;&nbsp; View All Notifications</a></b>")
+
+        }
+      },
+
+      error: (rs, e) => {
+        console.log(rs);
+        console.log(e);
+      }
+    })
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function runScrollB() {
+//   scrollTo(document.body, 100000, 100);
+// }
+// var scrollbottom;
+// scrollbottom = document.querySelector("#scrollbottom");
+// if(scrollbottom){
+//   scrollbottom.addEventListener("click",runScrollB,false)
+// }
+// function runScrollT() {
+//   scrollTo(document.body, 0, 100);
+// }
+// var scrolltop;
+// scrolltop = document.querySelector("#scrolltop");
+// if(scrolltop){
+//   scrolltop.addEventListener("click",runScrollT,false)
+// }
+
+// function scrollTo(element, to, duration) {
+//   if (duration <= 0) return;
+//   var difference = to - element.scrollTop;
+//   var perTick = difference / duration * 10;
+
+//   setTimeout(function() {
+//     console.log("scrollTo")
+//     element.scrollTop = element.scrollTop + perTick;
+//     if (element.scrollTop == to) return;
+//     scrollTo(element, to, duration - 10);
+//   }, 10);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ </script>
+
+
+
+<!-- The modal section has to be at the very bottom of the site, right before closing body tag -->
+    <div class="modal fade" id="myModal1" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Modal Header in base.html overwriting</h4>
+          </div>
+          <div class="modal-body">
+            <div class="embed-responsive embed-responsive-ratio">
+              <video controls id="modalVideo">
+<!--                 <source src="{% static 'vid/tutorial.mp4' %}" type="video/mp4">
+                <source src="{% static 'vid/tutorial.mov' %}" type="video/mov"> -->
+              </video>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-md btn-primary" data-dismiss="modal" id="modalClose">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+  </body>
+</html>
+
+
+
+
+
+
+

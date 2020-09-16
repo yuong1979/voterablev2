@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<style>
+{% block style %}
+
+
+
+
+
+
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+
+
+
+<div class="col-sm-12 col-lg-6 mainboxstyle">
+<div class="col-sm-12" style="margin: 0% 0% -4% 0%">
+  <div class="row">
+
+        <div class="mainheaderstyle" style="margin-right: 3%"><i class="fa fa-tags fa-1x"></i></div>
+
+        <form method='GET' action='/tags/'>
+
+        {% crispy form %}
+
+        </form>
+
+  </div>
+</div>
+</div>
+
+
+
+
+  <div class="col-sm-12 alltaglist" >
+  
+
+      {% if taglist %}
+
+        {% for i in taglist %}
+
+           <a href='{{i.get_absolute_url}}' class="btn btn-primary tagstyle">{{ i }} ({{i.counter}})</a>&nbsp;&nbsp;
+
+        {% endfor %}
+
+      {% else %}
+      <br>
+        <small><b>There are no entries yet.</b></small>
+      <br>
+      {% endif %}
+
+
+  </div><!-- col-sm-12 -->
+
+
+
+
+
+
+<div class="row">
+
+
+  <div class="col-sm-12">
+
+    <div class="taglist"></div>
+    <div class="taglist_error"></div>
+
+    <div class="htipstyle" style="display: none;">
+      <div class="mainboxstyle">
+        <div class="mainheaderstyle" style="margin: -3% 0% -3% 0%"><i class="fas fa-magic fa-1x"></i>&nbsp;&nbsp;&nbsp;Tips</div>
+      </div>
+    </div>
+
+    <div class="polllist"></div>
+    <div class="polllist_error"></div>
+
+  </div><!-- col-sm-12 -->
+
+
+</div><!-- row -->
+
+
+
+
+
+
+<script>
+
+
+
+
+var settime;
+
+$('#id_search').on('keyup submit',function(e){
+    e.preventDefault();
+    clearTimeout(settime);
+    settime = setTimeout(FilterTag, 500);
+});
+
+
+
+function FilterTag() {
+
+    if($('#id_search').val()){
+
+        $.ajax({
+        method:'GET',
+        url:"/tags/tsearch/",
+        dataType: "json",
+        data:{
+            search :$('#id_search').val(),
+        },
+        beforeSend: function(){
+            $(".taglist_error").show();
+            $(".taglist_error p").html("");
+            $(".taglist_error").append("<p class='loadmsg'>Loading data...</p>");
+
+            $(".polllist_error").show();
+            $(".polllist_error p").html("");
+            $(".polllist_error").append("<p class='loadmsg'>Loading data...</p>");
+
+            $(".htipstyle").hide();
+
+        },
+        success : function(result){
+            $(".taglist_error").hide();
+
+            $(".taglist").show();
+            $(".alltaglist").hide();
+            $(".taglist").html("");
+
+            putTagListData(result);
+
+            $(".polllist_error").hide();
+
+            $(".polllist").show();
+            $(".allpolllist").hide();
+            $(".polllist").html("");
+
+            putPollListData(result);
+
+            $(".htipstyle").show();
+
+
+        },
+        error: function(response){
+            $(".taglist_error").show();
+            $(".taglist_error p").html("");
+
+            $(".taglist_error").append("<p class='loadmsg'>Something went wrong...</p>");
+
+            $(".polllist_error").show();
+            $(".polllist_error p").html("");
+
+            $(".polllist_error").append("<p class='loadmsg'>Something went wrong...</p>");
+        }
+    });
+
+    }else{
+
+        $(".taglist_error").hide();
+        $(".taglist").hide();
+        $(".alltaglist").show();
+
+
+        $(".polllist_error").hide();
+        $(".polllist").hide();
+        $(".allpolllist").show();
+
+        $(".htipstyle").hide();
+    }
+
+}
+
+
+
+
+          // <div class="col-sm-12">
+          // <div class="mainboxstyle">
+
+
+
+    function putTagListData(result){
+        let row;
+
+        if (result["taglist"].length>0){
+            $.each(result['taglist'], function(a,b) {
+
+                row = "<a href='"+b['url']+"' class='btn btn-primary tagstyle' style='margin:3px'><b>"+b["title"]+" ("+b['counter']+")</b></a>";
+
+                $(".taglist").append(row);
+            });
+        }else{
+
+            $(".taglist_error p").html("");
+            $(".taglist_error").append("<p class='loadmsg'>No topics found</p>");
+            $(".taglist").hide();
+            $(".taglist_error").show();
+        }
+    }
+
+
+
+    function putPollListData(result){
+        let row;
+
+        if (result["polllist"].length>0){
+            $.each(result['polllist'], function(a,b) {
+
+                // row = "<div class='greyboxstyle'><div class='row' style='margin-right: 6px'><div class='col-10' style='padding-left: 10px;'><a href='"+b['url']+"'><b style='line-height: 200%;'>"+b["title"]+"</b></a></div><div class='col-2'><span class='badge badge-pill badgestyle badge-secondary' style='font-size:12px; margin-left:-6px'> "+b['counter']+" tips </span></div></div></div>"
+
+                row = "<div class='greyboxstyle'><div class='row'><div class='col-9 col-lg-9' style=''><a href='"+b['url']+"'><b style='line-height: 200%;'>"+b["title"]+"</b></a></div><div class='col-3 col-lg-3'><span class='badge badge-pill badgestyle badge-secondary' style=''> "+b['counter']+" tips </span></div></div></div>"
+
+                $(".polllist").append(row);
+
+            });
+        }else{
+
+            $(".polllist_error p").html("");
+            $(".polllist_error").append("<p class='loadmsg'>No tips found</p>");
+            $(".polllist").hide();
+            $(".polllist_error").show();
+
+        }
+    }
+
+
+
+
+</script>
+
+{% endblock %}

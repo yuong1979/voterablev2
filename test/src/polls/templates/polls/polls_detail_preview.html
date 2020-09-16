@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags poll_extras %}
+{% load static %}
+{% load blog_tags %}
+
+{% block meta %}
+     <meta name="title" content={{PT}}>
+     <meta name="description" content={{PT.description}}>
+     <meta name="keywords" content={% for i in Tags %} {{ i }}, {% endfor %}>
+ {% endblock %}
+
+
+
+<style>
+{% block style %}
+
+
+.btn-link{
+  cursor:pointer;
+  padding:0;
+  font-family:inherit;
+  font-size:inherit;
+}
+
+
+{% endblock %}
+</style>
+
+
+
+
+{% block content %}
+
+
+    <div class="mainboxstyle">
+
+
+        <div class="mainheaderstyle"><i class="fas fa-eye fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Preview your post</div><hr>
+
+          <div class="fontstyle100 pollcontainer">
+
+          {{ pt.title }}
+
+          </div>
+
+
+
+      <hr>
+
+
+        <div class="container fontstyle90" style="text-align: left; ">
+
+          {% if poll.user_submit.puser.image %}
+          <img src="{{ poll.user_submit.puser.image.url }}" class='cpimgsmall' />
+          {% else %}
+          <img src="{% static 'img/anonymous.jpg' %}" class='cpimgsmall' />
+          {% endif %}
+
+            &nbsp;&nbsp;
+              <a href='{{ Userdetail }}' class='btn-link' ><b>
+              {% if poll.user_submit.puser.name %}
+              {{ poll.user_submit.puser.name }}
+              {% else %}
+              {{ poll.user_submit }}
+              {% endif %}
+              </b></a>
+
+          </div><!-- container fontstyle90 -->
+
+      <hr>
+
+
+                <div class="row row-tip">
+
+                  <div class="col-sm-12 fontstyle90" style="float:left; margin-left:12px">
+                      <b>
+                      {{ poll.title|safe }}</b><p class="timestampstyle">{{ poll.date|timesince }} ago</p>
+                    <hr>
+                  </div>
+
+                  {% if poll.image or poll.imageurl %}
+                  <div class="col-xs-12 col-sm-4 row-tip-thumb" style="margin-left:12px">
+                      {% if poll.image %}
+                        <img src="{{ poll.image.url }}" class="img-rounded polllistimg">
+                      {% else %}
+                        <img src="{{ poll.imageurl }}" class="img-rounded polllistimg">
+                      {% endif %}
+                      <br><br>
+                  </div>
+                  {% endif %}
+
+<!--                   had a div class row removed here because it was causing scrolling issues -->
+
+                  <div class="col-xs-12 col-sm-12 contentstyle row-tip-body" style="float:left"> <!-- changed sm-7 to sm-12 to get the words to flush with all -->
+
+                    <div id="poll-space-{{ poll.id }}"></div><!-- I changed this from p to div if I face issues to change -->
+
+                      {% if poll.description %}
+                      <div class="pollcontainer">
+
+                            {{ poll.description|striptags_except:"iframe, a, p, ol, ul, li, br, i, img"|safe }}
+
+                            {% if poll.textatt %}<p class="creditstyle"> Credits: {{ poll.textatt }}</p>{% endif %}
+
+                      </div> <!-- pollcontainer -->
+                      {% endif %} <!-- poll description -->
+
+                  </div><!-- contentstyle -->
+                  
+
+                </div> <!-- row row tip -->
+
+
+  <hr>
+
+    <a href="/polls/{{Back}}/edit" class='btn buttonspace btn-sm btn-primary' ><b>Edit Post</b></a>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+  <form action='' method='POST'  style="display: inline-block;">{% csrf_token %}
+    <input type="hidden" name="pub_poll_id" value="{{poll.id}}">
+    <input type="submit" class='btn buttonspace btn-sm btn-success'  style="font-weight: bold" value="Confirm Your Post">
+  </form>
+
+
+
+    </div><!-- mainboxstyle -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- polls/{{Back}}/edit -->
+
+{% endblock %}
+
+
+
+
+
+{% block jquery %}
+{#  <script>#}
+
+$(document).ready(function(){
+
+$(".poll-button").on('click', function (event) {
+  var $tipRow = $(event.target).closest('.row-tip');
+  $tipRow.find('.row-tip-thumb').addClass('d-none');
+  $tipRow.find('.row-tip-body').removeClass('col-sm-7');
+  $tipRow.find('.tip-sliced').addClass('d-none');
+  $tipRow.find('button').addClass('d-none');
+  $tipRow.find('span.poll-collapse').removeClass('d-none');
+});
+
+}
+
+
+$(".note-video-clip").attr("width", "100%");
+$(".note-video-clip").attr("height", "300");
+
+{#  </script>#}
+{% endblock %}
+
+

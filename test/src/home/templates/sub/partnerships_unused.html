@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+<style>
+{% block style %}
+
+{% endblock %}
+</style>
+
+
+
+
+
+{% block content %}
+
+
+
+<div class="container">
+<div class="row">
+
+  <div class="col-12">
+    <div class="card" style="margin: 5px">
+      <div class="card-body">
+        <div class="card-title mainheaderstyle">&nbsp;&nbsp;&nbsp;&nbsp;Partnerships</div><hr>
+
+<div class="container">
+<small>
+
+<br>
+<img src="{% static 'img/Partnerships.png' %}" alt="My image" width=100%/>
+<br>
+<br>
+
+<p><span style="font-size: 12pt;"><strong>Please <a href="{% url 'Contact' %}">Contact</a> us if you are interested in partnering with us.</strong></span></p>
+
+</small>
+</div> 
+
+      </div>
+    </div>
+  </div>
+
+</div> 
+</div>
+
+
+
+{% endblock %}
+

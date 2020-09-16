@@ -1,0 +1,224 @@
+{% extends "account/base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load staticfiles %}
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+
+
+{% block content %}
+
+
+<style>
+
+i.circle {
+  display: inline-block;
+  border-radius: 100px;
+  border-style: solid;
+  border-width: 5px;
+  box-shadow: 0px 0px 2px #888;
+  padding: 0.5em 0.6em;
+
+}
+
+</style>
+
+
+<!-- troubleshoot the login instructions
+
+If the user is unable to login - tell them to use the "other" social account, this is the default choice
+
+If the user is still unable to login, obtain the user email for the social login and look for the
+name of the user's social application - either that or delete all the social application tokens so the users
+can sign in again (using the same social account they signed in with)
+
+If the user requires signing in with another social account, you have to delete everything under the user
+
+Do not delete the social account - if you delete the social account, you will need to delete the whole user to reset
+Only delete the social application token if you need to delete. -->
+
+
+
+
+
+<!-- Modalcomment -->
+<div id="modalLogin" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+
+<!--         <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+
+        <div class="modal-body">
+
+        <div class="pull-right">
+        <p align="right"><i class="fas fa-times" id="button" style="font-size:24px; color:grey; "></i></p>
+        </div>
+
+        <div class="row"></div><br>
+
+        <h4 class="modal-title allfontcolor center"><i class="circle fas fa-unlock fa-1x"></i></h4>
+        <br><br>
+        <h4 class="modal-title allfontcolor center"><b>Sign up to Unlock more Features</b></h4>
+
+        <hr><br>
+
+
+
+
+<!--   <h1>&nbsp;&nbsp;&nbsp;{% trans "Sign In" %}</h1>
+ -->
+
+        <div class="col-xs-12 col-sm-12">
+
+            <div class="row">
+                    <div class="col-3"><p>&nbsp;&nbsp;<i class="allfontcolor fas fa-clipboard-list fa-2x"></i></p></div>
+                    <div class="col-9"><p>View Complete List of Tips</p></div>
+
+            <br><br><br>
+
+                    <div class="col-3"><p>&nbsp;<i class="allfontcolor fas fa-thumbs-up fa-2x"></i></p></div>
+                    <div class="col-9"><p>Vote your Tips</p></div>
+
+            <br><br><br>
+
+                    <div class="col-3"><p>&nbsp;<i class="allfontcolor fa fa-star fa-2x"></i></p></div>
+                    <div class="col-9"><p>Favorite your Tips</p></div>
+
+<!--             <br><br><br>
+
+                    <div class="col-3"><p>&nbsp;<i class="allfontcolor fas fa-edit fa-2x"></i></p></div>
+                    <div class="col-9"><p>Post New Tips (Coming Soon)</p></div>
+
+            <br><br><br>
+
+                    <div class="col-3"><p>&nbsp;<i class="allfontcolor far fa-star fa-2x"></i></p></div>
+                    <div class="col-9"><p>Earn Free Access by Posting Tips (Coming Soon)</p></div> -->
+
+            </div>
+
+        </div>
+
+        <div class="row"></div>
+
+  <br>
+
+
+
+
+
+
+<!-- this for you to test your logins, hide the below once you have tested your sign ins -->
+<!-- this is sign in -->
+
+  <hr>
+
+    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+      {% csrf_token %}
+      {{ form|crispy }}
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <button class="btn btn-block btn-success" type="submit"><b>{% trans "Sign Up" %}</b> &raquo;</button>
+    </form>
+
+  <br>
+
+<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+
+  <hr>
+  <br>
+
+    {% get_providers as socialaccount_providers %}
+
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+
+
+<!-- testpassword -->
+
+<!-- this for you to test your logins, hide the below once you have tested your sign ins -->
+<!-- this is sign in -->
+
+
+<!--    <form class="login" method="POST" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      {{ form|crispy }}
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+      <br><br>
+      <button class="btn btn-block btn-success primaryAction" type="submit"><b>{% trans "Sign In" %}</b></button>
+    </form> -->
+
+
+
+<!-- this is sign up -->
+<!-- 
+    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+      {% csrf_token %}
+      {{ form|crispy }}
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <button class="btn btn-success" type="submit"><b>{% trans "Sign Up" %}</b> &raquo;</button>
+    </form> -->
+
+
+
+<!--           <label id="chars_limit" class="help-block"></label> -->
+
+        </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+// var modal = document.getElementById('id01');
+
+document.getElementById('button').onclick = function () {
+        document.getElementById('modalLogin').style.display = "none"
+        location.href = "/";
+        // window.history.back();
+
+        
+
+    };
+
+
+// below is the original script - new script has removed window.onload
+// window.onload = function () {
+//     document.getElementById('button').onclick = function () {
+//         document.getElementById('modal').style.display = "none"
+//         window.history.back();
+//     };
+// };
+
+
+</script>
+
+
+{% endblock %}
+
+
+

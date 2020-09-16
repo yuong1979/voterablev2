@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+<style>
+{% block style %}
+
+/*jumbotron on base banner for desktop and mobile*/
+@media (max-width: 480px) {
+  .jumbotron_about {
+    background-position: 30% 80%; 
+    height: 500px;
+    background-image:linear-gradient(0deg,rgba(10,128,130,0.4),rgba(0,0,0,1.0)),url('{% static 'img/mountainsmall.jpg' %}');
+    background-repeat: no-repeat;
+    background-size: cover ;
+    padding-top: 50px;
+    padding-bottom: 300px;
+
+  }
+}
+@media (min-width: 481px) {
+  .jumbotron_about {
+    background:linear-gradient(0deg,rgba(10,128,130,0.4),rgba(0,0,0,1.0)),url('{% static 'img/mountain.jpg' %}');
+    background-repeat: no-repeat;
+    background-size: cover ;
+    padding-top: 50px;
+    padding-bottom: 350px;
+  }
+}
+
+
+
+.center {
+    display: block;
+    margin: auto;
+    width: 50%;
+}
+
+
+.imgcircle {
+    border-radius: 50%;
+    height: 90px;
+    width: 90px;
+    object-fit: cover;
+    border-style: none;
+    margin:0px;
+    padding:0px;
+    box-shadow: 4px 4px 4px grey;
+}
+
+
+
+
+
+
+
+{% endblock %}
+</style>
+
+
+
+
+
+{% block content %}
+
+
+<div id="divfade" style="display:none;">
+    
+<div class="jumbotron_about text-center">
+
+  <h1 style="color:white;">Press Release</h1><br>
+
+</div>
+
+</div><br>
+
+<div class="container">
+
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title mainheaderstyle"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;&nbsp;&nbsp;Announcements</div><hr>
+
+
+      	
+<small>
+        <div class="row">
+          <div class="center col-4 col-sm-3">
+            <img class="imgcircle" src="{% static 'img/future.jpg' %}" alt="Generic placeholder image" width="120" height="120">
+          </div>
+          <div class="col-8 col-sm-9" style="padding:5px 5px 5px 30px;">
+            <h4>Coming soon</h4>
+            <p>We hope to be announcing new features and partnerships soon.</p>
+          </div>
+        </div><hr>
+
+        <div class="row">
+          <div class="center col-4 col-sm-3">
+            <img class="imgcircle" src="{% static 'img/launch.jpg' %}" alt="Generic placeholder image" width="120" height="120">
+          </div>
+          <div class="col-8 col-sm-9" style="padding:5px 5px 5px 30px;">
+            <h4>October 2018</h4>
+            <p>Soft Launch was on October 2018. Additional features for the application to enhance usability such as alerts are added. We also upgraded to bootstrap 4 to enhance user experience. </p>
+          </div>
+        </div><hr>
+
+        <div class="row">
+          <div class="center col-4 col-sm-3">
+            <img class="imgcircle" src="{% static 'img/baby.jpg' %}" alt="Generic placeholder image" width="120" height="120">
+          </div>
+          <div class="col-8 col-sm-9" style="padding:5px 5px 5px 30px;">
+            <h4>June 2018</h4>
+            <p>Our Beta was delivered on the June 2018. We recieved requests to improve certain features from initial users and plan to include those features in our next update.</p>
+          </div>
+        </div><hr>
+
+
+        <div class="row">
+          <div class="center col-4 col-sm-3">
+            <img class="imgcircle" src="{% static 'img/construction.jpg' %}" alt="Generic placeholder image" width="120" height="120">
+          </div>
+          <div class="col-8 col-sm-9" style="padding:5px 5px 5px 30px;">
+            <h4>September 2017</h4>
+            <p>Our initial work started on October 2017.</p>
+          </div>
+        </div><hr>
+
+
+        <div class="row">
+          <div class="center col-4 col-sm-3">
+            <img class="imgcircle" src="{% static 'img/planning.jpg' %}" alt="Generic placeholder image" width="120" height="120">
+          </div>
+          <div class="col-8 col-sm-9" style="padding:5px 5px 5px 30px;">
+            <h4>August 2017</h4>
+            <p>Planning started on August 2017.</p>
+          </div>
+        </div>
+
+</small>
+
+      </div>
+    </div>
+
+        </div>
+
+
+<br><br><br>
+
+
+
+{% include 'footer.html' %}
+
+
+
+{% endblock %}
+

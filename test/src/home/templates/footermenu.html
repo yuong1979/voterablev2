@@ -1,0 +1,182 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+
+<style>
+
+
+</style>
+
+<br>
+<div id="scrollfooter" style="display: none">
+<!-- <div id="scrollfooter" style=""> -->
+
+<div class="footermenu" style="">
+
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-3">
+            <div class="footiconholder" id="parent">
+            <div class="child" style="">
+                <a href='{% url 'Home' %}'><i class="fas fa-home fa-1x iconshape footicon1 footerredirect" id='1' style="font-size: 25px; "></i></a>
+            </div>
+
+            <div class="child icontext footicon1">Home</div>
+            </div>
+        </div>
+
+<!--         <div class="col-3">
+            <div class="footiconholder" id="parent">
+            <div class="child" style="">
+                <a href='{% url 'TagAllView' %}'><i class="fa fa-tags fa-1x iconshape footicon2 footerredirect" id='2' style="font-size: 25px"></i></a>
+            </div>
+
+            <div class="child icontext footicon2">Topics</div>
+            </div>
+        </div> -->
+
+
+        <div class="col-3">
+            <div class="footiconholder" id="parent">
+            <div class="child" style="">
+                <a href='{% url 'notifications_all' %}'><i class="fas fa-bell fa-1x iconshape footicon3 footerredirect" id='3' style="font-size: 25px"></i></a>
+            </div>
+
+            <div class="child icontext footicon3">Notifications</div>
+            </div>
+        </div>
+        
+
+        <div class="col-3">
+            <div class="footiconholder" id="parent">
+            <div class="child" style="">
+                <a href=''><i class="fas fa-backward fa-1x iconshape footicon4 footerback" id='4' style="font-size: 25px"></i></a>
+            </div>
+
+            <div class="child icontext footicon4">Go Back</div>
+            </div>
+        </div>
+
+
+
+        <div class="col-1"></div>
+    </div><!-- row -->
+
+</div><!-- footermenu -->
+
+</div><!-- scrollfooter -->
+
+<br><br><br><!-- leave the breaks in here for gaps between the footer the content -->
+
+<script type="text/javascript">
+
+
+
+    //turning the page user is at into gold color
+    var currentpath = window.location.pathname
+
+    var path1 = '{% url 'Home' %}'
+    var path2 = '{% url 'TagAllView' %}'
+    var path3 = '{% url 'notifications_all' %}'
+
+      //user has access
+    if ( currentpath === path1){
+        var footer = document.getElementsByClassName("footicon1");
+        for(var i=0; i< footer.length; i++){
+            footer[i].style.color = "gold";
+        }
+
+    } else if ( currentpath === path2){
+        var footer = document.getElementsByClassName("footicon2");
+        for(var i=0; i< footer.length; i++){
+            footer[i].style.color = "gold";
+        }
+
+    } else if ( currentpath === path3){
+        var footer = document.getElementsByClassName("footicon3");
+        for(var i=0; i< footer.length; i++){
+            footer[i].style.color = "gold";
+        }
+    } else {
+        //do nothing - page is not there
+    }
+
+
+
+
+
+//disable/ ignore page link click if the user is clicking on the same page
+  $(".footerredirect").off( "click" ).click(function(e){
+
+    event.preventDefault();
+
+    var user = '{{ request.user }}'
+
+    var path1 = '{% url 'Home' %}'
+    var path2 = '{% url 'TagAllView' %}'
+    var path3 = '{% url 'notifications_all' %}'
+
+    var currentpath = window.location.pathname
+    var selectedpath = $(this).attr('id')
+
+    if ((selectedpath == '1') && ( currentpath == path1)) {
+        //pass
+    } else if ((selectedpath == '2') && ( currentpath == path2)){
+        //pass
+    } else if ((selectedpath == '3') && ( currentpath == path3)){
+        //pass
+    } else if (selectedpath == '1'){
+        window.location.href = "{% url 'Home' %}"
+    } else if (selectedpath == '2'){
+        window.location.href = "{% url 'TagAllView' %}"
+    } else if (selectedpath == '3'){
+
+        //if user is anonymous going to notifications well result in 404
+        if (user == 'AnonymousUser') {
+            window.location.replace("/accounts/login/");
+        } else {
+            window.location.href = "{% url 'notifications_all' %}"
+        }
+
+    } else {
+        console.log('No issues')
+    }
+
+
+  });
+
+
+
+
+
+//disable/ ignore page link click if the user is clicking on the same page
+  $(".footerback").off( "click" ).click(function(e){
+
+    event.preventDefault();
+
+
+    console.log("back")
+
+    GoBackWithRefresh()
+
+
+
+  });
+
+
+
+function GoBackWithRefresh(event) {
+    if ('referrer' in document) {
+        window.location = document.referrer;
+        /* OR */
+        //location.replace(document.referrer);
+    } else {
+        window.history.back();
+    }
+}
+
+
+
+
+
+</script>

@@ -1,0 +1,46 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+
+<style>
+
+.fixedscroll {
+    position: fixed;
+    width: 100%;
+    z-index:2;
+}
+
+</style>
+
+
+<div class="fixedscroll">
+  <span></span>
+	<div class="progress" style="height:5px">
+	  <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+	</div>
+</div>
+
+
+
+<script>
+$(window).scroll(function () {
+  var s = $(window).scrollTop(),
+        d = $(document).height(),
+        c = $(window).height();
+        scrollPercent = (s / (d-c)) * 100;
+        var position = scrollPercent;
+        var positionp = scrollPercent + "%"
+
+   $(".progress-bar").css('width', positionp).attr('aria-valuenow', position);
+
+});
+
+</script>
+
+
+
+
+
+
+
+

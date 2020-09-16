@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+<style>
+{% block style %}
+{% endblock %}
+</style>
+
+
+
+
+
+{% block content %}
+
+
+
+
+<div class="container">
+<div class="row">
+
+  <div class="col-12">
+    <div class="card" style="margin-left: -15px; margin-right: -15px; padding-left:0px; padding-right:0px;">
+      <div class="card-body">
+        <div class="card-title mainheaderstyle">Refund Policy</div><hr>
+
+<div class="container" style="margin-left: 0px; margin-right:0px; padding-left:0px; padding-right:0px;">
+<small>
+
+<p>This is the Return and Refund Policy of voterable.com. This Return and Refund Policy is licensed by TermsFeed Generator to voterable.com.</p>
+<p>We do not issue refunds once the order is confirmed. We recommend contacting us for assistance if you experience any issues receiving our service.<br /> <br />If you have any questions about our Returns and Refunds Policy, please contact us by reaching out to us through hello@voterable.com or use this <a href='{% url 'Contact' %}' class='btn-md btn-link' >link</a></p>
+
+</small>
+</div> 
+
+      </div>
+    </div>
+  </div>
+    <a href='{% url 'Home' %}' class='buttonspace btn btn-primary' >Back to Home</a>
+</div> 
+</div>
+
+{% endblock %}
+

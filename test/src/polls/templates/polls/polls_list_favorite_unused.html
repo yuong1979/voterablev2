@@ -1,0 +1,377 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags poll_extras %}
+
+
+
+<style>
+{% block style %}
+
+
+
+
+{% endblock %}
+</style>
+
+
+
+
+
+{% block content %}
+
+
+
+
+
+    <div class="card cardstyle">
+      <div class="card-body">
+
+          <div class="" style="margin-left:7px; float:right;">
+            <a style="font-size: 12px" href='/polls/?type={{ BackPtype }}&sort=Date' class='btn-link' ><b><i class="fas fa-list-ol fa-1x" aria-hidden="true"></i>&nbsp;View List</b></a>
+          </div>
+
+        <h4 class="card-title allfontcolor">
+
+          {% if listtitle == "Favorite" %}
+          <i class="allfontcolor fa fa-star fa-lg fa-1x"></i>
+          {% endif %}
+
+          {% if listtitle == "Created" %}
+          <i class="allfontcolor fas fa-edit fa-lg fa-1x"></i>
+          {% endif %}
+
+        &nbsp;&nbsp;{{listtitle}} Tips</h4><hr>
+
+        <h5>
+        {{ Ptype }}
+        </h5>
+
+      </div> <!-- cardbody -->
+    </div> <!-- cardstyle -->
+
+
+
+
+
+
+
+      {% if object_list %}
+
+        <div class="infinite-container">
+
+          {% for poll in object_list %}
+
+            <div class="infinite-item card cardstyle">
+            <div class="card-body">
+              
+
+              {% if poll.image or poll.imageurl %}
+
+                <div class="row row-tip">
+
+                  <div class="col-xs-12 col-sm-12">
+                  {% if poll.allowed == False %}
+                  <i class="far fa-times-circle fa-lg" style="color:red; float:right;"></i>
+                  {% endif %}
+                  </div>
+
+                  <div class="col-xs-11 col-sm-11" style="float:left">
+                    <h6>
+                    <b>{{ poll.title|safe }}</b><p class="smallstyle">{{ poll.date|timesince }} ago</p>
+                    </h6><hr style="margin:-1px">
+                  </div>
+
+                  <div class="col-xs-12 col-sm-4 test row-tip-thumb">
+
+                      {% if poll.image %}
+                        <img src="{{ poll.image.url }}" class="img-rounded polllistimg">
+                      {% else %}
+                        <img src="{{ poll.imageurl }}" class="img-rounded polllistimg">
+                      {% endif %}
+                      <br><br>
+
+                  </div>
+
+                  <div class="row">
+
+
+                  <div class="col-xs-12 col-sm-12 row-tip-body" style="float:left"> <!-- changed sm-7 to sm-12 to get the words to flush with all -->
+
+                    <div id="poll-space-{{ poll.id }}"></div><!-- I changed this from p to div if I face issues to change -->
+                    <span class="badge badge-pill badge-secondary" id="poll-badge-{{ poll.id }}" style="display:none; margin-left:10px">
+                      <b id="poll-score-{{ poll.id }}">{{ poll.score }} </b> 
+                      Votes
+                    </span>
+                      <small>
+                      {% if poll.description %}
+                      <div class="Mobilefont Compfont">
+                          <span class="tip-sliced">
+                          {{ poll.description|striptags_except:"a, p, ol, ul, li, br, i"|safe|truncatechars_html:"150" }}
+                          </span>
+
+                          {% if poll.description|striptags_except:"a, p, ol, ul, li, br, i"|safe|length < 150 %}
+
+                            {% if poll.textatt %}<small> Credits: {{ poll.textatt }}</small>{% endif %}
+                            {% include 'poll_features.html' %}
+
+                          {% else %}
+
+                            {% if request.user.is_authenticated %}
+
+                              {% if Subscribedp == True or poll.user_submit == request.user or free == True %}
+
+                                <button class="btn btn-link poll-button" style="padding:0px; margin-top:-5px">
+                                  <small>Read More</small>
+                                </button>
+
+                                <span class="poll-collapse d-none">
+                                {{ poll.description|striptags_except:"iframe, a, p, ol, ul, li, br, i, img"|safe }}
+
+                                {% if poll.textatt %}<small> Credits: {{ poll.textatt }}</small>{% endif %}
+                                {% include 'poll_features.html' %}
+
+                                </span>
+
+                              {% elif Subscribed == True %}
+
+                                <button class="btn btn-link poll-button" style="padding:0px; margin-top:-5px">
+                                  <small>Read More</small>
+                                </button>
+
+                                <span class="poll-collapse d-none">
+                                {{ poll.description|striptags_except:"a, p, ol, ul, li, br, i"|safe }}
+
+                                {% if poll.textatt %}<small> Credits: {{ poll.textatt }}</small>{% endif %}
+                                {% include 'poll_features.html' %}
+
+                                </span>
+
+                              {% else %}
+                                <a href="{% url 'SelectPlan' %}" style="padding:0px; margin:0px">
+                                  Read More
+                                </a>
+                              {% endif %}
+
+
+                            {% else %}
+                            <a href="/accounts/login/" style="padding:0px; margin:0px">
+                              <small>Read More</small>
+                            </a>
+                            {% endif %}
+
+                          {% endif %}
+
+                       
+
+                      </div>
+                      {% endif %} <!-- poll description -->
+                      </small>
+
+                  </div>
+
+                  </div>
+
+
+                </div>
+
+
+
+              {% else %}
+
+                <div class="row row-tip">
+
+                  <div class="col-xs-12 col-sm-12">
+                  {% if poll.allowed == False %}
+                  <i class="far fa-times-circle fa-lg" style="color:red; float:right;"></i>
+                  {% endif %}
+                  </div>
+
+                  <div class="col-xs-11 col-sm-11" style="float:left;">
+                    <h6>
+                    <b>{{ poll.title|safe }}</b><p class="smallstyle">{{ poll.date|timesince }} ago</p>
+                    </h6><hr style="margin:-4px">
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                    <div id="poll-space-{{ poll.id }}"></div> <!-- I changed this from p to div if I face issues to change -->
+                    <span class="badge badge-pill badge-secondary" id="poll-badge-{{ poll.id }}" style="display:none; margin-left:10px">
+                      <b id="poll-score-{{ poll.id }}">{{ poll.score }} </b> 
+                      Votes
+                    </span>
+
+                      <small>
+                      {% if poll.description %}
+                        <div class="Mobilefont Compfont">
+                          <span class="tip-sliced">
+                            {{ poll.description|striptags_except:"a, p, ol, ul, li, i"|safe|truncatechars_html:"150" }}
+                          </span>
+                          {% if poll.description|striptags_except:"a, p, ol, ul, li, i"|safe|length < 150 %}
+
+                            {% if poll.textatt %}<small> Credits: {{ poll.textatt }}</small>{% endif %}
+                            {% include 'poll_features.html' %}
+                            
+                          {% else %}
+
+                            {% if request.user.is_authenticated %}
+
+                              {% if Subscribedp == True or poll.user_submit == request.user or free == True %}
+
+                                <button class="btn btn-link poll-button" style="padding:0px; margin-top:-5px">
+                                  <small>Read More</small>
+                                </button>
+
+                                <span class="poll-collapse d-none">
+                                {{ poll.description|striptags_except:"iframe, a, p, ol, ul, li, br, i, img"|safe }}
+
+                                {% if poll.textatt %}<small> Credits: {{ poll.textatt }}</small>{% endif %}
+                                {% include 'poll_features.html' %}
+
+                                </span>
+
+                              {% elif Subscribed == True %}
+
+                                <button class="btn btn-link poll-button" style="padding:0px; margin-top:-5px">
+                                  <small>Read More</small>
+                                </button>
+
+                                <span class="poll-collapse d-none">
+                                {{ poll.description|striptags_except:"a, p, ol, ul, li, br, i"|safe }}
+
+                                {% if poll.textatt %}<small> Credits: {{ poll.textatt }}</small>{% endif %}
+                                {% include 'poll_features.html' %}
+
+                                </span>
+
+                              {% else %}
+                                <a href="{% url 'SelectPlan' %}" style="padding:0px; margin:0px">
+                                  Read More
+                                </a>
+                              {% endif %}
+
+                            {% else %}
+                              <a href="/accounts/login/" style="padding:0px; margin:0px">
+                                  <small>Read More</small>
+                              </a>
+                            {% endif %}
+
+                          {% endif %}
+
+                          
+                        </div>
+                      {% endif %}<!-- poll description -->
+                    </small>
+
+                    </div>
+                  </div>
+
+                </div>
+
+              {% endif %}
+
+              <div class="clearfix" style="height: 5px"></div>
+
+            </div>
+            </div>
+
+
+          {% endfor %}
+
+
+        </div>
+
+
+        <div class="loading" style="display: none;">
+          Loading...
+        </div>
+
+        {% if page_obj.has_next %}
+          <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}&sort={{ request.GET.sort }}{% endif %}"></a>
+        {% endif %}
+
+
+      {% else %}
+        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <b>There are no entries yet.</b>
+        <br><br><br>
+            
+      {% endif %}
+
+
+
+
+
+
+<!-- </div> -->
+
+
+
+{% endblock %}
+
+{% block jquery %}
+
+{#  <script>#}
+
+
+
+  function set_more() {
+    $(".poll-button").on('click', function (event) {
+      var $tipRow = $(event.target).closest('.row-tip');
+      $tipRow.find('.row-tip-thumb').addClass('d-none');
+      $tipRow.find('.row-tip-body').removeClass('col-sm-7');
+      $tipRow.find('.tip-sliced').addClass('d-none');
+      $tipRow.find('button').addClass('d-none');
+      $tipRow.find('span.poll-collapse').removeClass('d-none');
+    });
+  }
+
+
+
+
+// $(".poll-collapse").on('shown.bs.collapse', function () {
+//   var id = $(this).data('id');
+//   $('.poll-button[data-id='+id+']').hide()
+// })
+
+    $(".note-video-clip").attr("width", "100%");
+    $(".note-video-clip").attr("height", "300");
+
+
+$(".favorite").click(function(e){
+  event.preventDefault();
+  var poll_id = $(this).attr("poll_id");
+
+    $.ajax({
+      dataType: 'json',
+      type: 'POST',
+      data: 'poll_id=' + poll_id,
+      url: '/polls/fav/',
+      success: function(jsondata) {
+
+      if (jsondata.result=="favorited"){
+        var message = "Favorited Tip"
+        var color = "gold"
+      }else{
+        var message = "Unfavorited Tip"
+        var color = "dodgerblue"
+      }
+      showFlashMessage(message)
+          var fav_id = "#fav-type-" + poll_id;
+          
+          if (jsondata.msg === "login_requred") {
+              // alert('login required!')
+              window.location.replace("/accounts/login/");
+          } else {
+              $(fav_id).css( "color", color );
+
+          }
+      }
+    });
+});
+
+set_more();
+
+{#  </script>#}
+{% endblock %}

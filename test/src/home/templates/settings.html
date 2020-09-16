@@ -1,0 +1,141 @@
+
+
+    <div class="mainboxstyle">
+
+        <div class="mainheaderstyle"><i class="fas fa-sliders fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Settings</div><hr>
+
+
+
+{% if request.user.is_staff %}
+
+        <b style="margin-left: 10px">Admin options</b><br>
+
+        <a href='' class='testing btn buttonspace btn-sm btn-success'><b>Test Flash</b></a>
+
+
+        <a href='{% url 'AnalyseTags' %}' class='btn buttonspace btn-sm btn-warning' data-action='show-spinner'><b>Analyse Tags</b></a>
+
+
+        <a href='{% url 'AnalysePvote' %}' class='btn buttonspace btn-sm btn-warning' data-action='show-spinner'><b>Analyse tip votes</b></a>
+
+
+        <a href='{% url 'AnalyseVid' %}' class='btn buttonspace btn-sm btn-warning' data-action='show-spinner'><b>Analyse Vids</b></a>
+
+        <a href='{% url 'AnalyseComplaint' %}' class='btn buttonspace btn-sm btn-warning' data-action='show-spinner'><b>Analyse Complaint</b></a>
+
+
+        <a href='{% url 'RunOps' %}' class='btn buttonspace btn-sm btn-danger' data-action='show-spinner'><b>Run Ops</b></a>
+
+        <br><br>
+
+
+{% endif  %}
+
+<!-- unhide the below if you want to give user ability to control their notifications -->
+          <ul class="list-group">
+
+
+            <li class="list-group-item">
+              <b class="fontstyle100">Enable Notifications:</b>
+
+              <a href="#" title="Notifications" data-toggle="popover" data-trigger="focus" data-content="Get notified on latest updates to your favorite topics and tips"><i class="fas fa-question-circle"></i></a>
+
+            <br><br>
+              <input id="toggle-event" style="font-weight:bold" urequest_id="{{ request.user.id }}" type="checkbox" data-toggle="toggle" data-size="small" data-width="80" {{usernewsletter}}>
+            
+            </li>
+
+
+
+
+            <!-- subscriptionactivate -->
+
+
+<!--             <li class="list-group-item">
+              <b class="fontstyle90">Your referral code:</b>
+
+              <a href="#" title="Referral code" data-toggle="popover" data-trigger="focus" data-content="Share your referral code with your friends to get {{ refdays }} additional days of premium access for both yourself and your friends"><i class="fas fa-question-circle"></i></a>
+
+              <br><br>
+
+              <h5><span class="badge badge-secondary">{{ refurl }}</span></h5>
+            </li> -->
+
+
+
+            <!-- subscriptionactivate -->
+
+<!--             <li class="list-group-item">
+
+            {% if request.user.puser.member == True or request.user.puser.memberp == True %}
+              
+                <br>
+                <b>Your Subscription</b><br><br>
+                {% if user.memberp == True %}
+                <b class="fontstyle90">Type:</b>
+                <span class="badge badge-pill badge-secondary" style="float:right"> Premium </span>
+                <br><br>
+                <b class="fontstyle90">End date:</b>
+                <span class="badge badge-pill badge-secondary" style="float:right"> {{ user.subenddatep|timeuntil }} </span>
+                {% endif %}
+
+                <br><br>
+
+                  <a href='{% url 'ConfirmCancel' %}' class='btn buttonspace btn-sm btn-danger' data-action='show-spinner' ><b>Cancel Subscription</b></a>
+
+                <br>
+
+            {% else %}
+
+                {% if freedays %}
+
+              <b class="fontstyle90">Your available premium days</b>
+
+              <a href="#" title="Free Premium Days" data-toggle="popover" data-trigger="focus" data-content="Click to activate the {{ freedays }} days of free access to premium subscription"><i class="fas fa-question-circle"></i></a><br>
+
+              <br>
+                <form action='' method='POST'  style="display: inline-block;">{% csrf_token %}
+                  <input type="hidden" name="freeday_count_id" value="{{ freedays }}">
+                  &nbsp;
+                  <input type="submit" class='btn btn-sm btn-primary'  style="font-weight: bold; white-space: normal;" value="Activate {{ freedays }} days of free access">
+                </form><br>
+
+                {% else %}
+
+              <b class="fontstyle90">Your Subscription:</b>
+              <br>
+
+                    <a href='{% url 'SelectPlan' %}' class='btn buttonspace btn-sm btn-primary' data-action='show-spinner' ><b>Start subscription</b></a>
+
+                {% endif %}
+
+            {% endif %}
+
+            </li> -->
+
+
+
+
+
+          </ul>
+
+
+
+<!-- enable and disable newsletter -->
+<!--               {% if request.user.puser.subnewsletter == True %}
+
+              <form method='GET' action="{% url 'SubNews' %}">
+                <input class="btn buttonspace btn-sm btn-primary tagmargin" style="font-weight:bold" type="submit" value="Email Notifications Off" />
+              </form>
+
+              {% else %}
+
+              <form method='GET' action="{% url 'SubNews' %}">
+                <input class="btn buttonspace btn-sm btn-primary tagmargin" style="font-weight:bold" type="submit" value="Email Notifications On" />
+              </form>
+
+              {% endif %} -->
+            
+            <br>
+
+    </div><!-- mainboxstyle -->

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+<style>
+{% block style %}
+
+
+{% endblock %}
+</style>
+
+
+{% block head %}
+
+
+{% endblock %}
+
+
+
+
+
+{% block special %}
+
+
+
+<div class='container'>
+
+<h4><span class="label label-default shadow">Subscription Cancellation</span></h4>
+<br>
+  
+  <div class="panel panel-default shadow">
+    <div class="panel panel-body panelpad">
+        <div class="col-xs-12">
+
+          <h5><b>Hello! We are sad to see you leave... </b></h5>
+
+          <b><p>Please confirm that you want to cancel.</p></b><br>
+
+          <a href='{% url 'CancelSubscribe' %}' class='buttonspace btn-sm btn-danger' data-action='show-spinner' ><b>Confirm</b></a>
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+
+{% endblock %}
+
+
+

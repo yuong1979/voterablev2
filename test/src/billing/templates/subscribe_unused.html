@@ -1,0 +1,360 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+<style>
+{% block style %}
+/*.jumbotron {
+    background-color:#155A1E;
+    color:#FFF;
+
+}*/
+
+
+
+        .ccbox
+        {
+/*            width:160px;
+            border-style: none;
+            border-radius: 3px;*/
+            border-radius: 3px;
+            background-color: rgb(180, 180, 180);
+            padding: 20px 20px 20px 20px;
+
+        }
+
+
+        .ccname
+        {
+            width:260px;
+            border-style: none;
+            border-radius: 3px;
+        }
+
+
+
+        .cccnumber
+        {
+            width:160px;
+            border-style: none;
+            border-radius: 3px;
+        }
+
+        .cccvc
+        {
+            width:60px;
+            border-style: none;
+            border-radius: 3px;
+        }
+
+        .ccexpirybox
+        {
+            width:60px;
+            border-style: solid;
+            border-radius: 3px;
+            border-color: rgb(180, 180, 180);
+        }
+
+        .cczip
+        {
+            width:80px;
+            border-style: none;
+            border-radius: 3px;
+        }
+
+        .ccstate
+        {
+            width:50px;
+            border-style: none;
+            border-radius: 3px;
+        }
+
+        .ccaddress
+        {
+            width:400px;
+            border-style: none;
+            border-radius: 3px;
+        }
+
+        .cccountrycode
+        {
+            width:50px;
+            border-style: none;
+            border-radius: 3px;
+        }
+
+
+{% endblock %}
+</style>
+
+
+{% block head %}
+
+  <script src="https://js.stripe.com/v2/" type="text/javascript"></script>
+<!--     <script src="https://js.stripe.com/v3/" type="text/javascript"></script> -->
+  <script type="text/javascript">
+      Stripe.setPublishableKey('{{ publishable }}');
+  </script>
+<!--     <script src="/static/js/app.js" type="text/javascript"></script> -->
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+
+  <script type="text/javascript">
+
+  function showFlashMessage(message) {
+    var template = "<div class='container container-alert-flash'>" + 
+    "<div class='col-sm-10 col-sm-offset-1'> " + 
+    "<div class='alert alert-success alert-dismissible' role='alert'>" + 
+    "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>" +
+    "<span aria-hidden='true'>&times;</span></button>" 
+    + message + "</div></div></div>"
+    $("body").append(template);
+    $(".container-alert-flash").fadeIn(500);
+    setTimeout(function(){ 
+      $(".container-alert-flash").fadeOut(500);
+    }, 5000);
+  }
+
+
+  $(function(){
+      
+    $("#user_form").submit(function() {
+      var form = this;
+
+      var card = {
+        name: $("#name").val(),
+        number: $("#credit_card_number").val(),
+        expMonth: $("#expiry_month").val(),
+        expYear: $("#expiry_year").val(),
+        cvc: $("#cvc").val()
+
+      };
+
+
+
+      Stripe.createToken(card, function(status, response){
+        if (status === 200){
+          console.log(status, response);
+          
+          $("#credit-card-errors").hide();
+          $("#id_stripe_id").val(response.id);
+          form.submit();
+        } else {
+          $("#stripe-error-message").text(response.error.message);
+
+          showFlashMessage(response.error.message)
+
+          $("#credit-card-errors").show();
+          $("#user_submit").attr('disabled', false);
+        }
+
+      });
+
+      return false;
+
+    });
+
+  });
+
+
+
+
+
+  </script>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block special %}
+
+
+
+<div class='container'>
+
+<h4><span class="label label-default shadow">Purchase Details &nbsp;&nbsp; <i class="fas fa-credit-card fa-1x"></i> </span></h4>
+<br>
+  
+  <div class="panel panel-default shadow">
+    <div class="panel panel-body panelpad">
+        <div class="col-xs-12">
+
+
+          <form id="user_form" method="post" action="{% url 'Subscribe' %}">{% csrf_token %}
+
+          <noscript>
+              This form requires Javascript to work!
+          </noscript>
+
+          {{ form.non_field_errors }}
+          {{ form.field_errors }}
+          <fieldset>
+
+          <div class='container form-group'>
+
+            <br>
+
+            {{ form.stripe_id.as_hidden }}
+
+            <h4><span class="label label-default shadow">Selected Plan - <b>{{ subtype }}</b></span></h4>
+
+            <br>
+            <h4> <i class="fas fa-lock fa-1x"></i>&nbsp;&nbsp;<b> Secure Transaction<b></h4>
+
+
+            <h5> <b>Please enter your credit card number details<b></h5>
+
+
+            <div class="container ccbox col-xs-12 col-sm-9">
+
+          <!-- <div class='col-sm-10 col-sm-offset-1'> -->
+            <div id="credit-card">
+
+                <div id="credit-card-errors" style="display:none">
+                  <div class="alert-message block-message error" id="stripe-error-message"></div>
+                </div>
+
+              <h5><b>Total Price: {{ price }} USD</b></h5><br>
+
+              <!-- these fields have no names, so they are not submitted to django -->
+              <h4>
+              <i class="fab fa-cc-amex fa-2x" style="background-color: gray"></i>&nbsp;&nbsp;
+              <i class="fab fa-cc-visa fa-2x" style="background-color: gray"></i>&nbsp;&nbsp;
+              <i class="fab fa-cc-mastercard fa-2x" style="background-color: gray"></i>&nbsp;&nbsp;
+              </h4><br>
+
+
+
+
+              <div class="clearfix form-group">
+                 <label for="name">Name (as it appears on your card)</label>
+                 <div class="input ccname">
+                    <input class="field form-control" id='name' type='text' maxlength="50">
+                 </div>
+              </div>
+
+
+              <div class="clearfix form-group">
+                 <label for="credit card number">Credit card number (no dashes or spaces)</label>
+                 <div class="input cccnumber">
+                    <input class="field form-control" id='credit_card_number' type='text' maxlength="16">
+                 </div>
+              </div>
+
+              <div class="clearfix form-group">
+                 <label for="cvc">Security code (cvc)</label>
+                 <div class="input cccvc">
+                    <input class='small form-control' id='cvc' maxlength="4" type="text">
+                 </div>
+              </div>
+
+              <div class="clearfix">
+                 <label for="expiry date">Expiry date</label>
+                 <div class="input">
+                    <select class="ccexpirybox" id="expiry_month">
+                    {% for month in months %}
+                    <option value="{{ month }}" {% if soon.month == month %} selected{% endif %}>{{ month }}</option>
+                    {% endfor %}
+                    </select>
+                    <Select class="ccexpirybox" id="expiry_year">
+                    {% for year in years %}
+                    <option value="{{ year }}" {% if soon.year == year %} selected{% endif %}>{{ year }}</option>
+                    {% endfor %} 
+                    </select>
+                 </div>
+                 <!-- empty --> 
+              </div>
+
+              <br>
+
+
+          <!--     <div class="clearfix form-group">
+                 <label for="billing address line1">Address</label>
+                 <div class="input ccaddress">
+                    <input class='small form-control' id='billing_address_line1' maxlength="50" type="text">
+                 </div>
+              </div>
+
+              <div class="clearfix form-group">
+                 <label for="billing address zip">Zip Code</label>
+                 <div class="input cczip">
+                    <input class='small form-control' id='billing_address_zip' maxlength="6" type="text">
+                 </div>
+              </div>
+
+              <div class="clearfix form-group">
+                 <label for="billing address state">State</label>
+                 <div class="input ccstate">
+                    <input class='small form-control' id='billing_address_state' maxlength="3" type="text">
+                 </div>
+              </div>
+
+              <div class="clearfix form-group">
+                 <label for="billing address country code">Country Code</label>
+                 <div class="input cccountrycode">
+                    <input class='small form-control' id='billing_address_country_code' maxlength="6" type="text">
+                 </div>
+              </div> -->
+
+            </div>
+
+            <br>
+
+            <div class='actions'>
+                <input class="btn btn-sm btn-success" id="user_submit" name="commit" type="submit" value="Confirm Purchase" style="font-weight: bold;">
+            </div>
+
+
+          </div>
+
+
+          </div>
+
+
+
+          </fieldset>
+          </form>
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+

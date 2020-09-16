@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+<style>
+{% block style %}
+
+
+
+{% endblock %}
+</style>
+
+
+
+{% block content %}
+
+
+	<div class="maincontainerstyle">
+    <div class="mainboxstyle">
+
+        <div class="card-title mainheaderstyle"><i class="fa fa-envelope fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Contact Us</div><hr>
+
+			<h5>
+			{% if recipient %}
+			Recipient: {{ recipient }}
+			{% endif %}
+			</h5>
+
+            <div class="formhide">
+
+    			<form method='POST' action=''>{% csrf_token %}
+    			{{ form|crispy }}
+    			<b>
+                    <input class='loadspin btn buttonspace btn-sm btn-primary' type='submit' value= {{ submit_btn_value }} style="font-weight: bold;">
+                </b>
+    			</form>
+
+            </div>
+
+            <!-- import the older version of font awesome for this spinner because the latest version is not the coolest -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <div class="center">
+                <i class="spin fa fa-spinner fa-spin" style="font-size:24px; display:none; margin:20px;"></i>
+                <div class="spin" style="font-size:16px; display:none; ">Sending</div>
+            </div>
+
+
+    </div><!-- mainboxstyle -->
+    </div><!-- maincontainerstyle -->
+
+
+
+<script>
+
+$(".loadspin").on('click', function(){
+
+    console.log("testing")
+    $(".formhide").hide();
+    $(".spin").fadeIn(1000);
+
+})
+
+
+
+
+
+</script>
+
+{% endblock %}
+

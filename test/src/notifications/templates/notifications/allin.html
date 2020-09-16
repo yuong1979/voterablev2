@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block meta %}
+     <meta name="title" content={{PT}}>
+     <meta name="description" content={{PT.description}}>
+     <meta name="keywords" content={% for i in Tags %} {{ i }}, {% endfor %}>
+ {% endblock %}
+
+{{Tags}}
+
+<style>
+{% block style %}
+
+
+
+/*tr:hover {background-color: #f5f5f5;}*/
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+{% endblock %}
+</style>
+
+
+
+
+{% block content %}
+
+
+
+<div class="row">
+
+  <div class="col-sm-12" >
+    <div class="mainboxstyle">
+
+        <div class="mainheaderstyle"><i class="far fa-bell fa-1x"></i>&nbsp;&nbsp;&nbsp;Notifications</div>
+
+    </div><!-- mainboxstyle -->
+  </div>
+
+
+    
+<div class="col-sm-12">
+
+  {% if notifications %}
+
+
+      <div style="margin: 0% 20% 2% 10%">
+          <form action='{% url 'readall' %}' method='GET'  style="display: inline-block;">
+            &nbsp;&nbsp;&nbsp;
+            <input type="submit" class='btn btn-primary btn-sm'  style="font-weight: bold" value="Mark all notifications as read">
+          </form>
+      </div>
+
+      <table class="table">
+
+          {% for note in notifications %}
+
+          <tr style="background-color: white;">
+              <td>
+                  <b>{{ note.action }}:</b>
+                  <br>
+                  <b>{{ note|safe }}</b>
+              </td>
+              <td> 
+                  <b>{% if note.read %} Read {% else %} Unread {% endif %}</b>
+              </td>
+          </tr>
+
+          {% endfor %}
+          
+      </table>
+
+
+  {% else %}
+  <br>
+  <b style="margin:10%">You have no notifications yet</b>
+
+  {% endif %}
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+  {% include 'footermenu.html' %}
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

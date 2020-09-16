@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<style>
+{% block style %}
+
+
+
+.tnadjust {
+  padding: 0px 0px 0px 0px;
+  margin: 10px 0px 0px 0px;
+  border-bottom: 1px;
+  border-bottom-color: lightgrey;
+  border-bottom-style: solid;
+}
+
+
+.imgtn
+{
+object-fit: cover;
+height: 55px; 
+width: 55px;
+}
+
+
+.ppic
+{
+  float:left;
+  padding: 0px 15px 0px 0px;
+  margin: -5px 0px 0px 0px;
+  width:25%;
+}
+
+
+
+
+{% endblock %}
+</style>
+
+
+
+
+
+{% block content %}
+
+
+
+<div class="row">
+{% if tagpolllist %}
+  <div class="col-sm-12" >
+    <div class="mainboxstyle">
+
+
+<div style="float:right" id="parent">
+
+    {% if request.user.is_authenticated %}
+
+      {% if fav == True %}
+
+        <div class="child" style="text-align:center;">
+          <a href='#' class='favorite' tag_id="{{ tag.id }}"><b><i id='fav-type-{{ tag.id }}' aria-hidden="true" class="fa fa-star fa-1x iconshape" style="color:gold;"></i></b></a>
+        </div>
+
+        <div class="child icontext">
+          &nbsp;&nbsp;Favorite
+        </div>
+
+      {% else %}
+
+        <div class="child" style="text-align:center;">
+          <a href='#' class='favorite' tag_id="{{ tag.id }}"><b><i id='fav-type-{{ tag.id }}' aria-hidden="true" class="fa fa-star fa-1x iconshape allbtniconcolor"></i></b></a>
+        </div>
+
+        <div class="child icontext">
+          &nbsp;&nbsp;Favorite
+        </div>
+
+      {% endif %}
+
+    {% else %}
+    
+
+      <div class="child" style="text-align:center;">
+        <a href="/accounts/login/"><i class="fa fa-star fa-lg iconshape allbtniconcolor"></i></a>
+      </div>
+
+        <div class="child icontext">
+        &nbsp;&nbsp;Favorite
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+
+        <div class="mainheaderstyle"><i class="fas fa-magic fa-1x"></i>&nbsp;&nbsp;&nbsp;{{ tag }}</div>
+
+    </div><!-- mainboxstyle -->
+  </div>
+
+
+
+
+  <div class="col-sm-12" >
+    <div class="mainboxstyle">
+
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <form method='GET' action='/tags/'>
+      {% crispy form %}
+      </form>
+    </div>
+
+    </div><!-- mainboxstyle -->
+  </div>
+
+{% endif %}
+</div>
+
+
+
+
+
+<!--   <div class="col-6" style="text-align: center;">
+
+      {% if request.user.is_authenticated %}
+        {% if fav == True %}
+        <a href="#" class="favorite" tag_id="{{ tag.id }}">
+          <b style="color:gold;" id='fav-type-{{ tag.id }}' class="fa fa-star fa-lg"> </b>
+        </a>
+
+        {% else %}
+
+        <a href="#" class="favorite" tag_id="{{ tag.id }}">
+          <i id='fav-type-{{ tag.id }}' class="allbtniconcolor fa fa-star fa-lg"></i>
+        </a>
+        {% endif %}
+
+      {% else %}
+      <a href="/accounts/login/"><i class="allbtniconcolor fa fa-star fa-lg"></i></a>
+      {% endif %}
+
+  </div> -->
+
+<!--   <div class="col-6" style="text-align: center;">
+      <i class="allbtniconcolor fa fa-share-alt fa-lg" aria-hidden="true" data-toggle="modal" data-target="#ShareModal"></i>
+  </div> -->
+
+
+
+
+
+
+<!--   <div class="col-6 fontstyle90" style="text-align: center;">
+  Favorite topic
+  </div> -->
+
+<!--   <div class="col-6 fontstyle90" style="text-align: center;">
+  Share
+  </div> -->
+
+
+
+
+<!-- remove free access function-->
+<!--             <small  style="position: absolute; right: 40px;">
+            <i class="allfontcolor fas fa-check-circle fa-1x"></i><b class="allfontcolor">&nbsp;Free Access</b>
+            </small> -->
+
+
+
+      <div class="row allpolllist">
+          {% if tagpolllist %}
+
+        <div class="col-sm-12">
+            {% for i in tagpolllist %}
+
+            <div class="greyboxstyle">
+              <div class="row">
+
+                <div class="col-9 col-lg-9" style="">
+                  <a href="/polls/?type={{ i.slug }}"><b style="line-height: 200%;">{{ i.title }}</b></a>
+                </div>
+
+                <div class="col-3 col-lg-3">
+                  <span class="badge badge-pill badgestyle badge-secondary" style=""> {{ i.viewpolltypeunique.ecount }} tips </span> 
+                </div>
+
+              </div>
+            </div>
+
+
+          {% endfor %}
+        </div>
+
+            {% else %}
+              <br>
+                There are no polls yet.
+              <br>
+            {% endif %}
+      </div>
+
+
+
+
+      <div class="polllist"></div>
+
+      <div class="polllist_error"></div>
+
+
+
+
+<!-- for sending tag id using ajax to the backend -->
+<p class="tag" tag_id="{{ tag.id }}"></p>
+
+{% include 'sharemodal.html' %}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+{% block jquery %}
+
+
+
+<!-- doing a blockquote on a script function enables the script to be viewed in color but blocks the script code from taking effect -->
+
+{#  <script>#}
+
+
+
+
+var settime;
+
+$('#id_search').on('keyup submit',function(e){
+    e.preventDefault();
+    clearTimeout(settime);
+    settime = setTimeout(FilterTag, 500);
+});
+
+
+
+function FilterTag() {
+
+    if($('#id_search').val()){
+
+        $.ajax({
+        method:'GET',
+        url:"/tags/psearch/",
+        dataType: "json",
+        data:{
+            search :$('#id_search').val(),
+            tag :$('.tag').attr("tag_id"),
+        },
+        beforeSend: function(){
+            $(".polllist_error").show();
+            $(".polllist_error p").html("");
+            $(".polllist_error").append("<p class='loadmsg'>Loading data...</p>");
+        },
+        success : function(result){
+            $(".polllist_error").hide();
+
+            $(".polllist").show();
+            $(".allpolllist").hide();
+            $(".polllist").html("");
+
+            putPollListData(result);
+        },
+        error: function(response){
+            $(".polllist_error").show();
+            $(".polllist_error p").html("");
+
+            $(".polllist_error").append("<p class='loadmsg'>Something went wrong...</p>");
+        }
+    });
+
+    }else{
+
+        $(".polllist_error").hide();
+        $(".polllist").hide();
+        $(".allpolllist").show();
+
+    }
+
+}
+
+
+
+
+
+
+    function putPollListData(result){
+        let row;
+
+        if (result["polllist"].length>0){
+            $.each(result['polllist'], function(a,b) {
+
+                row = "<div class='greyboxstyle'><div class='row'><div class='col-9 col-lg-9' style=''><a href='"+b['url']+"'><b style='line-height: 200%;'>"+b["title"]+"</b></a></div><div class='col-3 col-lg-3'><span class='badge badge-pill badgestyle badge-secondary' style=''> "+b['counter']+" tips </span></div></div></div>"
+
+
+                $(".polllist").append(row);
+            });
+        }else{
+
+            $(".polllist_error p").html("");
+            $(".polllist_error").append("<p class='loadmsg'>No results found</p>");
+            $(".polllist").hide();
+            $(".polllist_error").show();
+        }
+    }
+
+
+
+
+
+
+function set_fav() {
+
+  // $(".favorite").click(function(e){
+  $(".favorite").off( "click" ).click(function(e){
+    event.preventDefault();
+    var tag_id = $(this).attr("tag_id");
+
+      $.ajax({
+        dataType: 'json',
+        type: 'POST',
+        data: 'tag_id=' + tag_id,
+        url: '/tags/fav/',
+        success: function(jsondata) {
+
+        if (jsondata.result=="favorited"){
+          var message = "Favorited Topic"
+          var color = "gold"
+        }else{
+          var message = "Unfavorited Topic"
+          var color = "dodgerblue"
+        }
+        showFlashMessage(message)
+            var fav_id = "#fav-type-" + tag_id;
+            
+            if (jsondata.msg === "login_requred") {
+                // alert('login required!')
+                window.location.replace("/accounts/login/");
+            } else {
+                $(fav_id).css( "color", color );
+
+            }
+        }
+      });
+  });
+}
+
+
+set_fav()
+
+
+{#  </script>#}
+{% endblock %}

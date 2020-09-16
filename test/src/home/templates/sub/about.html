@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+<style>
+{% block style %}
+
+        /*jumbotron on base banner for desktop and mobile*/
+        @media (max-width: 480px) {
+          .jumbotron_about {
+            background-position: 30% 80%; 
+            height: 500px;
+            background-image:linear-gradient(0deg,rgba(10,128,130,0.4),rgba(0,0,0,1.0)),url('{% static 'img/launchsmall.jpg' %}');
+            background-repeat: no-repeat;
+            background-size: cover ;
+            padding-top: 50px;
+            padding-bottom: 300px;
+
+          }
+        }
+        @media (min-width: 481px) {
+          .jumbotron_about {
+            background:linear-gradient(0deg,rgba(10,128,130,0.4),rgba(0,0,0,1.0)),url('{% static 'img/launch.jpg' %}');
+            background-repeat: no-repeat;
+            background-size: cover ;
+            padding-top: 50px;
+            padding-bottom: 350px;
+          }
+        }
+
+{% endblock %}
+</style>
+
+
+
+
+
+{% block content %}
+
+
+<div id="divfade" style="display:none;">
+    
+<div class="jumbotron_about text-center">
+
+  <h1 style="color:white;">Our Mission</h1><br>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Marketing messaging and featurettes
+      ================================================== -->
+      <!-- Wrap the rest of the page in another container to center all the content. -->
+
+      <div class="container marketing" style="background-color: white">
+
+      <div class="card-body">
+        <div class="card-title mainheaderstyle"><i class="fas fa-book"></i>&nbsp;&nbsp;&nbsp;&nbsp;Our Journey</div><hr>
+	    </div>
+
+
+        <!-- START THE FEATURETTES -->
+        <small>
+        <div class="row featurette">
+          <div class="col-md-7">
+            <h5 class="featurette-heading" style="background-color: lightgrey; padding:5px; border-radius:3px;">Our story <span class="text-muted">and our history.</span></h5>
+            <p>Voterable.com was created and owned by Balance Tech Private Limited, a startup made of mostly former corporate employees who decided that their purpose belonged to passion and not to the corporate world.</p>
+          </div>
+          <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto shadow" src="{% static 'img/voterablelogo.png' %}" alt="Generic placeholder image">
+          </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+          <div class="col-md-7 order-md-2">
+            <h5 class="featurette-heading" style="background-color: lightgrey; padding:5px; border-radius:3px;">What motivates us <span class="text-muted">and what keeps us up at night.</span></h5>
+            <p>In 2017 they embarked on a journey to pursue their dream in creating a project - Voterable.com to improve idea sharing within the global startup community.</p>
+          </div>
+          <div class="col-md-5 order-md-1">
+            <img class="featurette-image img-fluid mx-auto shadow" src="{% static 'img/night.jpg' %}" alt="Generic placeholder image">
+          </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+          <div class="col-md-7">
+            <h5 class="featurette-heading" style="background-color: lightgrey; padding:5px; border-radius:3px;">Our belief <span class="text-muted">and what wakes up up on the morning.</span></h5>
+            <p>We aim to create a global ecosystem and community for startups and small businesses to share and learn the latest business ideas.</p>
+          </div>
+          <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto shadow" src="{% static 'img/morning.jpg' %}" alt="Generic placeholder image">
+          </div>
+        </div>
+        </small>
+        <hr class="featurette-divider">
+
+        <!-- /END THE FEATURETTES -->
+
+      </div><!-- /.container -->
+
+
+
+
+
+
+
+{% include 'footer.html' %}
+
+
+
+{% endblock %}

@@ -1,0 +1,24 @@
+
+<div class="row">
+{% if taglist %}
+  <div class="col-sm-12" >
+    <div class="mainboxstyle">
+
+        <div class="mainheaderstyle"><i class="fa fa-tags fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Your Favorite Topics</div>
+
+    </div><!-- mainboxstyle -->
+  </div>
+
+
+  <div class="col-sm-12" style="margin:0px 10px 0px 10px ">
+
+    {% for i in taglist %}
+
+      <a href='{{i.get_absolute_url}}' class="btn btn-primary tagstyle"><b>{{ i }} ({{i.counter}})</b></a>&nbsp;&nbsp;
+
+    {% endfor %}
+
+  </div>
+
+{% endif %}
+</div>

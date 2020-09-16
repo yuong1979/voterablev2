@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin*
+ 
+Host: http://www.voterable.com/
+Sitemap: http://www.voterable.com/sitemap.xml

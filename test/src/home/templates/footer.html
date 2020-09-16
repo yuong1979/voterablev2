@@ -1,0 +1,62 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+
+<style>
+
+
+</style>
+
+
+        <footer id="foot">
+            <br><br>
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <h5> About Us</h5><br>
+<!--                         <p><a href='{% url 'AboutUs' %}'>Our Mission</a></p>
+                        <p><a href='{% url 'Press' %}'>Press Release</a></p> -->
+
+                        <p class="text-muted">Our Mission</p>
+                        <p class="text-muted">Press Release</p>
+                        <p class="text-muted">Partnerships</p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h5> Support </h4><br>
+<!--                         <p><a href='{% url 'FAQ' %}'>FAQ</a></p> -->
+                        <p class="text-muted">FAQ</p>
+                        <p><a href="{% url 'Contact' %}">Contact Us</a></p>
+<!--                         <p><a href="{% url 'Promotions' %}">Promotions</a></p> -->
+                        <p class="text-muted">Promotions</p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h5> Legal </h5><br>
+                        <p><a href='{% url 'TermsAndCondition' %}'>Terms and Conditions</a></p>
+                        <p><a href='{% url 'PrivacyPolicy' %}'>Privacy Policy</a></p>
+                        <p><a href='{% url 'Disclaimer' %}'>Disclaimer</a></p>
+<!--                         <p><a href='{% url 'RefundPolicy' %}'>Refund Policy</a></p> -->
+                    </div>
+
+                    <div class="col-md-3">
+                        <h5> Community </h5><br>
+                        <p class="text-muted">Blog</p>
+                        <p class="text-muted">Forum</p>
+                        <p class="text-muted">Affiliates</p>
+                    </div>
+
+                </div>
+                <br>
+            </div>
+
+            <p align="center">&copy; Powered by Balance Tech
+            </p>
+        </footer>
+
+
+
+
+
+

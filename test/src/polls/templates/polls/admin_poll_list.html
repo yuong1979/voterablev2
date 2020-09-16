@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<style>
+{% block style %}
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+
+<div class="maincontainerstyle">
+
+    <div class="mainboxstyle">
+ 
+
+{% if user.is_staff %}
+
+
+<small>
+<b>Tip Summary</b>
+<br><br>
+
+
+<table class="table">
+
+  <thead>
+    <tr>
+      <th>Tip</th>
+      <th>Allowed</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    {% for i in polls %}
+
+        <tr>
+
+          <td><a href="/polls/{{ i.id }}">{{i}}</a></td>
+          <td>{{ i.allowed }}</td>
+        </tr>
+
+    {% endfor %}
+
+  </tbody>
+
+</table>
+</small>
+
+{% endif %}
+
+
+
+    </div><!-- mainboxstyle -->
+
+</div> <!-- /maincontainerstyle -->
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+{% block jquery %}
+
+
+
+<!-- doing a blockquote on a script function enables the script to be viewed in color but blocks the script code from taking effect -->
+
+{#  <script>#}
+
+
+
+
+
+
+{#  </script>#}
+{% endblock %}

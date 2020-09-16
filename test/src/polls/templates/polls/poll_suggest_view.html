@@ -1,0 +1,400 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block meta %}
+     <meta name="title" content={{PT}}>
+     <meta name="description" content={{PT.description}}>
+     <meta name="keywords" content={% for i in Tags %} {{ i }}, {% endfor %}>
+ {% endblock %}
+
+{{Tags}}
+
+<style>
+{% block style %}
+
+
+.toppanelpad
+{
+    margin: 0% 5% 0% 10px;
+    padding: 2% 3% 2% 3%;
+    border-radius: 2px;
+}
+
+.lowpanelpad
+{
+    margin: 2% 5% 2% -3%;
+    padding: 2% 2% 2% 10%;
+}
+
+
+
+.newpanelpad
+{
+    margin: 2% 3% 2% 3%;
+    padding: 1% 2% 1% 2%;
+    border-radius: 3px;
+}
+
+
+.toppanelpad
+{
+    margin: 2% 3% 2% 3%;
+    padding: 0% 3% 0% 3%;
+    border-radius: 3px;
+}
+
+
+.treducesize
+{
+    font-size: 70%;
+}
+
+.reducesize
+{
+    font-size: 85%;
+}
+
+.cpimgsmall
+{
+
+    border-radius: 50%;
+    margin: 5px 5px 5px -5px;
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+}
+
+{% endblock %}
+</style>
+
+
+
+
+{% block content %}
+
+
+
+
+    <div class="panel panel-default toppanelpad shadow" style="color:white; background-color:gray;">
+      <h5 style="text-align:center;">
+        &nbsp;<i class="fas fa-question-circle fa-lg"></i>&nbsp;&nbsp;
+        <b style="line-height: 200%;">
+        What list of tips and tricks would you like to see?
+        </b>
+      </h5>
+    </div>
+
+
+<!--     <div class="panel panel-default newpanelpad shadow" style="color:white; background-color:gray; line-height: 500%;">
+      <h4 style="text-align:center;">
+        <b>
+          What list of tips and tricks would you like to see?
+        </b>
+      </h4>
+    </div> -->
+
+
+
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<!--     the option for users to add new entries change to user is_staff -->
+<!--     the option for users to add new entries change to user is_authenticated -->
+
+
+<!--       {% if request.user.is_authenticated %}
+        <a href='{% url 'polls_detail_create' %}' class='btn btn-success btn-sm shadow tagmargin' ><b>Add New Entry </b><i class="fa fa-plus-circle fa-x"></i></a>
+      {% endif %} -->
+
+
+<!--       {% if request.user.is_authenticated %}
+      <p class="btn btn-success btn-sm shadow tagmargin" aria-hidden="true" data-toggle="modal" data-target="#CommentModel"><b>Add your suggestion</b></p>
+      {% else %}
+      <a href="/accounts/login/"><p class="btn btn-success btn-sm shadow tagmargin"></p>Add your suggestion<</a>
+      {% endif %} -->
+
+      {% if request.user.is_authenticated %}
+
+        {% if Addpost == True %}
+
+        <p class="btn btn-success btn-sm shadow tagmargin" aria-hidden="true" data-toggle="modal" data-target="#CommentModel"><b>Add your suggestion</b></p>
+
+        {% else %}
+<!--         <small>Post again in another {{ Hours }} Hours and {{ Minutes }} Minutes</small> -->
+        <small>Post again in {{ Minutes }} Mins</small>
+        {% endif %}
+
+
+      {% else %}
+        <a href="/accounts/login/"><p class="btn btn-success btn-sm shadow tagmargin"></p>Add your suggestion<</a>
+      {% endif %}
+
+
+      {% if request.GET.sort == 'Score' %}
+      <a href="/polls/suggestion/?type={{ Type }}&sort=Score" class='btn btn-link btn-sm shadow tagmargin disabled'><b>Popular</b></a>|
+      <a href="/polls/suggestion/?type={{ Type }}&sort=Date" class='btn btn-link btn-sm shadow tagmargin'><b>Latest</b></a>
+      {% else %}
+      <a href="/polls/suggestion/?type={{ Type }}&sort=Score" class='btn btn-link btn-sm shadow tagmargin'><b>Popular</b></a>|
+      <a href="/polls/suggestion/?type={{ Type }}&sort=Date" class='btn btn-link btn-sm shadow tagmargin disabled'><b>Latest</b></a>
+      {% endif %}
+
+
+          
+      {% if object_list %}
+
+        <div class="infinite-container">
+
+          {% for i in SuggPoll %}
+
+            <div class="panel infinite-item newpanelpad shadow">
+
+                <div class="row">
+
+
+                  <div class="col-xs-3 col-sm-2" style="float:left;">
+
+                  {% if i.user_submit.puser.image %}
+                  <img src="{{ i.user_submit.puser.image.url }}" class='cpimgsmall' />
+                  {% else %}
+                  <img src="{% static 'img/anonymous.jpg' %}" class='cpimgsmall' />
+                  {% endif %}
+
+                    &nbsp;&nbsp;
+                    <small>
+                      <a href='{{ i.user_submit.puser.get_absolute_url }}' class='btn-link' ><b>
+                      {% if i.user_submit.puser.name %}
+                      {{ i.user_submit.puser.name|truncatechars:12 }}
+                      {% else %}
+                      {{ i.user_submit|truncatechars:12 }}
+                      {% endif %}
+                      </b></a>
+                    </small>
+
+                  </div>
+
+
+
+                  <div class="col-xs-9 col-sm-10" style="float:left">
+                    <h5><b class="treducesize">{{ i.title }}</b></h5>
+
+                    <small><p class="treducesize">{{ i.date|timesince }} ago</p></small>
+                  </div>
+
+
+
+                  <div class="col-xs-9 col-sm-10" style="float:left;">
+                    <h5>
+                    &nbsp;&nbsp;
+                  {% if i in sugglike %}
+                    <a href="#" class="sugglikes" sugg_id="{{ i.id }}" style="display:inline-block;"><i style="color:gold;" id='sugg-type-{{ i.id }}' class="fa fa-thumbs-up fa-1x" aria-hidden="true"></i></a>
+                  {% else %}
+                    <a href="#" class="sugglikes" sugg_id="{{ i.id }}" style="display:inline-block;"><i style="color:steelblue;" id='sugg-type-{{ i.id }}' class="fa fa-thumbs-up fa-1x" aria-hidden="true"></i></a>
+                  {% endif %}
+                  &nbsp;&nbsp;
+                  <b><p style="display:inline-block; " id='sugg-score-{{ i.id }}'>{{ i.score }} </p></b>
+                    </h5>
+                  </div>
+
+
+
+
+
+
+
+
+                </div>
+
+
+              <div class="clearfix" style="height: 5px"></div>
+
+            </div>
+
+          {% endfor %}
+
+
+        </div>
+
+
+        <div class="loading" style="display: none;">
+          Loading...
+        </div>
+
+        {% if page_obj.has_next %}
+          <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}&sort={{ request.GET.sort }}{% endif %}">More</a>
+        {% endif %}
+
+
+      {% else %}
+        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <b>There are no entries yet.</b>
+        <br><br><br>
+            
+      {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modalcomment -->
+<div class="modal fade" id="CommentModel" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">
+          {% if user.puser.image %}
+          <img src="{{ user.puser.image.url }}" class='cpimgsmall' />
+          {% else %}
+          <img src="{% static 'img/anonymous.jpg' %}" class='cpimgsmall' />
+          {% endif %}
+          &nbsp;&nbsp;
+          <b>
+          {% if user.puser.name %}
+          {{ user.puser.name }}
+          {% else %}
+          {{ user }}
+          {% endif %}
+          </b>
+        </h4>
+      </div>
+        <div class="modal-body">
+
+          {% crispy form %}
+
+          <label id="chars_limit" class="help-block"></label>
+
+        </div>
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block jquery %}
+
+
+
+
+
+
+
+
+
+
+{#  <script>#}
+
+
+
+
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+        set_likes();
+      }
+    });
+
+
+    function set_likes() {
+
+    $(".sugglikes").off( "click" ).click(function(e){
+
+        // console.log("testing")
+        event.preventDefault();
+        var suggid = $(this).attr("sugg_id");
+
+          $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            data: 'sugg_id=' + suggid,
+            url: '/polls/sugglikes/',
+            success: function(jsondata) {
+
+            if (jsondata.result=="unliked"){
+              var message = "Downvoted recommentation"
+              // var txt = "Like"
+              var color = "steelblue"
+
+            }else{
+
+              var message = "Upvoted recommentation"
+              // var txt = "Unlike"
+              var color = "gold"
+            }
+            // showFlashMessage(message)
+
+            var sugg_id = "#sugg-type-" + suggid;
+            var like_id = "#sugg-score-" + suggid;
+
+            if (jsondata.msg === "login_requred") {
+                // alert('login required!')
+                window.location.replace("/accounts/login/");
+            } else {
+                $(like_id).text(jsondata.resultc);
+                $(sugg_id).css( "color", color );
+            }
+
+            }
+          });
+      });
+
+    }
+
+
+    function poll_sugg_form_submit(){
+        var title = $('#id_title').val();
+        var url = $('#poll_sugg_form').attr('action');
+        var csfr_token = $('#poll_sugg_form [name="csrfmiddlewaretoken"]').val();
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: { 'title' : title, 'csrfmiddlewaretoken': csfr_token, },
+            success: function(data){
+                if (data.error){
+                    $('#chars_limit').text(data.error);
+                }
+                else{
+                  location.reload();
+                    $('#id_title').val('');
+                    $('#CommentModel').modal("hide");  
+                    //$('.infinite-container').append(render_infinite_container());
+
+                }
+            }
+        });
+    };
+
+
+    $('#poll_sugg_form').on('submit', function(e){
+        e.preventDefault();
+        poll_sugg_form_submit();
+    });
+
+
+
+set_likes()
+
+
+
+{#  </script>#}
+{% endblock %}

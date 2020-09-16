@@ -1,0 +1,240 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+
+<style>
+
+
+
+/* The Modal (background) */
+#ModalPolicy {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  /*z-index: 1;*/
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  -webkit-animation-name: fadeIn; /* Fade in the background */
+  -webkit-animation-duration: 0.4s;
+  animation-name: fadeIn;
+  animation-duration: 0.4s
+}
+
+/* Modal Content */
+#ModalPolicyContent {
+  position: fixed;
+  bottom: 0;
+  background-color: #fefefe;
+  width: 100%;
+  -webkit-animation-name: slideIn;
+  -webkit-animation-duration: 0.4s;
+  animation-name: slideIn;
+  animation-duration: 0.4s
+}
+
+/* The Close Button */
+/*.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}*/
+
+
+
+/* Add Animation */
+@-webkit-keyframes slideIn {
+  from {bottom: -300px; opacity: 0} 
+  to {bottom: 0; opacity: 1}
+}
+
+@keyframes slideIn {
+  from {bottom: -300px; opacity: 0}
+  to {bottom: 0; opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0} 
+  to {opacity: 1}
+}
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+{% if request.user.is_authenticated %}
+
+  {% if request.user.puser.member or request.user.puser.pmember %}
+    <div id="authenticated_user" style="display:none">Member</div>
+  {% else %}
+    <div id="authenticated_user" style="display:none">NotMember</div>
+  {% endif %}
+
+{% else %}
+
+<div id="authenticated_user" style="display:none">NotAuthenticated</div>
+
+{% endif %}
+
+
+
+
+
+
+  <!-- Policy Modal require users to agree to the policies before using -->
+  <div class="modal" id="ModalPolicy">
+    
+      <div class="modal-content" id="ModalPolicyContent">
+      
+<!--         <div class="modal-header" style="background-color:black">
+          <h5 class="modal-title" style="color:white">Our Policies</h5>
+        </div> -->
+
+        <div class="modal-body" style="background-color:black; color:white"><br>
+<!--           <button type="button" id="close" class="close" data-dismiss="modal">&times;</button> -->
+
+          <p>
+<!--           <input type="checkbox" id="cbox"> &nbsp; &nbsp; -->
+          By using this site you agree to our updated  
+          <a href='/termsandconditions/' ><b>Terms and conditions</b></a>, 
+          <a href='/disclaimer/' ><b>Disclaimer</b></a> and 
+          <a href='/privacypolicy/' ><b>Privacy Policy.</b></a>
+
+          <br><br>
+
+          <button type="button" id="okbtn" style="background-color:grey; border-radius: 4px; border: none; color:white; padding:3px 15px 3px 15px">I agree</button><br>
+
+          </p>
+
+        </div>
+<!--         <div class="modal-footer">
+          <h3>Modal Footer</h3>
+        </div> -->
+      </div>
+    
+  </div>
+
+
+
+
+<script>
+
+
+// if user is not authenticated when browsing and the localstorage indicates that the user has not agreed to the policies
+// then the policy would show, until the user agrees to it, then the policyload "true" will be stored in local storage
+// so it will not appear again
+
+
+
+// to insert if the user has already signed up to skip prompting them
+var userstatus = document.getElementById("authenticated_user").innerText;
+
+// console.log("User has agreed to user policy:" + localStorage.getItem('Policyload'))
+
+
+
+
+if (localStorage.getItem('Policyload') !== 'true')
+{
+  console.log("User has not agreed to the user policy")
+} else {
+  console.log("User has agreed to the user policy") 
+}
+
+
+
+
+
+
+//new policypopup that prompts user if they did not click on close
+const policyPopup = () =>
+{
+
+  //check only if user has not created his account (and therefore agreed to the checkbox on the policies)
+  if (userstatus == 'NotAuthenticated')
+  {
+    //only show popup when user has not agreed
+    if (localStorage.getItem('Policyload') !== 'true')
+    {
+      $("#ModalPolicy").modal('show');
+    }
+  }
+}
+
+
+window.onload= () => {
+  setTimeout(policyPopup,500)
+};
+
+
+// if user clicks on the closebtn it wil set policy to agreed for this session
+var closebtn = document.getElementById("okbtn");
+closebtn.onclick = () => {
+  console.log("User agreed to the user policies")
+//if user clicks agree the session will confirm that the policy has been agreed upon and stop showing  
+  localStorage.setItem('Policyload', "true");
+  $("#ModalPolicy").modal('hide');
+}
+
+
+
+
+
+
+
+
+// var modal = document.getElementById('myModal');
+// var okbtn = document.getElementById("okbtn");
+// okbtn.onclick = function() {
+//   var cbox = document.getElementById('cbox');
+//   if (cbox.checked == false) {
+//     console.log("Please agree to the statement")
+//   } else {
+//     console.log("You are good")
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+

@@ -1,0 +1,118 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+<!-- 
+Change the navbar color below -->
+
+
+<style>
+
+
+.dropdown-menu {
+    width: 340px !important;
+    float:right !important;
+}
+
+</style>
+
+
+
+
+
+<!-- Static navbar -->
+
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+
+      <a class="navbar-brand" href="{% url 'Home' %}"><img style="max-width:100px; margin-top: 0px;" src="{% static 'img/voterablelogo.png' %}"></a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExample04">
+        <ul class="navbar-nav mr-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Home' %}" class="menufont"><i class="allfontcolor fa fa-home fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Home</a>
+          </li>
+
+
+
+          {% if request.user.is_staff %}
+          <li>
+            <a class="nav-link" href="{% url 'poll_list_create' %}" class="menufont"><i class="allfontcolor fas fa-edit fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Create a Tip List</a>
+          </li>
+          {% endif %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Contact' %}" class="menufont"><i class="allfontcolor fas fa-envelope fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Contact Us</a>
+          </li>
+
+        </ul>
+
+
+
+
+        <ul class="navbar-nav">
+
+          {% if request.user.is_authenticated %}
+
+              <li>
+
+                <a href="#" class="nav-link dropdown-toggle notification-toggle fas fa-bell fa-1x" data-toggle="dropdown" role="button" aria-expanded="false">
+                  <span id="msg-count-badge" class="badge"> {{ request.session.unread_count }}</span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right" role="menu" id='notification_dropdown'>
+                </ul>
+
+              </li>
+
+              <li class="nav-item">
+
+                <a class="nav-link" href="{% url 'account_logout' %}" class="menufont"><i class="allfontcolor fas fa-sign-out-alt fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Logout</a>
+
+              </li>
+
+          {% else %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'TagAllView' %}" class="menufont"><i class="allfontcolor fa fa-tags fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Browse Topics</a>
+          </li>
+
+            {% if not request.user.is_authenticated and not "/accounts/login" in request.get_full_path %}
+              <li><a class="nav-link" href="{% url 'account_login' %}"><i class="allfontcolor fas fa-sign-in-alt fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Log In</a></li>
+            {% endif %}
+
+
+            {% if not request.user.is_authenticated and not "/accounts/signup" in request.get_full_path %}
+              <li><a class="nav-link" href="{% url 'account_signup' %}"><i class="allfontcolor fas fa-user-plus fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Sign Up</a></li>
+            {% endif %}
+
+
+
+          {% endif %}
+
+        </ul>
+
+      </div>
+    </nav>
+
+
+
+
+
+
+
+
+
+
+<!-- adding a menu dropdown -->
+<!--           <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown04">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li> -->

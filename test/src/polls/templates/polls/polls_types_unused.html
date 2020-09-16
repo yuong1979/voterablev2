@@ -1,0 +1,603 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<!--
+     <meta name="title" content="Search for the best in Asia">
+     <meta name="description" content="Voterable - A platform that let users create polls and vote!">
+     <meta name="keywords" content=": best in Singapore, cheapest in Singapore, deals in Singapore , best deals in Singapore , best food in Singapore , best entertainment in Singapore, cheapest in Singapore, restaurants Singapore, good food in Singapore, good bars in Singapore">
+
+ -->
+
+{% block meta %}
+     <meta name="title" content="Business Hacks">
+     <meta name="description" content="Voterable - Vote and favorite your favorite hacks!">
+     <meta name="keywords" content=": sales hacks, business hacks, marketing hacks, social media hacks">
+{% endblock %}
+
+
+
+ 
+
+<style>
+{% block style %}
+.jumbotron {
+  background-color:#155A1E;
+  color:#FFF;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  padding: 30px 10px 10px 10px;
+  height: 40px;
+  width: 100%;
+  table-layout: fixed;
+  vertical-align: bottom;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  text-align: right;
+}
+
+th {
+  background-color: #f5f5f5;
+  text-align: center;
+  padding: 0px 0px 0px 20px;
+}
+
+td {
+  padding: 10px 10px 10px 20px;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+
+.tab-button {
+  font-size: 110%;
+  font-weight: bolder;
+/*  background: green;*/
+}
+
+
+/*.btn btn-link{
+  font-weight: bolder;
+}*/
+
+
+.tab-content .nav>li>a {
+  padding: 0;
+  margin-bottom: 5px;
+  font-size: 20%;
+  font-weight: bolder;
+}
+
+.tab-content .nav>li.active>a input {
+  color: #fff;
+  font-weight: bolder;
+}
+
+.polls_panel .nav>li>a {
+  padding: 7px 15px;
+}
+
+
+.tnadjust {
+/*  background-color: lightgrey;*/
+/*  height: 100%;*/
+/*  height: 10px;*/
+  padding: 0px 0px 10px 0px;
+  margin: -10px 0px 0px 0px;
+  border-bottom: 1px;
+  border-bottom-color: lightgrey;
+  border-bottom-style: solid;
+}
+
+.imgtn
+{
+object-fit: cover;
+height: 55px; 
+width: 55px;
+
+/*padding: 0px 0px 0px 0px;
+margin: 0px 0px 0px 0px;*/
+}
+
+
+
+/*img{
+object-fit: cover;
+height: 500px; 
+width: 500px;
+}*/
+
+.ppic
+{
+  float:left;
+  padding: 0px 15px 0px 0px;
+  margin: -5px 0px 0px 0px;
+  width:25%;
+}
+
+.ptitle 
+{
+  float:left;
+  padding: 0px 0px 0px 15px;
+  width:75%;
+}
+
+
+.toppanelpad
+{
+    margin: 0% 0% 2% 0%;
+    padding: 0% 3% 0% 3%;
+    border-radius: 3px;
+}
+
+
+/*.row.fix {
+  display: flex;
+  flex-wrap: wrap;
+  width:100%;
+}*/
+
+{% endblock %}
+</style>
+
+
+
+
+
+{% block content %}
+
+
+
+<div class="container">
+
+  <small>
+    <br>
+    <div class="panel panel-default toppanelpad shadow" style="color:white; background-color:gray;">
+      <h5 style="text-align:center;">
+        <b>
+        Search Tip Lists
+        </b>
+        &nbsp;&nbsp;
+        <img class="iconsize" src="{% static 'img/icons/ballotw.svg' %}">
+      </h5>
+    </div>
+
+
+<!--     <h4>
+      <span class="label label-default shadow" style="display:inline-block; height: 40px;">
+          <img class="iconsize" src="{% static 'img/icons/ballotw.svg' %}">
+          Filter Poll Types
+      </span>
+    </h4>     -->
+
+    <div class="panel panel-default shadow">
+      <div class="panel-body" style="background:white">
+
+      <ul class="nav nav-tabs" style="background:white">
+      <!--   <li><a class="tab-button" data-toggle="tab" href="#home">Year</a></li> -->
+
+<!--         <li><a class="tab-button" data-toggle="tab" href="#home">Rank By</a></li>
+        <li><a class="tab-button" data-toggle="tab" href="#menu1">Location</a></li> -->
+
+
+
+
+
+<!--         note: unhide the below when you want to include new topics -->
+<!--         <li><a class="tab-button" data-toggle="tab" href="#menu2">Topics</a></li> -->
+        <li><a class="tab-button" data-toggle="tab" href="#menu3">Search</a></li>
+      <!--   <li><a class="tab-button" data-toggle="tab" href="#menu4">Reset</a></li> -->
+      </ul>
+
+      <br>
+
+      <div class="tab-content" style="background:white">
+
+<!--         year -->
+
+      <!--   <div id="home" class="tab-pane fade in active">
+                    <ul class="nav nav-pills">
+                        <li role="presentation" class=" {% if request.GET.year == 'All' or not request.GET.year %}active{% endif %}">
+                          <a>
+                            <form action='/poll_topics/' method="get" style="display: inline">
+                              <input type="hidden" name="year" value='All'>
+                              <input type="hidden" name="location" value='{{ request.GET.location }}'>
+                              <input type="hidden" name="poll" value='{{ request.GET.poll }}'>
+                              <input class='btn btn-link' data-action='show-spinner' type="submit" value='All'>
+                            </form>
+                          </a>
+                        </li>
+
+                        {% for v in Yeartype %}
+
+                          <li role="presentation" class=" {% if request.GET.year == v.title %}active{% endif %}">
+                            <a>
+                              <form action='/poll_topics/' method="get" style="display: inline">
+                                {% if request.GET.location  %}
+                                  <input type="hidden" name="location" value='{{ request.GET.location }}'>
+                                {% endif %}
+                                {% if request.GET.poll  %}
+                                  <input type="hidden" name="poll" value='{{ request.GET.poll }}'>
+                                {% endif %}
+                                <input type="hidden" name="year" value={{v.title}}>
+                                <input class='btn btn-link' data-action='show-spinner' type="submit" value={{v.title}}>
+                              </form>
+                            </a>
+                          </li>
+
+                        {% endfor %}
+
+                    </ul>
+            </div> -->
+
+<!--             type -->
+
+<!--         <div id="home" class="tab-pane fade in active">
+                    <ul class="nav nav-pills">
+                        <li role="presentation" class=" {% if request.GET.cattype == 'All' or not request.GET.cattype %}active{% endif %}">
+                          <a>
+                            <form action='/poll_topics/' method="get" style="display: inline">
+                              <input type="hidden" name="year" value='{{ request.GET.location }}'>
+                              <input type="hidden" name="cattype" value='All'>
+                              <input type="hidden" name="location" value='{{ request.GET.location }}'>
+                              <input type="hidden" name="poll" value='{{ request.GET.poll }}'>
+                              <input class='btn btn-link' data-action='show-spinner' type="submit" value='All'>
+                            </form>
+                          </a>
+                        </li>
+
+                        {% for v in Cattype %}
+
+                          <li role="presentation" class=" {% if request.GET.cattype == v.title %}active{% endif %}">
+                            <a>
+                              <form action='/poll_topics/' method="get" style="display: inline">
+                                {% if request.GET.location  %}
+                                  <input type="hidden" name="location" value='{{ request.GET.location }}'>
+                                {% endif %}
+                                {% if request.GET.poll  %}
+                                  <input type="hidden" name="poll" value='{{ request.GET.poll }}'>
+                                {% endif %}
+                                {% if request.GET.year  %}
+                                  <input type="hidden" name="year" value='{{ request.GET.year }}'>
+                                {% endif %}
+                                <input type="hidden" name="cattype" value={{v.title}}>
+                                <input class='btn btn-link' data-action='show-spinner' type="submit" value={{v.title}}>
+                              </form>
+                            </a>
+                          </li>
+
+                        {% endfor %}
+
+                    </ul>
+            </div> -->
+
+<!--             location -->            
+
+<!--             <div id="menu1" class="tab-pane fade">
+                    <ul class="nav nav-pills">
+                        <li role="presentation" class=" {% if request.GET.location == 'All' or not request.GET.location %}active{% endif %}">
+                          <a>
+                            <form action='/poll_topics/' method="get" style="display: inline">
+                              <input type="hidden" name="year" value='{{ request.GET.year }}'>
+                              <input type="hidden" name="cattype" value='{{ request.GET.cattype }}'>
+                              <input type="hidden" name="location" value='All'>
+                              <input type="hidden" name="poll" value='{{ request.GET.poll }}'>
+                              <input class='btn btn-link' data-action='show-spinner' type="submit" value='All'>
+                            </form>
+                          </a>
+                        </li>
+
+                        {% for v in Locationtype %}
+
+                          <li role="presentation" class=" {% if request.GET.location == v.title %}active{% endif %}">
+                            <a>
+
+                              <form action='/poll_topics/' method="get" style="display: inline">
+                                {% if request.GET.cattype  %}
+                                  <input type="hidden" name="cattype" value='{{ request.GET.cattype }}'>
+                                {% endif %}
+                                {% if request.GET.poll  %}
+                                  <input type="hidden" name="poll" value='{{ request.GET.poll }}'>
+                                {% endif %}
+                                {% if request.GET.year  %}
+                                  <input type="hidden" name="year" value='{{ request.GET.year }}'>
+                                {% endif %}
+                                <input type="hidden" name="location" value={{v.title}}>
+                                <input class='btn btn-link' data-action='show-spinner' type="submit" value={{v.title}}>
+                              </form>
+                            </a>
+                          </li>
+
+                        {% endfor %}
+                    </ul>
+            </div> -->
+
+<!--             topic -->
+            <div id="menu2" class="tab-pane fade">
+                <ul class="nav nav-pills">
+                    <li role="presentation" class=" {% if request.GET.poll == 'All' or not request.GET.poll %}active{% endif %}">
+                      <a>
+                        <form action='/poll_topics/' method="get" style="display: inline">
+      <!--                     <input type="hidden" name="year" value='{{ request.GET.year }}'> -->
+<!--                           <input type="hidden" name="cattype" value='{{ request.GET.cattype }}'>
+                          <input type="hidden" name="location" value='{{ request.GET.location }}'> -->
+                          <input type="hidden" name="poll" value='All'>
+                          <input class='btn btn-link' data-action='show-spinner' type="submit" value='All'>
+                        </form>
+                      </a>
+                    </li>
+
+                  {% for v in Topictype %}
+
+                    <li role="presentation" class=" {% if request.GET.poll == v.title %}active{% endif %}">
+                      <a>
+                        <form action='/poll_topics/' method="get" style="display: inline">
+<!--                           {% if request.GET.cattype  %}
+                            <input type="hidden" name="cattype" value='{{ request.GET.cattype }}'>
+                          {% endif %}
+                          {% if request.GET.location  %}
+                            <input type="hidden" name="location" value='{{ request.GET.location }}'>
+                          {% endif %} -->
+      <!--                     {% if request.GET.year  %}
+                            <input type="hidden" name="year" value='{{ request.GET.year }}'>
+                          {% endif %} -->
+                          <input type="hidden" name="poll" value={{v.title}}>
+                          <input style="font-weight: bolder;" class='btn btn-link' data-action='show-spinner' type="submit" value={{v.title}}>
+                        </form>
+                      </a>
+                    </li>
+
+                  {% endfor %}
+
+                </ul>
+
+            </div>
+
+<!-- search -->
+
+            <div id="menu3" class="tab-pane fade">
+                  <ul class="nav nav-pills">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                    <form method='GET' action='/poll_topics/'>
+                    {% crispy form %}
+                    </form>
+                    </div>
+                  </ul>
+                <div class="row"></div>
+            </div>
+
+            <div id="menu4" class="tab-pane fade">
+              <div class="panel">
+                <ul class="nav nav-pills">
+                  <form method='GET' action='/poll_topics/'>
+                    <input class="btn btn-primary" type="submit" value="Reset Filter" />
+                  </form>
+                </ul>
+              </div>
+            </div>
+
+      </div>
+      </div>
+    </div>
+
+
+
+  </small>
+</div> <!-- container -->
+
+
+
+
+
+
+<div class="container">
+
+
+      <h4><span class="label label-default shadow">{{ polltype }} Tips</span></h4>
+
+  <small>
+
+      <b>
+      <div class="panel shadow" style="background:white">
+      <br><br><br>
+        {% if polllist %}
+
+            <ul class="nav nav-pills infinite-container">
+              {% for v in polllist %}
+                <div class="infinite-item">
+                  <div class="col-xs-12 col-sm-4">
+<!--                   <div class="thumbnail tnadjust shadow">
+                  <div class="caption" style="margin:1px; top-padding:3px; bottom-padding:3px;"> -->
+
+<!--                     {% if v.image %}
+                    <div class="ppic">
+                    <img src="{{ v.image.url }}" class="img-rounded imgtn">
+                    </div>
+
+                    {% else %}
+
+                    <div class="ppic">
+                    <img src="{% static 'img/NoImage.jpg' %}" class="img-rounded imgtn">
+                    </div>
+                    {% endif %} -->
+
+                    <div class="tnadjust">
+                    <p style="line-height: 150%;"><a href="/polls/?type={{ v.slug }}">{{ v.title }}&nbsp;&nbsp;&nbsp;&nbsp;({{ v.viewpolltypeunique.ecount }} Tips)</a></p>
+                    </div>
+
+                    <br><br>
+
+
+<!--                   </div>
+                  </div> -->
+                  </div>
+                </div>
+              {% endfor %}
+            </ul>
+
+<br>
+          <ul class="nav nav-pills loading" style="display: none;">
+                  <div class="col-xs-12 col-sm-4">
+                  <div class="thumbnail tnadjust">
+                  <div class="caption">
+
+                    <div class="ppic">
+{#                    <img src="{% static 'img/NoImage.jpg' %}" class="img-rounded imgtn">#}
+                    </div>
+
+                    <div class="ptitle">
+                    <li role="presentation"><a href="">LOADING...</a></li>
+                    </div>
+
+                  </div>
+                  </div>
+                  </div>
+            </ul>
+
+
+          {% if polllist.has_next %}
+            <a class="infinite-more-link" style="display: none;" href="?page={{ polllist.next_page_number }}&poll={{ request.GET.poll }}&cattype={{ request.GET.cattype }}&location={{ request.GET.location }}&search={{ request.GET.search }}">More</a>
+          {% endif %}
+
+        {% else %}
+        &nbsp;&nbsp;&nbsp;&nbsp;
+          There are no entries yet.
+        <br><br>
+        {% endif %}
+
+      </div>
+      </b>
+
+
+      </div>
+    </div>
+
+
+<!-- <p class=test style="color:blue; display:none">This is another paragraph.</p>
+
+<P id=test1>This is test1</p>
+
+
+<button class=dude>Click me</button> -->
+
+
+  </small>
+</div> <!-- container -->
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block jquery %}
+
+{#  <script>#}
+
+
+  //   function refreshSearchResults(form) {
+  //       // convert form data to Querystring, for instance: '/minimum_years=9&maximum_pay=120'
+  //       var queryString = form.serialize();
+  //       var reloadUrlPath = location.pathname + "?" + queryString;
+  //       $('#search-results').load(reloadUrlPath + ' #search-results');
+  //   }
+
+  //   window.onload = function () {
+  //       // saveActiveTab();
+
+        
+  //       $("[id^=id_subject]").on( "change", function () {
+  //          var subjectSelects = $("[id^=id_subject]").not(this);
+  //            subjectSelects.val( "" );
+  //       });
+
+  //       // ajax reload search results on radios/checkboxes/number input(years of experience, salary) change
+  //       $("#search-teachers-form input[type=checkbox], " +
+  //           "#search-teachers-form input[type=radio]," +
+
+  //           //adding select
+  //           "#search-teachers-form select," +
+
+  //           "#search-teachers-form input[type=number]").on("keyup change", function () {
+  //           var form = $("#search-teachers-form");
+  //           refreshSearchResults(form);
+  //       });
+
+  //       // comment this to reload page on hitting 'Refresh'
+  //        $("#search-teachers-form input[type=submit]").on('click', function (e) {
+  //            e.preventDefault();
+  //            var form = $("#search-teachers-form");
+  //            refreshSearchResults(form);
+  //        });
+
+  //        // ajax reset search results by Reset btn
+  //       $("#search-teachers-form a.btn").on("click", function (e) {
+  //           $(this).blur();
+
+  //           if (history.pushState) {
+  //               window.history.replaceState(null, "", location.href.split("?")[0]);
+  //           }
+
+  //           e.preventDefault();
+  //           // var activeTabId = $(".tab-pane.active a[data-toggle='tab']").attr('href');
+  //           $('#search-teachers-form').load(location.pathname + ' #search-teachers-form', function(){
+  //               $(this).children().unwrap();
+  //               window.onload();
+  //               // $('.nav-tabs a[href=' + activeTabId + ']').tab('show');
+  //               var form = $("#search-teachers-form");
+  //               refreshSearchResults(form);
+  //           });
+  //       })
+  // };
+
+
+
+
+
+
+
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+
+
+
+
+
+   function save_tab() {
+     var tab = this.getAttribute("href");
+     $.cookie("active_tab", tab.slice(1));
+   }
+   function activateTab(tab){
+     $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+   };
+   if (!!$.cookie('active_tab')) {
+     // have cookie
+     var cookieValue = $.cookie("active_tab");
+     activateTab(cookieValue);
+   } else {
+     // no cookie
+     activateTab('home');
+   }
+   $( ".tab-button" ).on( "click", save_tab );
+
+
+ 
+ {#  </script>#}
+
+{% endblock %}

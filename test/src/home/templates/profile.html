@@ -1,0 +1,42 @@
+{% load staticfiles %}
+
+    <div class="mainboxstyle">
+
+        <div class="mainheaderstyle"><i class="fas fa-user-circle fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Profile</div><hr>
+
+        <div class="col-xs-4 col-sm-3" style="float:right;"><br>
+          {% if user.image %}
+            <img class ="imgdetail" src="{{ user.image.url }}" width="100px" height="100px">
+          {% else %}
+            <img class ="imgdetail" src="{% static 'img/anonymous.jpg' %}" class="img-rounded imgtn">
+          {% endif %}
+          <br><br>
+        </div>
+
+        <div class="col-xs-8 col-sm-9">
+          
+            <div class="fontstyle110" style="margin-top:10px">
+            {% if user.user.puser.name %}
+            {{ user.user.puser.name }}
+            {% else %}
+            {{ user.user }}
+            {% endif %}
+            </div>
+            
+            <div class="fontstyle90" style="color:grey; margin-top:10px">
+                {% if user.description %}
+                  {{ user.description }}
+                {% else %}
+                  Description
+                {% endif %}
+            </div>
+
+        </div>
+
+
+
+        <br>
+
+        <a href='{{ user.get_update }}' class='btn buttonspace btn-sm btn-primary' data-action='show-spinner'><b>Update</b></a>
+
+    </div><!-- mainboxstyle -->

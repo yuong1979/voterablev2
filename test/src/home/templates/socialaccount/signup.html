@@ -1,0 +1,124 @@
+{% extends "account/base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load staticfiles %}
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+
+
+
+
+
+
+
+{% block content %}
+
+
+<style>
+
+i.circle {
+  display: inline-block;
+  border-radius: 100px;
+  border-style: solid;
+  border-width: 5px;
+  box-shadow: 0px 0px 2px #888;
+  padding: 0.5em 0.6em;
+
+}
+
+</style>
+
+
+
+
+<!-- Modalcomment -->
+<div id="modalLogin" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+
+<!--         <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+
+        <div class="modal-body">
+
+        <div class="pull-right">
+        <p align="right"><i class="fas fa-times" id="button" style="font-size:24px; color:grey; "></i></p>
+        </div>
+
+        <div class="row"></div><br>
+
+        <br>
+
+        <h4 class="modal-title allfontcolor center"><b>Log In</b></h4>
+
+        <hr>
+
+
+<!--   <h1>&nbsp;&nbsp;&nbsp;{% trans "Sign In" %}</h1>
+ -->
+
+        <div class="col-xs-12 col-sm-12" style="color:red">
+
+          <center><b>Please log in using the correct account</b></center>
+
+        </div>
+
+        <div class="row"></div>
+
+  <br>
+
+
+    {% get_providers as socialaccount_providers %}
+
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+
+    
+
+
+
+        </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+// var modal = document.getElementById('id01');
+
+document.getElementById('button').onclick = function () {
+        document.getElementById('modalLogin').style.display = "none"
+        location.href = "/";
+
+        // window.history.go(-2);
+
+        // window.location.href = '...';
+
+    };
+
+
+
+</script>
+
+
+{% endblock %}
+
+
+

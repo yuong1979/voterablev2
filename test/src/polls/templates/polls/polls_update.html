@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+<style>
+{% block style %}
+/*.jumbotron {
+	background-color:#155A1E;
+	color:#FFF;
+
+}*/
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+    <div class="maincontainerstyle">
+    <div class="mainboxstyle">
+
+
+        <div class="mainheaderstyle"><i class="fas fa-pen-square fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Update your Entry</div>
+        <hr>
+
+        <h5>{{ title }}</h5>
+
+        <hr><br>
+
+<!--       <div class="container"> -->
+        <small>
+
+        {% if user.is_authenticated %}
+
+          <form method='POST' action="" enctype='multipart/form-data' style="margin:-6px">{% csrf_token %}
+            <input type="hidden" name="type_slug" value="{{ type_slug }}">
+
+          {% crispy form %}
+
+          <div id="error_1" class="col-md-12" style="color: red; display: none">Please limit title characters to 90.</div>
+          <div id="error_2" class="col-md-12" style="color: red; display: none">Please have title more than 20 characters.</div>
+          <div id="tcounter">Characters left: 90</div>
+          <div id="error_3" class="col-md-12" style="color: red; display: none">Please limit description characters to 1400.</div>
+          <div id="error_4" class="col-md-12" style="color: red; display: none">Please have description more than 150 characters.</div>
+          <div id="dcounter">Characters left: 1400</div>
+
+          </form>
+          
+        {% else %}
+
+          <h2>Please register first. Thank you.</h2>
+          <a href='{% url 'account_signup' %}' class='btn btn-success buttonspace' >Sign up</a>
+
+        {% endif %}
+
+
+        </small>
+<!--       </div> -->
+
+
+    </div>
+    </div>
+
+
+{% endblock %}
+
+
+
+{% block jquery %}
+
+{#  <script>#}
+
+
+
+    $( "#error_1" ).insertAfter( "#submit-id-submit" );
+    $( "#error_2" ).insertAfter( "#submit-id-submit" );
+    $( "#tcounter" ).insertAfter( "#id_title" );
+
+
+
+    $('#div_id_title').keyup(function() {
+
+      var tcontents = $('#id_title').val();
+      // var hello = document.getElementById('id_title').value 
+      // var hello = document.getElementById('div_id_title')
+      // console.log(hello)
+
+      var tnum = tcontents.replace(/(<([^>]+)>)/ig, "").replace(/&nbsp;/g, " ").length;
+      var tchars_more = 20 - tnum;
+      var tchars_left = 90 - tnum;
+      
+      tchars_more = 'Characters more: ' + tchars_more;
+      tchars_left = 'Characters left: ' + tchars_left;
+      
+        if(tnum < 20){
+
+          $("#div_id_title label").css("color", "#f50303");
+          $( "#tcounter" ).html(tchars_more);
+          $("#tcounter").css("color", "#f50303");
+          $("#submit-id-submit").addClass("disabled");
+          $("#error_2").show();
+
+        }else{
+
+          if(tnum > 90){
+
+            $("#div_id_title label").css("color", "#f50303");
+            $( "#tcounter" ).html(tchars_left);
+            $("#tcounter").css("color", "#f50303");
+            $("#submit-id-submit").addClass("disabled");
+            $("#error_1").show();
+
+          }else{
+
+          $("#div_id_title label").css("color", "#333");
+
+          if(tnum > 90){
+            $( "#tcounter" ).html(tchars_more);
+          }else{
+            $( "#tcounter" ).html(tchars_left);
+          }
+
+          $("#tcounter").css("color", "#333");
+          $("#submit-id-submit").removeClass("disabled");
+          $("#error_1").hide();
+          $("#error_2").hide();
+
+          } 
+
+        }
+
+      })
+
+
+
+
+
+    $( "#error_3" ).insertAfter( "#submit-id-submit" );
+    $( "#error_4" ).insertAfter( "#submit-id-submit" );
+    $( "#dcounter" ).insertAfter( ".note-editor" );
+    $('#div_id_description').on('summernote.change', function(e, contents, $editable) {
+
+      var dnum = contents.replace(/(<([^>]+)>)/ig, "").replace(/&nbsp;/g, " ").length;
+      var dchars_more = 150 - dnum;
+      var dchars_left = 1400 - dnum;
+      
+      dchars_more = 'Characters more: ' + dchars_more;
+      dchars_left = 'Characters left: ' + dchars_left;
+      
+        if(dnum < 150){
+
+          $(".note-editor.note-frame").css( "border", "1px solid #f50303" );
+          $("#div_id_description label").css("color", "#f50303");
+          $( "#dcounter" ).html(dchars_more);
+          $("#dcounter").css("color", "#f50303");
+          $("#submit-id-submit").addClass("disabled");
+          $("#error_4").show();
+
+        }else{
+
+          if(dnum > 1400){
+
+            $(".note-editor.note-frame").css( "border", "1px solid #f50303" );
+            $("#div_id_description label").css("color", "#f50303");
+            $( "#dcounter" ).html(dchars_left);
+            $("#dcounter").css("color", "#f50303");
+            $("#submit-id-submit").addClass("disabled");
+            $("#error_3").show();
+
+          }else{
+
+          $(".note-editor.note-frame").css( "border", "1px solid #333" );
+          $("#div_id_description label").css("color", "#333");
+
+          if(dnum > 1400){
+            $( "#dcounter" ).html(dchars_more);
+          }else{
+            $( "#dcounter" ).html(dchars_left);
+          }
+
+          $("#dcounter").css("color", "#333");
+          $("#submit-id-submit").removeClass("disabled");
+          $("#error_3").hide();
+          $("#error_4").hide();
+
+          } 
+
+        }
+
+
+
+
+      // limit 2 images in description:
+      var img_num = $("#div_id_description img").length;
+      if(img_num == 2){
+          $( "button[data-original-title*='Picture']" ).addClass("disabled");
+      } else {
+          $( "button[data-original-title*='Picture']" ).removeClass("disabled");
+      }
+
+      // reduce size of video
+      $("#div_id_description iframe").attr("width", "100");
+      $("#div_id_description iframe").attr("height", "100");
+
+      // limit 2 videos in description:
+      var vid_num = $("#div_id_description iframe").length;
+      if(vid_num == 2){
+          $( "button[data-original-title*='Video']" ).addClass("disabled");
+      } else {
+          $( "button[data-original-title*='Video']" ).removeClass("disabled");
+      }
+
+    });
+
+
+  $(".note-video-clip").attr("width", "100");
+  $(".note-video-clip").attr("height", "100");
+
+  $(".note-toolbar ").ready(function(){
+
+    $(".note-editable img").css("width", "200px");
+    /**
+    * hide summernote elements on mobile devices:
+    */
+    // hide magic style:
+    $( ".note-style" ).addClass( "hidden-xs" );
+    // hide font select:
+    // $( ".note-font" ).addClass( "hidden-xs hidden-sm" );
+    // hide font name:
+    $( ".note-fontname" ).addClass( "hidden-xs" );
+    // hide font size:
+    $( ".note-fontsize" ).addClass( "hidden-xs" );
+    // hide text-color:
+    $( ".note-color" ).addClass( "hidden-xs" );
+    // hide text-align:
+    // $( ".note-para" ).addClass( "hidden-xs hidden-sm" );
+    // hide line height:
+    $( ".note-height" ).addClass( "hidden-xs" );
+    // hide table:
+    $( ".note-table" ).addClass( "hidden-xs" );
+    // hide insert:
+    // $( ".note-insert" ).addClass( "hidden-xs hidden-sm" );
+    // // hide view code and fullscreen:
+    $( ".note-view" ).addClass( "hidden-xs" );
+    // // hide help:
+    $( ".note-help" ).addClass( "hidden-xs" );
+
+    $( ".note-btn-hr" ).addClass( "hidden-xs" );
+
+    $( ".note-btn-underline" ).addClass( "hidden-xs" );
+    $( ".note-btn-superscript" ).addClass( "hidden-xs" );
+    $( ".note-btn-subscript" ).addClass( "hidden-xs" );
+    $( ".note-btn-strikethrough" ).addClass( "hidden-xs" );
+    $( ".dropdown-toggle" ).addClass( "hidden-xs" );
+    $( ".dropdown-fontname" ).addClass( "hidden-xs" );
+    $( ".dropdown-fontsize" ).addClass( "hidden-xs" );
+
+  });
+$(document).ready(function(){
+    var converter = new Attacklab.showdown.converter();
+    function update_description_preview(){
+        $('#description-preview').html(converter.makeHtml($("#id_description").val()));
+    }
+    update_description_preview();
+    $("#id_description").keyup(function(){
+        update_description_preview();
+    });
+});
+{#  </script>#}
+{% endblock %}

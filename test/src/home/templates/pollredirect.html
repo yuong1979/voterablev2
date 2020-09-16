@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<style>
+{% block style %}
+
+.imtip {
+  position: absolute;
+  top: 10%;
+  left: 35%;
+}
+
+
+.tnlheight {
+    height: 150px;
+}
+
+.imgdetail
+{
+    max-width: 100%;
+    max-width: 125px;
+    max-height: 100%;
+    max-height: 125px;
+}
+
+
+
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+
+    <div class="container">
+    <div class="row"></div>
+      <div class="image">
+<!--         <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Voted.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/ballotw.svg' %}" alt="...">
+            <h5><a href="/poll_topics/?cattype=All"><b>Check out Polls</b></a></h5>
+          </div>
+        </div> -->
+
+    <!--     <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Popular.png' %}" alt="...">
+            <h5><a href="/poll_topics/?cattype=Pop"><b>Popular</b></a></h5>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Latest2.png' %}" alt="...">
+            <h5><a href="/poll_topics/?cattype=Late"><b>Latest</b></a></h5>
+          </div>
+        </div> -->
+
+
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Business2.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/businessw.svg' %}" alt="...">
+            <h5><a href="/poll_topics/?cat=Vote&poll=Business"><b>Search Tips</b></a></h5>
+          </div>
+        </div>
+
+
+
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Tags.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/tagsw.svg' %}" alt="...">
+            <h5><a href="{% url 'TagAllView' %}"><b>Search Tags</b></a></h5>
+          </div>
+        </div>
+
+<!-- for premium members only -->
+<!--       {% if user.puser.member or user.puser.memberp %}
+      {% endif %} -->
+
+      {% if user.is_authenticated %}
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Suggestpoll.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/ideaw.svg' %}" alt="...">
+            <h5><a href="{% url 'PollSuggView' %}"><b>Suggest New Tip List</b></a></h5>
+          </div>
+        </div>
+      {% endif %}
+
+
+
+      {% if user.is_authenticated %}
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Suggest improvement2.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/businessideaw.svg' %}" alt="...">
+            <h5><a href="{% url 'PollRecoView' %}"><b>Recommend Improvements</b></a></h5>
+          </div>
+        </div>
+      {% endif %}
+
+
+
+<!--         hide this when you need to let the people put in polls -->
+
+
+      {% if user.is_staff %}
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded' src="{% static 'img/Poll suggest1.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/businessideaw.svg' %}" alt="...">
+            <h5><a href="{% url 'poll_list_create' %}"><b>Create a poll</b></div></a></h5>
+          </div>
+        </div>
+      {% endif %}
+
+
+
+
+
+      </div>
+    </div>
+
+
+
+{% if user.is_authenticated %}
+
+    <div class="container">
+    <div class="row"></div>
+      <div class="image">
+
+
+
+<!-- 
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Personal2.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/criticalthinkingw.svg' %}" alt="...">
+            <h5><a href="/poll_topics/?cat=Vote&poll=Personal"><b>Life</b></a></h5>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Health.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/healthw.svg' %}" alt="...">
+            <h5><a href="/poll_topics/?cat=Vote&poll=Health"><b>Health</b></a></h5>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Business2.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/businessw.svg' %}" alt="...">
+            <h5><a href="/poll_topics/?cat=Vote&poll=Business"><b>Business</b></a></h5>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Food2.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/foodw.svg' %}" alt="...">
+            <h5><a href="/poll_topics/?poll=Food"><b>Food</b></a></h5>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Product.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/productw.svg' %}" alt="...">
+            <h5><a href="/poll_topics/?poll=Products"><b>Products</b></a></h5>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-2">
+          <div class="thumbnail shadow tnlheight">
+            <img class = 'img-rounded'  src="{% static 'img/Services.png' %}" alt="...">
+            <img class='img-rounded imtip' style="height: 25%;" src="{% static 'img/icons/servicesw.svg' %}" alt="...">
+            <h5><a href="/poll_topics/?poll=Services"><b>Services</b></a></h5>
+          </div>
+        </div>
+ -->
+
+
+
+
+      </div>
+    </div>
+
+
+{% endif %}
+
+
+
+
+
+<div class="row"></div>
+
+
+    <footer id="foot">
+        <br><br>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <p><b> About </b></p>
+                    <p><a href='{% url 'AboutUs' %}'>Our Mission</a></p>
+                    <p><a href='{% url 'Press' %}'>Press</a></p>
+                    <p><a href='{% url 'Partnership' %}'>Partnerships</a></p>
+                </div>
+
+                <div class="col-md-3">
+                    <p><b> Support </b></p>
+                    <p><a href='{% url 'FAQ' %}'>FAQ</a></p>
+                    <p><a href="{% url 'Contact' %}">Contact Us</a></p>
+                </div>
+
+                <div class="col-md-3">
+                    <p><b> Legal </b></p>
+                    <p><a href='{% url 'TermsAndCondition' %}'>Terms and Conditions</a></p>
+                    <p><a href='{% url 'PrivacyPolicy' %}'>Privacy Policy</a></p>
+                    <p><a href='{% url 'Disclaimer' %}'>Disclaimer</a></p>
+                </div>
+
+                <div class="col-md-3">
+                    <p><b> Community </b></p>
+                    <p class="text-muted">Blog</p>
+                    <p class="text-muted">Forum</p>
+                    <p class="text-muted">Affiliates</p>
+                </div>
+
+            </div>
+
+            <br>
+        </div>
+
+        <p align="center">&copy; Powered by Balance Tech Private Limited. UEN 201621074k</p>
+
+    </footer>
+
+
+
+
+{% endblock %}
+
+
+
+

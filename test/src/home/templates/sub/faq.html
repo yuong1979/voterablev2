@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+<style>
+
+{% block style %}
+
+{% endblock %}
+</style>
+
+
+
+
+
+{% block content %}
+
+
+
+<div class="container">
+
+<br>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title mainheaderstyle"><i class="fas fa-question-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;FAQ</div>
+
+      </div>
+    </div>
+
+    <br>
+
+
+
+<small>
+
+    <!-- Content -->
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12">
+
+                <!--Accordion wrapper-->
+                <div class="accordion md-accordion accordion-5" id="accordionEx5" role="tablist" aria-multiselectable="true">
+
+                    <!-- Accordion card -->
+                    <div class="card mb-4">
+
+                        <!-- Card header -->
+                        <div class="card-header p-0 z-depth-1" role="tab" id="heading1">
+                            <a data-toggle="collapse" data-parent="#accordionEx5" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                <h6 class="text-uppercase white-text mb-0 py-3 mt-1" style="margin: 15px">
+                                    How does voterable work?
+                                </h6>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapse1" class="collapse" role="tabpanel" aria-labelledby="heading1" data-parent="#accordionEx5">
+                            <div class="card-body rgba-black-light white-text z-depth-1">
+                                <p class="p-md-4 mb-0">Voterable is a system that consolidates tips for business. Users who contribute to the this platform can earn points by getting votes for their contribution. Those points they earned can be exchanged for free access. We are currently working on a reward system that rewards contributing members with a monetary incentive.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accordion card -->
+
+
+
+
+
+
+                    <!-- Accordion card -->
+                    <div class="card mb-4">
+
+                        <!-- Card header -->
+                        <div class="card-header p-0 z-depth-1" role="tab" id="heading1">
+                            <a data-toggle="collapse" data-parent="#accordionEx5" href="#collapse2" aria-expanded="true" aria-controls="collapse2">
+                                <h6 class="text-uppercase white-text mb-0 py-3 mt-1" style="margin: 15px">
+                                    How are reputation points calculated?
+                                </h6>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapse2" class="collapse" role="tabpanel" aria-labelledby="heading1" data-parent="#accordionEx5">
+                            <div class="card-body rgba-black-light white-text z-depth-1">
+                                <p class="p-md-4 mb-0">Your reputation points are calculated based on - (Number of times your tips are upvoted) minus (Number of times your tips are downvoted) plus (Number of times your comments/reviews are upvoted multiplied by 0.2).</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accordion card -->
+
+
+
+
+
+                    <!-- Accordion card -->
+                    <div class="card mb-4">
+
+                        <!-- Card header -->
+                        <div class="card-header p-0 z-depth-1" role="tab" id="heading2">
+                            <a data-toggle="collapse" data-parent="#accordionEx5" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                                <h6 class="text-uppercase white-text mb-0 py-3 mt-1" style="margin: 15px">
+                                    What can I do if I feel that my copyrighted work has been infringed?
+                                </h6>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapse3" class="collapse" role="tabpanel" aria-labelledby="heading2" data-parent="#accordionEx5">
+                            <div class="card-body rgba-black-light white-text z-depth-1">
+                                <p class="p-md-4 mb-0">If you have any concerns regarding copyright infringement please notify us at this <a href='{% url 'Contact' %}' class='btn-md btn-link' >link</a>. We will do the necessary investigations to confirm that you are the rightful and original owner of the information in the post. When you are verified, you have an option to either a)Removing the post that is in breach of the copyright or b)Take over as the owner of the post. As the owner of the original post, you will be eligible for the reputation points acquired by the post, which allows you free access and/or monetary rewards in the future. </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accordion card -->
+
+
+
+
+
+
+                    <!-- Accordion card -->
+                    <div class="card mb-4">
+
+                        <!-- Card header -->
+                        <div class="card-header p-0 z-depth-1" role="tab" id="heading3">
+                            <a data-toggle="collapse" data-parent="#accordionEx5" href="#collapse4" aria-expanded="true" aria-controls="collapse4">
+                                <h6 class="text-uppercase white-text mb-0 py-3 mt-1" style="margin: 15px">
+                                    Is the data collected protected and how is it used?
+                                </h6>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapse4" class="collapse" role="tabpanel" aria-labelledby="heading3" data-parent="#accordionEx5">
+                            <div class="card-body rgba-black-light white-text z-depth-1">
+                                <p class="p-md-4 mb-0">Voterable is in compliance with GDPR rules. Any data we collect are your about your usage are used for recommendations and rewards, they are strictly kept confidential and strictly for internal usage and not shared with any third parties. The data we collect are also kept in a safe and secure location.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accordion card -->
+
+
+
+
+                    <!-- Accordion card -->
+                    <div class="card mb-4">
+
+                        <!-- Card header -->
+                        <div class="card-header p-0 z-depth-1" role="tab" id="heading4">
+                            <a data-toggle="collapse" data-parent="#accordionEx5" href="#collapse5" aria-expanded="true" aria-controls="collapse5">
+                                <h6 class="text-uppercase white-text mb-0 py-3 mt-1" style="margin: 15px">
+                                    What is voterable for?
+                                </h6>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapse5" class="collapse" role="tabpanel" aria-labelledby="heading4" data-parent="#accordionEx5">
+                            <div class="card-body rgba-black-light white-text z-depth-1">
+                                <p class="p-md-4 mb-0">Voterable consolidates a snapshots of tips, tricks and hacks for businesses. It serves as a reference for people who are looking for new ways to improve their business performance and designed for to help the community share solutions or identify easier ways to achieve their goals in business.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accordion card -->
+
+                    <!-- Accordion card -->
+                    <div class="card mb-4">
+
+                        <!-- Card header -->
+                        <div class="card-header p-0 z-depth-1" role="tab" id="heading5">
+                            <a data-toggle="collapse" data-parent="#accordionEx5" href="#collapse6" aria-expanded="true" aria-controls="collapse6">
+                                <h6 class="text-uppercase white-text mb-0 py-3 mt-1" style="margin: 15px">
+                                    How do we contact you?
+                                </h6>
+                            </a>
+                        </div>
+
+                        <!-- Card body -->
+                        <div id="collapse6" class="collapse" role="tabpanel" aria-labelledby="heading5" data-parent="#accordionEx5">
+                            <div class="card-body rgba-black-light white-text z-depth-1">
+                                <p class="p-md-4 mb-0">Please reach out to us through hello@voterable.com or use this <a href='{% url 'Contact' %}' class='btn-md btn-link' >link</a>. We will get back to you as soon as we can.</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Accordion card -->
+                </div>
+                <!--/.Accordion wrapper-->
+
+            </div>
+        </div>
+
+    <!-- Content -->
+
+</small>
+
+</div>
+
+
+
+
+<!-- <p aria-hidden="true" data-toggle="modal" data-target="#ouibounce-modal">test modal</p> -->
+
+
+
+
+
+
+
+
+
+
+
+<br><br><br>
+
+
+
+
+
+
+{% include 'footer.html' %}
+
+
+
+
+
+
+
+{% endblock %}

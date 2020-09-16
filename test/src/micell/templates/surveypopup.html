@@ -1,0 +1,360 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+
+<style>
+
+
+.golden {
+    color:gold;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+
+
+textarea:focus {
+    border: 3px solid #555;
+}
+
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+{% if request.user.is_authenticated %}
+
+  {% if request.user.puser.member or request.user.puser.pmember %}
+    <div id="authenticated_user" style="display:none">Member</div>
+  {% else %}
+    <div id="authenticated_user" style="display:none">NotMember</div>
+  {% endif %}
+
+{% else %}
+
+<div id="authenticated_user" style="display:none">NotAuthenticated</div>
+
+{% endif %}
+
+
+
+
+
+
+
+
+  <!-- The survey Modal -->
+  <div class="modal fade" id="SurveyModal" style="margin:0% 1% 0% 1%; width:95%">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <div class="modal-header" style="background-color:#0A8082">
+          <h4 class="modal-title" style="color:white">Review us</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body center"><br>
+          <h4><b><i class="fas fa-heart" style="color:red">&nbsp;&nbsp;&nbsp;</i> Enjoying Voterable?</b></h4><br>
+          <h5>How would you rate our service</h5><br>
+
+            <div>
+            <div class="stars">
+              <i class="star fa fa-star fa-lg" title='Poor' data-value='1'></i>
+              <i class="star fa fa-star fa-lg" title='Fair' data-value='2'></i>
+              <i class="star fa fa-star fa-lg" title='Good' data-value='3'></i>
+              <i class="star fa fa-star fa-lg" title='Excellent' data-value='4'></i>
+              <i class="star fa fa-star fa-lg" title='WOW!!!' data-value='5'></i>
+            </div>
+
+            <br>
+                <div class='text-message'></div>
+            <br>
+
+                <div class="Complaint" style="display:none">
+                  Please let us know how we can improve.
+                </div>
+
+                <div class="Testimonial" style="display:none">
+                  Please tell us what you like about us.
+                </div>
+
+                <div class="Review_form" style="display:none"><br>
+
+                <textarea id="review" class="form-control" rows="3" data-action='show-spinner' style="font-weight: bold;"></textarea>
+
+                <input id="reviewsubmit" class='btn btn-sm btn-warning btn-block' user_id="{{ request.user }}" data-action='show-spinner' type="submit" value="Send" style="font-weight: bold; margin-top:20px">
+                </div>
+
+                <br>
+
+
+            <!-- import the older version of font awesome for this spinner because the latest version is not the coolest -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <i class="spin fa fa-spinner fa-spin" style="font-size:24px; display:none; margin:20px"></i>
+            <div class="spin" style="font-size:16px; display:none; ">Sending</div>
+
+
+            </div>
+
+
+        </div>
+      
+      </div>
+    </div> 
+  </div>
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+
+
+//taking the model from the context from model and converting into minutes and microseconds
+var surveypoptime = {{ surveypop }} * 60 * 1000
+
+//timer before the survey deploys
+var alerttime = 10000 //alert every 10 seconds
+var surveypopsec = (surveypoptime / alerttime * 10) - 10
+
+var surveytimer = () => {
+  var i = 0;
+  var intervalId = setInterval(() => {
+     if(i === surveypopsec){
+        clearInterval(intervalId);
+     }
+     i=i+10;
+     console.log(i + ' seconds to survey');
+  }, alerttime);
+}
+
+
+// if user is a member or non member (and authenticated ) when browsing and the localstorage indicates that the user has
+// been prompted with the survey (surveyload = false) then it will show the survey and set survey loaded to true
+// so that it will not show up again and overwhelm the user
+
+
+//determine when to show the popup. this shows popup 120 seconds into session
+window.onload= () => {
+
+  if (surveypoptime === 0) {
+    console.log("Survey is disabled")
+  } else {
+
+    var usertype = $("#authenticated_user").text()
+    // var usertype = document.getElementById("authenticated_user").innerText;
+
+      //only deploy survey if user is a paying member or non paying member(means user is authenticated)
+      if (usertype == "Member" || usertype == "NotMember" ) 
+      {
+        //only deploy survey if the user has not done or skipped the survey
+        if (sessionStorage.getItem('Surveyload') !== 'true')
+          {
+
+            //to time when the survey would show up - only used for troubleshooting
+            // surveytimer()
+            setTimeout(function(){ 
+              $("#SurveyModal").modal('show');
+            //showing the survey and saving the survey loaded status to true
+              sessionStorage.setItem('Surveyload','true'); 
+
+             },surveypoptime)
+
+          }
+      }
+
+
+  }
+
+};
+
+
+
+
+
+if (sessionStorage.getItem('Surveyload') !== 'true')
+{
+  console.log("Survey has not appeared yet")
+} else {
+  console.log("Survey has already appeared") 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// this is to change how many popups you want to show session
+// window.onload=function(){setTimeout(offerPopup,1000)};
+
+// //session storage ensures popup only shows once per session for each user
+// function offerPopup()
+//   {
+//   // if (sessionStorage.getItem('AnnouncementOnce') !== 'true')
+
+//   //   {
+
+//       if ($("#authenticated_user").text() == "NotAuthenticated") {
+//         //empty or signup now!
+//       } else if ($("#authenticated_user").text() == "NotMember") {
+
+//             $("#SurveyModal").modal('show');
+
+//       } else {
+
+//             $("#OfferModal").modal('show');
+//       }
+
+//     // sessionStorage.setItem('AnnouncementOnce','true'); 
+
+//     // }
+
+//   }
+
+
+
+
+
+
+
+
+
+$(".star").on('click', function(){
+
+  var starvalue = parseInt($(this).data('value'), 10)
+  var totalstars = $(".stars").children().length
+
+    for (i = 0; i < totalstars; i++) {
+      $(".star:eq("+i+")").removeClass('golden');
+    }
+
+    for (i = 0; i < starvalue; i++) {
+      $(".star:eq("+i+")").addClass('golden');
+      // $('.star').eq(i).addClass('golden');
+    }
+
+    // storing the value of the star so that it can be retrieved to be sent with the ajax later
+    $(".star").data("star_id", starvalue);
+
+    var msg = "";
+
+    if (starvalue > 2) {
+        msg = "Thanks! You rated this " + starvalue + " stars.";
+    }
+    else {
+        msg = "We will improve ourselves. You rated this " + starvalue + " stars.";
+    }
+    responseMessage(msg);
+
+
+    if (starvalue > 2) {
+
+      $(".Complaint").fadeOut(0);
+      $(".Testimonial").fadeIn(1000);
+      $(".Review_form").fadeIn(1000);
+
+    }
+    else {
+
+      $(".Testimonial").fadeOut(0);
+      $(".Complaint").fadeIn(1000);
+      $(".Review_form").fadeIn(1000);
+
+    }
+
+})
+
+
+
+const responseMessage = (msg) => {
+  // $('.success-box').fadeIn(2000);  
+  $('.text-message').html("<span>" + msg + "</span>");
+}
+
+
+
+  $("#reviewsubmit").click(function(){
+    // .attr() retrieves the class/id/name/type/value in this case its user_id
+    // var userid = $(this).attr('user_id');
+
+    // retrieving the value from the textarea
+    var reviewmsg = $('#review').val();
+
+    // retrieving the data from the data/session when the star value is selected
+    var starid = $(".star").data("star_id")
+
+    // show spinner
+      $(".Complaint").hide();    
+      $(".Testimonial").hide();
+      $(".Review_form").hide();
+      $(".spin").fadeIn(1000);
+
+    $.ajax({
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          'review_id': reviewmsg, 'star_id': starid,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        url: '/survey/',
+        success: (jsondata) => {
+
+          var message = "Thank you for your input!"
+          showFlashMessage(message)
+
+          $('#SurveyModal').modal("hide")
+        }
+    })
+
+  });
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+

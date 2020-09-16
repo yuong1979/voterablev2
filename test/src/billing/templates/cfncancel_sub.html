@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+<style>
+{% block style %}
+
+
+{% endblock %}
+</style>
+
+
+{% block head %}
+
+
+{% endblock %}
+
+
+
+
+
+{% block special %}
+
+
+
+
+
+
+    <div class="mainboxstyle">
+        <div class="mainheaderstyle"><i class="fas fa-window-close fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Subscription Cancellation</div><hr>
+
+        <div class="col-xs-12">
+
+          <h5><b>Hello! We are sad to see you leave... </b></h5>
+
+          <b><p>Please confirm that you want to cancel.</p></b>
+
+          <a href='{% url 'CancelSubscribe' %}' class='btn buttonspace btn-sm btn-danger' data-action='show-spinner' ><b>Confirm</b></a>
+
+          <a href='{% url 'Home' %}' class='btn buttonspace btn-sm btn-primary' data-action='show-spinner' ><b>No! Take me back!</b></a>
+
+          <br>
+          <small>*Please note that there will be no refunds for cancellations.</small>
+
+    	</div>
+    </div><!-- mainboxstyle -->
+
+
+
+
+
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,43 @@
+{% load static %}
+
+<div class="row">
+{% if fav_poll_types %}
+  <div class="col-sm-12" >
+    <div class="mainboxstyle">
+
+        <div class="mainheaderstyle"><i class="fas fa-magic fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Your Favorite Tips</div>
+
+    </div><!-- mainboxstyle -->
+  </div>
+
+  <div class="col-sm-12">
+    {% for poll_type in fav_poll_types %}
+      <div class="greyboxstyle">
+          <a href="/polls/?favorite={{ poll_type.slug }}"><b style="line-height: 200%;">{{ poll_type.title }}</b></a>
+      </div>
+    {% endfor %}
+  </div>
+
+      <!--                   {% if poll_type.image %}
+                  <div class="ppic">
+                  <img src="{{ poll_type.image.url }}" class="img-rounded imgtn">
+                  </div>
+                  {% else %}
+                  <div class="ppic">
+                  <img src="{% static 'img/NoImage.jpg' %}" class="img-rounded imgtn">
+                  </div>            
+                  {% endif %} -->
+
+<!--                     <b><a href="/polls/?favorite={{ poll_type.slug }}">{{ poll_type.title }}</a></b> -->
+
+<!--                       {% if poll_type.freepoll == True %}
+                      &nbsp;&nbsp;<i class="allfontcolor fas fa-check-circle fa-1x"></i>
+                      {% endif %} -->
+
+<!--                     adding free poll here if need be -->
+<!--                       {% if poll_type.freepoll == True %}
+                      &nbsp;&nbsp;<i class="allfontcolor fas fa-check-circle fa-1x"></i><b class="allfontcolor"></b>
+                      {% endif %} -->
+
+{% endif %}
+</div>

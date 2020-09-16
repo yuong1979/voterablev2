@@ -1,0 +1,508 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+<style>
+{% block style %}
+
+
+
+.test {
+  background-color: yellow;
+}
+
+
+
+
+{% endblock %}
+</style>
+
+
+
+
+{% block pwa %}
+
+
+<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase-messaging.js"></script>
+
+<script type="text/javascript">
+
+    // Initialize Firebase
+      var config = {
+        apiKey: "{{API_KEY}}",
+        messagingSenderId: "{{SENDER_ID}}"
+      };
+      firebase.initializeApp(config);
+      const messaging = firebase.messaging();
+
+    //go to application in browser control to clear storage or site data to clear all storage if you want to restart
+    if('serviceWorker' in navigator){
+      // registering the service worker here - service worker stores part of your web app on the browser so the whole app does not need to refresh and this improves user experience also enables push notification
+        navigator.serviceWorker.register('/serviceworker.js',{
+            scope: '.'
+        }).then(function(registration){
+            messaging.useServiceWorker(registration);
+            //successfully registration loads some of the web app into the browser storage
+            console.log('Registration successful with scope ',registration.scope);
+        },function(err){
+            console.log('service worker not registered ',err);
+        });
+    }
+
+
+
+
+
+
+
+
+// var refid = "{{referralid}}";
+
+// //check if refid is part of the url
+// if (!refid){
+//   console.log('no refid in url')
+  
+//   //if refid is not part of the url - check to see if can retrieve it from the sessionstorage
+//   if (sessionStorage.getItem('Refid') == "undefined"){
+//     //user does not have a ref id
+//     console.log("user does not have ref id")
+
+//   } else {
+//     var refid = sessionStorage.getItem('Refid')
+//   }
+
+// } else {
+
+// //the user is using a ref url to sign in so store that in sessionstorage so when he signs up he is given referral bonus
+// // var refid = {{referralid}}
+// sessionStorage.setItem('Refid',refid)
+// }
+
+// console.log(sessionStorage.getItem('Refid'))
+
+
+
+
+
+
+
+
+
+
+if (sessionStorage.getItem('Notification') !== 'true')
+{
+  console.log("Request for Notification has not yet been displayed")
+} else {
+  console.log("Request for Notification has already been displayed") 
+}
+
+
+
+
+
+// //printing the user has already been prompted for request for permission for notification updates
+// console.log("Notification loaded:" + sessionStorage.getItem('Notification'))
+
+
+
+
+
+
+// request for permission to do notifications - only request when notification is not inside sessionstorage - ensures popup only shows once per session for each user
+
+  if (sessionStorage.getItem('Notification') !== 'true')
+    {
+
+    //if user is signed in then register_token is true else it is false
+    {% if register_token %}
+
+            function getCookieValue(a) {
+                    var b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
+                    return b ? b.pop() : '';
+                }
+
+            messaging
+                    // requesting for permission to do notifications
+                    .requestPermission()
+                    .then(function () {
+                        // user has allowed notification
+                        sessionStorage.setItem('Notification','true');
+                        console.log("Notification permission granted.");
+                        // get the token in the form of promise
+                        return messaging.getToken()
+                    })
+                    .then(function(token) {
+                        // adding the token to our database
+                        // console.log(token);
+                        var $crf_token = getCookieValue("csrftoken");
+                        // creating a token for the agreed user for notification sending
+                        // by going to DeviceTokenCreateView firebasenotification:view to create a new token in database
+                        $.ajax({
+                                type: "POST",
+                                url: "/devicetoken/add/",
+                                data:{
+                                            "user_id": {{userid}},
+                                            "device_token": token,
+                                       },
+                                headers:{"X-CSRFToken": $crf_token},
+                                success: function (data,status) {
+                                    // console.log("Data: " + data + "\nStatus: " + status);
+                                    console.log("notification subscription successful")
+                                    //adding token to database successful
+                                },
+                                error: function (err) {
+                                    //user already has signed in already
+                                    console.log("Error: " + err.responseText)
+                                }
+                            });
+                    })
+                    .catch(function (err) {
+                      //if users refuse or block popup requesting notification
+                        console.log("Unable to get permission to notify.", err);
+                      //if users refuse notification stop for this session, only request when user is on next session
+                        sessionStorage.setItem('Notification','true');
+                    });
+
+
+                messaging.onMessage(function(payload) {
+                    console.log("Message received. ", payload);
+                });
+    {% endif %}
+
+    }
+
+
+
+
+
+
+
+
+
+
+ </script>
+{% endblock %}
+
+
+
+
+  {% block special %}
+
+
+
+
+
+
+<div class="accordion" id="accordionExample">
+
+
+    <div class="card-header" id="headingOne" style="background-color: grey;">
+      <h2 class="mb-0">
+        <button class="btn btn-link" style="color:white" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          <i class="fas fa-search fa-1x"></i> <b>Browse Topics</b> 
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+<!--     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample"> -->
+
+
+      {% include "tag_search.html" %}
+
+
+    </div>
+
+
+
+
+    <div class="card-header" id="headingThree" style="background-color: grey;">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" style="color:white" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          <i class="fa fa-star fa-1x"></i> <b>Your Favorites</b>
+        </button>
+      </h2>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+
+        <br>
+        {% include "favorite_topics.html" %}
+
+        <br>
+        {% include "favorite_tips.html" %}
+
+        <br>
+        {% include "created_tips.html" %}
+
+    </div>
+
+
+
+
+
+    <div class="card-header" id="headingTwo" style="background-color: grey;">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" style="color:white" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          <i class="fas fa-user-circle fa-1x"></i> <b>Profile and Settings</b>
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+
+      {% include "profile.html" %}
+      <br>
+      {% include "settings.html" %}
+      <br>
+
+      {% comment %}
+
+      {% include "userstats.html" %}
+      <br>
+      {% endcomment %}
+
+    </div>
+
+
+
+
+
+
+</div><!-- accordionExample -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {% include 'footermenu.html' %}
+
+
+
+
+
+
+{% comment %}
+{% include 'footer.html' %}
+{% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+                {% if not request.user.puser and not request.get_full_path == "/puser/add/" and not request.get_full_path == "/termsandconditions/" and not request.get_full_path == "/privacypolicy/" and not request.get_full_path == "/disclaimer/" %}
+                <br>
+
+                <div class="panel panel-default">
+                  <div class="panel-heading"><b>Creating your profile</b></div>
+                  <div class="panel-body">
+                    <a href='{% url "PUserCreate" %}' data-action='show-spinner' class='buttonspace btn-sm btn-success btn-block' ><b>Create your profile</b></a>
+                  </div>
+
+                </div>
+
+                {% else %}
+
+                {% endif %}
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// For toggling subscription to newsletter
+  $(function() {
+
+    $('#toggle-event').change(function() {
+    // $('#console-event').html('Toggle: ' + $(this).prop('checked'))
+    // console.log($(this).prop('checked'))
+    event.preventDefault();
+    var urequest_id = $(this).attr("urequest_id");
+
+      $.ajax({
+        dataType: 'json',
+        type: 'POST',
+        data: 'urequest_id=' + urequest_id,
+        url: '/subnews/',
+        success: function(jsondata) {
+
+        if (jsondata.result=="Subscribed"){
+          var message = "Notifications On"
+          // $('#toggle-event').bootstrapToggle('off')
+        }else{
+          var message = "Notifications Off"
+          // $('#toggle-event').bootstrapToggle('on')
+        }
+        showFlashMessage(message)
+            if (jsondata.msg === "login_requred") {
+                // alert('login required!')
+                window.location.replace("/accounts/login/");
+            } else {
+                // $(fav_id).css( "color", color );
+
+            }
+        }
+      });
+    })
+  })
+
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+
+
+
+
+function set_ops() {
+
+
+  $(".testing").off( "click" ).click(function(e){
+
+    event.preventDefault();
+
+
+    var tag_id = "testing";
+
+      $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        data: 'data=' + tag_id,
+        url: '/runops/success/',
+        success: function(jsondata) {
+
+
+          var tester = jsondata.result
+
+          showFlashMessage(tester)
+
+        }
+      });
+
+  });
+
+}
+
+
+set_ops()
+
+
+
+
+// function Test() {
+//     var x = document.getElementById("myDIV");
+//     if (x.style.display === "none") {
+//         x.style.display = "block";
+//     } else {
+//         x.style.display = "none";
+//     }
+// }
+
+
+
+</script>
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+<!-- <div class="panel panel-default">
+<div class="panel-body">
+
+
+            <h4>
+            <span class="label label-default">Hottest Tips and Tricks</span>
+            </h4>
+
+            <div class="container">
+            <ul class="list-group col-xs-12 col-sm-9">
+              {% for i in polls %}
+              <li class="list-group-item">
+                
+                <span class="badge"> {{ i.vote_count }} Votes </span><a href="{{ i.get_url }}"><b>{{ i|truncatechars:50 }}</b></a>
+
+              </li>
+              {% endfor %}
+            </ul>
+            </div>
+
+            <h4>
+            <span class="label label-default">Hottest Tricksters and Tipsters</span>
+            </h4>
+
+            <div class="container">
+
+            <ul class="list-group col-xs-12 col-sm-9">
+              {% for i in pollsters %}
+              <li class="list-group-item">
+                <span class="badge"> {{ i.rank }} </span>
+                <span class="badge"> {{ i.score }} </span>
+
+                <b>{{ i|truncatechars:20 }}</b>
+              </li>
+              {% endfor %}
+            </ul>
+
+            </div>
+
+
+    <div class="row"></div>
+
+</div>
+</div> -->
+
+
+<!-- </div>
+ -->

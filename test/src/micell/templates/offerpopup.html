@@ -1,0 +1,178 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+
+<style>
+
+
+.golden {
+    color:gold;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
+
+
+textarea:focus {
+    border: 3px solid #555;
+}
+
+
+@font-face{
+ font-family:'digital-clock-font';
+ src: url('put_the_location_to_your_font.ttf or .otf');
+}
+
+
+i.circle {
+  display: inline-block;
+  border-radius: 100px;
+  border-style: solid;
+  border-width: 6px;
+  box-shadow: 0px 0px 2px #888;
+  padding: 0.6em 0.6em;
+
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+{% if request.user.is_authenticated %}
+
+  {% if request.user.puser.member or request.user.puser.pmember %}
+    <div id="authenticated_user" style="display:none">Member</div>
+  {% else %}
+    <div id="authenticated_user" style="display:none">NotMember</div>
+  {% endif %}
+
+{% else %}
+
+<div id="authenticated_user" style="display:none">NotAuthenticated</div>
+
+{% endif %}
+
+
+
+
+
+  <!-- The Offer Modal -->
+  <div class="modal fade" id="OfferModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <div class="modal-header" style="background-color:#0A8082">
+          <h4 class="modal-title" style="color:white">Half Price off!</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <div class="modal-body center">
+
+          <br><i class="circle fas fa-shopping-cart fa-2x" style="color:#0A8082"></i><br><br>
+
+          <h4>Subscribe right now to get half price off!</h4><br>
+          
+          <h5>Deal ends in</h5>
+
+          <h2 id="timer" style="font-family:'Courier New';background-color:lightgrey; padding:20px; font-size: xx-large; border-radius: 5px; font-weight: bold;"></h2>
+
+          <a href='{% url 'SelectPlan' %}' class='buttonspace btn btn-primary' ><b>Subscribe now</b></a>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+<script>
+
+
+
+
+
+
+
+window.onload=function(){setTimeout(offerPopup,1000)};
+
+
+function offerPopup()
+  {
+      $("#OfferModal").modal('show');
+  }
+
+
+// doing the timer countdown
+if( $('#timer').length ) //if #timer selector exists then activate
+{
+
+// Set the date we're counting down to
+var countDownDate = new Date("Jan 31, 2019 00:00:00").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get todays date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="timer"
+  document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+
+  // If the count down is finished, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("timer").innerHTML = "EXPIRED";
+  }
+}, 1000);
+
+}
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+

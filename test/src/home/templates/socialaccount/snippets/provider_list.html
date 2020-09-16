@@ -1,0 +1,89 @@
+{% load socialaccount %}
+
+{% get_providers as socialaccount_providers %}
+
+<style>
+.goog {
+	background-color:#DC143C;
+	color:#FFF;
+}
+.face {
+	background-color:#4682B4;
+	color:#FFF;
+}
+/*.inst {
+  	background: #f09433; 
+	background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+	background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+	background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+	color:#FFF;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 )
+}*/
+
+</style>
+
+
+
+<!-- <i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i>
+<i class="fa fa-facebook-f fa-lg" aria-hidden="true"></i>
+<i class="fa fa-facebook fa-lg" aria-hidden="true"></i>
+<i class="fa fa-facebook-square fa-lg" aria-hidden="true"></i>
+
+<i class="fa fa-google fa-lg" aria-hidden="true"></i>
+<i class="fa fa-google-plus fa-lg" aria-hidden="true"></i>
+<i class="fa fa-instagram fa-lg" aria-hidden="true"></i> -->
+
+
+<!-- <div class='col-sm-6 col-sm-offset-3'> -->
+
+<!-- google -->
+<!-- 	{% if socialaccount_providers.0.id == "openid" %}
+		{% for brand in provider.get_brands %}
+			<li>
+			  <a title="{{brand.name}}" 
+			     class="socialaccount_provider {{socialaccount_providers.0.id}} {{brand.id}}" 
+			     href="{% provider_login_url socialaccount_providers.0.id openid=brand.openid_url process=process %}"
+			     >{{brand.name}}</a>
+			</li>
+		{% endfor %}
+	{% endif %} -->
+
+	  <a title="{{socialaccount_providers.0.name}}" class="socialaccount_provider {{socialaccount_providers.0.id}} class='buttonspace btn btn-block goog" id="okbtn"
+	     href="{% provider_login_url socialaccount_providers.0.id process=process scope=scope auth_params=auth_params %}"><b>Sign in with {{socialaccount_providers.0.name}}</b></a><br>
+
+<!-- facebook -->
+<!-- 	{% if socialaccount_providers.1.id == "openid" %}
+		{% for brand in provider.get_brands %}
+			<li>
+			  <a title="{{brand.name}}" 
+			     class="socialaccount_provider {{socialaccount_providers.1.id}} {{brand.id}}" 
+			     href="{% provider_login_url socialaccount_providers.1.id openid=brand.openid_url process=process %}"
+			     >{{brand.name}}</a>
+			</li>
+		{% endfor %}
+	{% endif %} -->
+
+	  <a title="{{socialaccount_providers.1.name}}" class="socialaccount_provider {{socialaccount_providers.1.id}} class='buttonspace btn btn-block face" id="okbtn"
+	     href="{% provider_login_url socialaccount_providers.1.id process=process scope=scope auth_params=auth_params %}"><b>Sign in with {{socialaccount_providers.1.name}}</b></a><br>
+
+<!-- instagram -->
+<!-- 	{% if socialaccount_providers.2.id == "openid" %}
+		{% for brand in provider.get_brands %}
+			<li>
+			  <a title="{{brand.name}}" 
+			     class="socialaccount_provider {{socialaccount_providers.2.id}} {{brand.id}}" 
+			     href="{% provider_login_url socialaccount_providers.2.id openid=brand.openid_url process=process %}"
+			     >{{brand.name}}</a>
+			</li>
+		{% endfor %}
+	{% endif %}
+	  <a title="{{socialaccount_providers.2.name}}" class="socialaccount_provider {{socialaccount_providers.2.id}} class='buttonspace btn btn-block inst" 
+	     href="{% provider_login_url socialaccount_providers.2.id process=process scope=scope auth_params=auth_params %}">{{socialaccount_providers.2.name}}</a><br> -->
+
+
+
+
+<!-- </div> -->
+
+
+

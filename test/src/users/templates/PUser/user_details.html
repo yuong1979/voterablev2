@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+<style>
+{% block style %}
+
+
+
+
+
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+
+<div class="maincontainerstyle">
+
+    <div class="mainboxstyle">
+
+        <div class="mainheaderstyle"><i class="fas fa-user-circle fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;User Details</div><hr>
+        <div class="container">
+        <div class="row">
+
+        <div class="col-xs-4 col-sm-3" style="float:right;"><br>
+          {% if user.image %}
+            <img class ="imgdetail" src="{{ user.image.url }}" width="100px" height="100px">
+          {% else %}
+            <img class ="imgdetail" src="{% static 'img/anonymous.jpg' %}" class="img-rounded imgtn">
+          {% endif %}
+          <br>
+        </div>
+
+        <div class="col-xs-8 col-sm-9">
+          
+            <div class="fontstyle110" style="margin-top:10px">
+            {% if user.user.puser.name %}
+            {{ user.user.puser.name }}
+            {% else %}
+            {{ user.user }}
+            {% endif %}
+            </div>
+
+            <div class="fontstyle90" style="color:grey; margin-top:10px">
+                {% if user.description %}
+                  {{ user.description }}
+                {% else %}
+                  Description
+                {% endif %}
+            </div>
+
+        </div>
+
+        </div><!-- row -->
+        </div><!-- container -->
+
+        <br>
+
+
+    </div><!-- mainboxstyle -->
+
+{% comment %}
+
+    <div class="mainboxstyle">
+
+        <div class="card-title mainheaderstyle"><i class="fas fa-trophy fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;User Impact</div>
+
+
+        <div class="row">
+
+
+          <div class="col-12" style="padding:10px;">
+
+            <ul class="list-group">
+
+              <li class="list-group-item">
+                <b class="fontstyle90">Reputation Points:</b>
+                <span class="badge badge-pill badgestyle badge-secondary" style="float:right"> {{points}} </span>
+              </li>
+
+              <li class="list-group-item">
+                <b class="fontstyle90">Rank:</b>
+                <span class="badge badge-pill badgestyle badge-secondary" style="float:right"> {{rank}} </span>
+              </li>
+
+              <li class="list-group-item">
+                <b class="fontstyle90">Tips created:</b>
+                <span class="badge badge-pill badgestyle badge-secondary" style="float:right"> {{ pollsECreated }} </span>
+              </li>
+
+              <li class="list-group-item">
+                <b class="fontstyle90">Times tips were viewed:</b>
+                <span class="badge badge-pill badgestyle badge-secondary" style="float:right"> {{ votes_poll_entries_views }} </span>
+              </li>
+
+              <li class="list-group-item">
+                <b class="fontstyle90">Tip Upvotes:</b>
+                <span class="badge badge-pill badgestyle badge-secondary" style="float:right"> {{ upvotes }} </span>
+              </li>
+
+              <li class="list-group-item">
+                <b class="fontstyle90">Comment Upvotes:</b>
+                <span class="badge badge-pill badgestyle badge-secondary" style="float:right"> {{ comment_likes }} </span>
+              </li>
+
+            </ul>
+            
+          </div>
+
+
+        </div>
+
+    </div><!-- mainboxstyle -->
+
+{% endcomment %}
+
+
+
+
+
+{% if pollcreatelist %}
+
+    <div class="mainboxstyle">
+
+        <div class="mainheaderstyle"><i class="fas fa-edit fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;User Created Tips</div><hr>
+
+     
+          {% for i in pollcreatelist %}
+            <div class="greyboxstyle col-12 col-lg-6">
+            <div class="row" style="margin-right: 0px">
+
+              <div class="col-12 col-lg-12" style="padding-left: 10px;">
+                <a href="/polls/?createduser={{ i.slug }}"><b style="line-height: 200%;">{{ i.title }}</b></a>
+              </div>
+
+            </div>
+            </div>
+          {% endfor %}
+
+    </div><!-- mainboxstyle -->
+
+{% endif %}
+
+
+
+
+</div> <!-- maincontainerstyle -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+

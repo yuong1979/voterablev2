@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+<style>
+{% block style %}
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+
+<div class="maincontainerstyle">
+
+    <div class="mainboxstyle">
+ 
+
+<!-- http://localhost:8000/tagtopiclist/ -->     
+
+<small>
+
+{% if user.is_staff %}
+
+<b>Video analysis</b>
+<br><br>
+
+  {% for i in pitems   %}
+
+    <a href="/polls/{{ i.id }}">{{i}}</a><br>
+
+  {% endfor %}
+
+{% endif %}
+</small>
+
+
+    </div><!-- mainboxstyle -->
+
+</div> <!-- /maincontainerstyle -->
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+{% block jquery %}
+
+
+
+<!-- doing a blockquote on a script function enables the script to be viewed in color but blocks the script code from taking effect -->
+
+{#  <script>#}
+
+
+
+
+
+
+{#  </script>#}
+{% endblock %}

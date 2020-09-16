@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+<style>
+{% block style %}
+/*.jumbotron {
+	background-color:#155A1E;
+	color:#FFF;
+
+}*/
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+<br>
+
+<div class="container">
+  <small>
+
+
+<!--     <div class="col-xs-10 col-xs-offset-1"> -->
+
+          <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title"><b>User Details</b></h4></div>
+          <div class="panel-body">
+
+
+            <h4><span class="label label-default">User Personel Details</span></h4>
+
+              <div class="col-xs-12 col-sm-6">
+                <div class="panel-body">
+
+
+                  <p>
+                    <b>User Name:</b>
+                    {% if user.name %}
+                      {{ user.name }}
+                    {% else %}
+
+                    {% endif %}
+                  </p>
+
+                  <p>
+                    <b>About User:</b> 
+                    {% if user.description %}
+                      {{ user.description }}
+                    {% else %}
+
+                    {% endif %}
+                  </p>
+
+
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-6">
+                <div class="panel-body">
+
+                  <br>
+                  {% if user.image %}
+                    <img src="{{ user.image.url }}" width="100px" height="100px">
+                  {% else %}
+<!--                     <img src="{% static 'img/anonymous.jpg' %}" class="img-rounded imgtn"> -->
+                  {% endif %}
+
+                </div>
+              </div>
+
+
+
+          <div class="row"></div>
+
+          <hr>
+
+
+
+          <h4><span class="label label-default">User Impact</span></h4>
+
+<!--             <div class="col-xs-12 col-sm-6">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span class="badge"> {{points}} </span>Points:
+              </li>
+              <li class="list-group-item">
+                <span class="badge"> {{rank}} </span>Rank:
+              </li>
+            </ul>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span class="badge"> {{pollsCreated}} </span>Polls created:
+              </li>
+              <li class="list-group-item">
+                <span class="badge"> {{pollsECreated}} </span>Polls entries created:
+              </li>
+            </ul>
+            </div>
+
+            <div class="col-xs-12 col-sm-12">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span class="badge"> {{ votes_poll_entries_views }} </span>Views - for poll entries:
+              </li>
+              <li class="list-group-item">
+                <span class="badge"> {{ votes_poll_entries }} </span>Votes - for poll entries:
+              </li>
+            </ul>
+            </div> -->
+
+
+            <div class="col-xs-12 col-sm-6">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span class="badge"> {{points}} </span>Points:
+              </li>
+              <li class="list-group-item">
+                <span class="badge"> {{rank}} </span>Rank:
+              </li>
+              <li class="list-group-item">
+                <span class="badge"> {{pollsECreated}} </span>Polls entries created:
+              </li>
+              <li class="list-group-item">
+                <span class="badge"> {{ votes_poll_entries_views }} </span>Views - for poll entries:
+              </li>
+              <li class="list-group-item">
+                <span class="badge"> {{ votes_poll_entries }} </span>Votes - for poll entries:
+              </li>
+
+            </div>
+
+
+          <br>
+
+
+          </div>
+
+          </div>
+
+<!--     </div> -->
+  </small>
+
+
+</div>
+
+
+
+{% endblock %}
+
+

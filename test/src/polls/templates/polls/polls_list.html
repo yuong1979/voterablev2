@@ -1,0 +1,911 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags poll_extras %}
+{% load static %}
+
+{% block meta %}
+     <meta name="title" content={{PollType_obj}}>
+     <meta name="description" content={{PollType_obj.description}}>
+     <meta name="keywords" content={% for i in Tags %} {{ i }}, {% endfor %}>
+ {% endblock %}
+
+{{Tags}}
+
+<style>
+{% block style %}
+
+.floatarrow{
+  position:fixed;
+  width:40px;
+  height:40px;
+  bottom:25px;
+  right:30px;
+/*  background-color:#06C;
+  color:#FFF;*/
+  border-radius:50px;
+  text-align:center;
+/*  box-shadow: 3px 3px 3px #999;*/
+}
+
+
+{% endblock %}
+</style>
+
+
+
+
+
+{% block content %}
+
+
+
+
+
+
+{% include 'scrollbar.html' %} <!-- for users to estimate how many on the list -->
+
+
+
+<!-- <div class="top-container">
+  <h1>Scroll Down</h1>
+  <p>Scroll down to see the sticky effect.</p>
+</div> -->
+
+
+
+
+
+
+    <div class="mainboxstyle">
+
+
+
+            {% if listtitle == "Favorite" or listtitle == "Created"  or listtitle == "Createduser" %}
+
+
+              <div style="float:right" id="parent">
+                <div class="child" style="text-align:center;">
+                  <a href='/polls/?type={{ BackPtype }}&sort=Date'><b><i class="fas fa-step-backward fa-1x iconshape"></i></b></a>
+                </div>
+                <div class="child icontext">Tip List</div>
+              </div>
+
+
+            {% else %}
+
+              {% comment %} 
+              <!-- {% if user_authorised == True %} -->
+              {% endcomment %}
+
+              {% if request.user.is_staff %}
+
+              <div style="float:right" id="parent">
+                <div class="child" style="text-align:center;">
+                  <a href='{{ PollType_obj.get_update }}'><b><i class="fas fa-edit fa-1x iconshape"></i></b></a>
+                </div>
+                <div class="child icontext">Edit</div>
+              </div>
+
+
+              <div style="float:right" id="parent">
+                <div class="child" style="text-align:center;">
+                  <a href='/adminpolls/?type={{ BackPtype }}'><b><i class="fas fa-eye fa-1x iconshape"></i></b></a>
+                </div>
+                <div class="child icontext">Admin</div>
+              </div>
+
+              {% endif %}
+
+              <div style="float:right" id="parent">
+                <div class="child" style="text-align:center;">
+                  <a href='#' data-toggle="modal" data-target="#ShareModal"><b><i class="fa fa-share-alt fa-1x iconshape" aria-hidden="true"></i></b></a>
+                </div>
+                <div class="child icontext">Share</div>
+              </div>
+
+
+            {% endif %}
+
+
+
+        <div class="mainheaderstyle"><i class="fas fa-list-ol fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;{{ title }}</div>
+
+    </div>
+
+
+    <div class="mainboxstyle">
+
+
+            <div class="col-12 col-lg-6 fontstyle110" style="padding:0px;">
+
+              <div class="row">
+
+              {% if listtitle == "All" %}
+              <div class="pull-left" style="margin-left:25px; margin-bottom: 10px">
+                <span class="badge badge-pill badgestyle badge-secondary"> {{ PollType_obj.viewpolltypeunique.ecount }} Tips </span> 
+              </div>
+              {% endif %}
+
+              </div>
+
+              <div style="padding-left:10px">
+                <p><b style="line-height: 200%; ">{{ PollType_obj }}</b></p>
+              </div>
+
+            </div>
+
+
+        <hr>
+
+
+    <div class="tagsbox">
+      {% if Tags %}
+        {% for i in Tags %}
+          {% if i.title != "" %}
+            <a href='{{i.get_absolute_url}}' class="btn btn-primary tagstyle">{{ i }} ({{i.counter}})</a>&nbsp;&nbsp;
+          {% endif %}
+        {% endfor %}
+      {% else %}
+      <br>
+        <small><b>There are no entries yet.</b></small>
+      <br>
+      {% endif %}
+    </div><!-- tagsbox -->
+
+
+    </div> <!-- mainboxstyle -->
+
+
+{% if listtitle == "All" %}
+
+    <div class="" style="font-weight: bold; margin:5px">
+
+      {% if FullControl == True %}
+
+          <form action='{% url 'polls_detail_create' %}' method='GET'  style="display: inline-block;">
+            <input type="hidden" name="type_slug" value="{{ type_slug }}">
+            <input type="submit" class='btn buttonspace btn-sm btn-primary' value="Add New Tip">
+          </form>
+
+      {% else %}
+
+<!--         {% if Addpost == True %}
+          <form action='{% url 'polls_detail_create' %}' method='GET'  style="display: inline-block;">
+            <input type="hidden" name="type_slug" value="{{ type_slug }}">
+            <input type="submit" class='btn buttonspace btn-sm btn-primary' value="Add New Tip">
+          </form>
+        {% else %}
+          <small>Please post again in another {{ Hours }} Hours and {{ Minutes }} Minutes</small>
+        {% endif %} -->
+
+      {% endif %}
+
+    </div>
+
+    <div class="container fontstyle100" >
+
+        {% if request.GET.sort == 'Score' %}
+        <a href="/polls/?type={{ PollType_obj.slug }}&sort=Score" class='btn btn-link btn-sm fontstyle90 disabled'>Popular</a>|
+        <a href="/polls/?type={{ PollType_obj.slug }}&sort=Date" class='btn btn-link btn-sm fontstyle90'>Latest</a>
+        {% else %}
+        <a href="/polls/?type={{ PollType_obj.slug }}&sort=Score" class='btn btn-link btn-sm fontstyle90'>Popular</a>|
+        <a href="/polls/?type={{ PollType_obj.slug }}&sort=Date" class='btn btn-link btn-sm fontstyle90 disabled'>Latest</a>
+        {% endif %}
+
+    </div><!-- container fontstyle100-->
+
+
+{% endif %}
+
+
+
+<!-- {% if listtitle == "Favorite" or listtitle == "Created"  or listtitle == "Createduser" %}
+
+    <a class="fontstyle90" style="margin:18px" href='/polls/?type={{ BackPtype }}&sort=Date' class='btn-link' >
+      <i class="fas fa-list-ol fa-1x" aria-hidden="true"></i>&nbsp;View Complete Tip List
+    </a>
+
+{% endif %} -->
+
+
+          
+      {% if object_list %}
+
+        <div class="infinite-container">
+
+          {% for poll in polls %}
+
+            <div class="infinite-item mainboxstyle">
+
+                <div class="row row-tip">
+
+<!--                       <button class="test" id="{{ poll.id }}">{{ poll.id }}</button> -->
+
+                  <div class="col-sm-12 fontstyle100 pollcontainer" style="margin-left:12px">
+                      <b><span>{{ page_obj.number|total_count:paginator.per_page|counter_for_pagination:forloop.counter }}.</span>
+                      {{ poll.title|safe }}</b><p class="timestampstyle">{{ poll.date|timesince }} ago</p>
+
+
+                    <hr class="row-tip-linebreak" style="margin:10px">
+                  </div>
+
+                  {% if poll.image or poll.imageurl %}
+                  <div class="col-xs-12 col-sm-4 row-tip-thumb" style="margin-left:12px">
+                      {% if poll.image %}
+                        <img src="{{ poll.image.url }}" class="img-rounded polllistimg">
+                      {% else %}
+                        <img src="{{ poll.imageurl }}" class="img-rounded polllistimg">
+                      {% endif %}
+                      <br><br>
+                  </div>
+                  {% endif %}
+
+<!--                   had a div class row removed here because it was causing scrolling issues -->
+
+                  <div class="col-xs-12 col-sm-12 contentstyle row-tip-body" style="float:left;"> <!-- changed sm-7 to sm-12 to get the words to flush with all -->
+
+                    <div id="poll-space-{{ poll.id }}"></div><!-- I changed this from p to div if I face issues to change -->
+
+                      {% if poll.description %}
+
+                          <span class="tip-sliced">
+                          <div class="pollcontainer">
+                          {{ poll.description|striptags_except:"a, p, ol, ul, li, i"|safe|truncatechars_html:"150" }}
+                          </div>
+                          </span>
+
+                          {% if poll.description|striptags_except:"a, p, ol, ul, li, i"|safe|length < 150 %}
+                          <div class="pollcontainer">
+
+                            {% if poll.textatt %}<p class="creditstyle"> Credits: {{ poll.textatt }}</p>{% endif %}
+
+                            {% if Subscribedp == True or poll.user_submit == request.user or free == True %}
+
+                            <div class="fontstyle85" id="poll-badge-{{ poll.id }}" style="margin:2px; margin-top:14px; white-space:nowrap">
+                        <!--       <b id="poll-score-{{ poll.id }}">{{ poll.score }} </b> -->
+                                <span id="pvote-{{ poll.id }}">{{ poll.posi }}</span> <font>Upvotes</font>
+                            </div>
+
+                          </div>
+                            <hr>
+
+                            {% include 'poll_features.html' %}
+
+                            {% endif %}
+
+                          {% else %}
+
+<!--                             <hr style="margin-bottom: 0px; margin-top: 0px; visibility: hidden;"> -->
+                            <div class="pollcontainer">
+                            <button class="btn btn-link poll-button readmorebtn pull-right" style="margin: -2% 0% -10% 0%" usercreate="{{poll.user_submit}}" poll_id="{{ poll.id }}">Read More</button>
+                            </div>
+<!--                             <hr style="margin-bottom: 0px; margin-top: 0px; visibility: hidden;"> -->
+
+                            <span class="poll-collapse d-none">
+                            <div class="pollcontainer">
+                            {{ poll.description|striptags_except:"iframe, a, p, ol, ul, li, i, img"|safe }}
+
+                            {% if poll.textatt %}<p class="creditstyle"> Credits: {{ poll.textatt }}</p>{% endif %}
+
+                            <div class="fontstyle85" id="poll-badge-{{ poll.id }}" style="margin:2px; margin-top:14px; white-space:nowrap">
+                        <!--       <b id="poll-score-{{ poll.id }}">{{ poll.score }} </b> -->
+                                <span id="pvote-{{ poll.id }}">{{ poll.posi }}</span> <font>Upvotes</font>
+                            </div>
+                            </div>
+
+                            <hr>
+
+                            {% include 'poll_features.html' %}
+
+                            </span>
+                          {% endif %}
+
+
+                      {% endif %} <!-- poll description -->
+
+                  </div><!-- contentstyle -->
+                  
+
+                </div> <!-- row row tip -->
+
+              <div class="clearfix" style="height: 5px"></div>
+
+            </div><!-- for infinite item and mainboxstyle-->
+
+          {% endfor %} <!-- for poll in polls -->
+
+          
+
+
+
+        </div><!-- for infinite container -->
+
+
+<!--         limiting users who do not sign up -->
+<!--           {% if not request.user.is_authenticated and not "/accounts/login" in request.get_full_path %}
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <a href="{% url 'account_login' %}" class='btn btn-primary btn-sm shadow'><b>Sign up to view all</b></a><br><br>
+          {% endif %} -->
+
+
+<!-- http://localhost:8000/polls/?type=test-listing-poll-tip-5test-listing-poll-tip-5test-listing-poll-tip-5 -->
+
+        <div class="loading" style="display: none;">
+          Loading...
+        </div>
+
+
+<!-- this is because if "more" is clicked on like the above sometimes there are issues -->
+        {% if page_obj.has_next %}
+          <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}&sort={{ request.GET.sort }}{% endif %}"></a>
+        {% endif %}
+
+
+      {% else %}
+
+        <div class="" style="margin:5px; font-weight: bold">
+          There are no entries yet.
+        </div>
+            
+      {% endif %}
+
+
+
+  {% include 'footermenu.html' %}
+
+
+
+
+
+<!-- popups to conduct surveys and to announce deals -->
+
+
+{% include "surveypopup.html" %}
+
+
+{# {% include "offerpopup.html" %} #}
+
+
+
+{% include 'sharemodal.html' %}
+
+
+
+<!-- floating arrow to speed scroll up -->
+<a href="#" class="floatarrow">
+<i class="fas fa-arrow-circle-up fa-2x"></i>
+</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- for testing fastscroll to element #16 -->
+<!-- http://localhost:8000/polls/?type=test-listing-poll-tip-5test-listing-poll-tip-5test-listing-poll-tip-5&sort=Date -->
+
+
+{% endblock %}
+
+
+
+
+
+{% block jquery %}
+
+
+
+
+
+
+
+{#  <script>#}
+
+
+
+
+
+
+// //this is not working for all - this needs to work
+// $(document).ready(function () {
+
+// // var scrolltoid = document.getElementById('16')
+// // scrolltoid.scrollIntoView();
+// // window.scrollBy(0, -50);
+
+// $('html, body').animate({
+//     scrollTop: $('#16').offset().top
+// }, 'slow');
+
+// });
+
+
+
+
+// this is working for $('#6') but not working for $('#16')
+testEvent();
+function testEvent() {
+  $(".test").click(function(event){
+    event.preventDefault();
+
+    // var scrolltoid = document.getElementById('16')
+    // scrolltoid.scrollIntoView(true);
+    // window.scrollBy(0, -50);
+
+    $('html, body').animate({
+        scrollTop: $('#16').offset().top
+    }, 'slow');
+
+
+    window.scrollTo(0, 0);
+
+
+  });
+};
+
+
+
+
+
+
+
+
+
+
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+
+        // addPollIdEvent();
+        set_votes();
+        set_fav();
+        set_more();
+        // set_report();
+
+ 
+    $(".note-video-clip").attr("width", "100%");
+    $(".note-video-clip").attr("height", "300");
+
+
+      }
+    });
+
+
+
+
+scrollup()
+function scrollup() {
+  $(".floatarrow").on('click', function(event){
+    event.preventDefault();
+    window.scrollTo(0, 0);
+  })
+}
+
+
+
+
+
+// $(".signin").click(function(e){
+//   event.preventDefault();
+//   window.location.assign("/accounts/login/");
+// })
+
+
+    //Disable right click on full page
+    // $("body").on("contextmenu",function(e){
+    //     return false;
+    // });
+
+
+
+  function set_more() {
+    $(".poll-button").on('click', function (event) {
+      var $tipRow = $(event.target).closest('.row-tip');   
+
+      $tipRow.find('.row-tip-thumb').addClass('d-none');
+      $tipRow.find('.row-tip-body').removeClass('col-sm-7');
+      $tipRow.find('.tip-sliced').addClass('d-none');
+      $tipRow.find('button').addClass('d-none');
+      $tipRow.find('span.poll-collapse').removeClass('d-none');
+      $tipRow.find(".row-tip-linebreak").hide();
+
+
+      var Subscribedp = "{{ Subscribedp  }}"
+      var createuser = $(this).attr("usercreate")
+      var requestuser = "{{ request.user  }}"
+      var free = "{{ free }}"
+      var userauthenticated = "{{ userauthenticated }}"
+
+
+
+      // // rerouting the user depending on his access doesnt matter if user is authenticated
+          //user has access
+        if ( Subscribedp === "True" || free === "True" ||  requestuser === createuser){
+
+          //let user access - do nothing
+
+        } else {
+          //user is not paid
+          window.location.assign("{% url 'SelectPlan' %}")
+        }
+
+
+
+      // // rerouting the user depending on his access - only if he is authenticated
+      // if (userauthenticated === 'True'){
+
+      //     //user has access
+      //   if ( Subscribedp === "True" || free === "True" ||  requestuser === createuser){
+
+      //     //let user access - do nothing
+
+      //   } else {
+      //     //user is not paid
+      //     window.location.assign("{% url 'SelectPlan' %}")
+      //   }
+
+      // } else {
+      //   //user is not authenticated
+      //   window.location.assign("/accounts/login/")
+      // }
+
+
+      // //inserting the viewcount everytime a user views a poll
+      // var poll_id = $(this).attr("poll_id");
+
+      //   $.ajax({
+      //     dataType: 'json',
+      //     type: 'POST',
+      //     data: 'poll_id=' + poll_id,
+      //     url: '/polls/vcount/',
+      //     success: function(jsondata) {
+
+      //         // var score_id = "#poll-score-" + poll_id;
+
+      //         if (jsondata.msg === "login_requred") {
+      //             window.location.assign("/accounts/login/");
+      //         } else {
+
+      //           console.log(jsondata.result)
+
+      //         }
+      //     }
+      //   });
+
+
+
+
+
+
+
+    });
+  }
+
+
+    function set_votes() {
+      
+      // $( ".vote-up" ).click(function() {
+      $( ".vote-up" ).off( "click" ).click(function() {
+        event.preventDefault();
+        var poll_id = $(this).attr("poll_id");
+        $.ajax({
+          dataType: 'json',
+          type: 'POST',
+          data: 'score=1&posi=true&poll_id=' + poll_id,
+          url: '/polls/vote/',
+          success: function(jsondata) {
+
+              // var message = "Upvoted"
+              // showFlashMessage(message)
+              var score_id = "#poll-score-" + poll_id;
+              var pvote_id = "#pvote-" + poll_id;
+              var badge_id = "#poll-badge-" + poll_id;
+              var space_id = "#poll-space-" + poll_id;
+              var posi_id = "#poll-posi-" + poll_id;
+              var nega_id = "#poll-nega-" + poll_id;
+              var pcolor_id = "#pcolor-id-" + poll_id;
+              // var ncolor_id = "#ncolor-id-" + poll_id;
+              var ncolor_id = "#ncolor-id-" + poll_id;
+
+              if (jsondata.msg === "login_requred") {
+                  // alert('login required!')
+                  window.location.assign("/accounts/login/");
+
+                  // window.location.replace("/accounts/login/");
+              } else {
+
+                if (jsondata.resultvote === 0) {
+                  var pcolor = "dodgerblue"
+                  $(pcolor_id).css( "color", pcolor );
+                  var ncolor = "dodgerblue"
+                  $(ncolor_id).css( "color", ncolor );
+                } else {
+                  var pcolor = "gold"
+                  $(pcolor_id).css( "color", pcolor );
+                  var ncolor = "dodgerblue"
+                  $(ncolor_id).css( "color", ncolor );
+                }
+
+                // var posi = jsondata.result1
+                // var nega = jsondata.result2
+                var score = jsondata.result
+                // var pvote = jsondata.pvote
+                // showFlashMessage("Tip Score: " + score)
+
+                $(score_id).text(jsondata.result);
+                $(pvote_id).text(jsondata.pvote);
+                $(badge_id).show(250);
+                $(space_id).show(250);
+                // $(posi_id).text(jsondata.result1);
+                // $(nega_id).text(jsondata.result2);
+
+              }
+          }
+        });
+      });
+
+      // $( ".vote-down" ).click(function() {
+      $( ".vote-down" ).off( "click" ).click(function() {
+        event.preventDefault();
+        var poll_id = $(this).attr("poll_id");
+        $.ajax({
+          dataType: 'json',
+          type: 'POST',
+          data: 'score=-1&nega=true&poll_id=' + poll_id,
+          url: '/polls/vote/',
+          success: function(jsondata) {
+
+              // var message = "Downvoted"
+              // showFlashMessage(message)
+              var score_id = "#poll-score-" + poll_id;
+              var pvote_id = "#pvote-" + poll_id;
+              var badge_id = "#poll-badge-" + poll_id;
+              var space_id = "#poll-space-" + poll_id;
+              var posi_id = "#poll-posi-" + poll_id;
+              var nega_id = "#poll-nega-" + poll_id;
+              var pcolor_id = "#pcolor-id-" + poll_id;
+              // var ncolor_id = "#ncolor-id-" + poll_id;
+              var ncolor_id = "#ncolor-id-" + poll_id;
+
+              if (jsondata.msg === "login_requred") {
+                  // alert('login required!')
+                  window.location.assign("/accounts/login/");
+                  // window.location.replace("/accounts/login/");
+              } else {
+
+                if (jsondata.resultvote === 0) {
+                  var pcolor = "dodgerblue"
+                  $(pcolor_id).css( "color", pcolor );
+                  var ncolor = "dodgerblue"
+                  $(ncolor_id).css( "color", ncolor );
+                } else {
+                  var pcolor = "dodgerblue"
+                  $(pcolor_id).css( "color", pcolor );
+                  var ncolor = "gold"
+                  $(ncolor_id).css( "color", ncolor );
+                }
+
+                // var posi = jsondata.result1
+                // var nega = jsondata.result2
+                var score = jsondata.result
+                // var pvote = jsondata.pvote
+                // showFlashMessage("Tip Score: " + score)
+
+                $(score_id).text(jsondata.result);
+                $(pvote_id).text(jsondata.pvote);
+                $(badge_id).show(250);
+                $(space_id).show(250);
+                // $(posi_id).text(jsondata.result1);
+                // $(nega_id).text(jsondata.result2);
+
+              }
+          }
+        });
+      });
+
+
+    }
+
+
+
+
+
+    $(".note-video-clip").attr("width", "100%");
+    $(".note-video-clip").attr("height", "300");
+
+
+
+$(function(){
+    var fileInput = $('.upload-file');
+    var maxSize = fileInput.data('max-size');
+    $('.upload-form').submit(function(e){
+        if(fileInput.get(0).files.length){
+            var fileSize = fileInput.get(0).files[0].size; // in bytes
+            if(fileSize>maxSize){
+                alert('file size is more then ' + String(maxSize).charAt(0) + ' Mb');
+                return false;
+            }else{
+                // alert('file size is correct- '+fileSize+' bytes');
+            }
+        }else{
+            // alert('choose file, please');
+            // return false;
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+// // sending the poll id to report after the flag is clicked on
+// function addPollIdEvent() {
+//   $(".modalclick").click(function(){
+//     $(".hidesubmission").show();
+//     $(".spinreport").hide();
+//     var value = $(this).attr('id');
+//     $(".reportp").data("poll_id", value);
+//     $("#custom_report_button").data("poll_id", value);
+//   });
+// };
+
+
+
+
+// // receiving the poll id, the poll issue id and poll issue text to be inserted into the database
+// function poll_report_ajax_calling(pollid, issueid, issuemsg){
+//     // if custom report textarea is empty - show flash message, else - fire AJAX call
+//     if (issuemsg == false){
+//         var message = "You've submitted an empty report. Please, fill in the textarea or use standard reports!"
+//         showFlashMessage(message);
+//     }
+//     else{
+//         $.ajax({
+//             dataType: 'json',
+//             type: 'POST',
+//             data: {
+//               'poll_id': pollid, 'issue_id': issueid, 'issuemsg': issuemsg,
+//               csrfmiddlewaretoken: '{{ csrf_token }}'
+//             },
+//             url: '/polls/report/',
+//             success: function(jsondata) {
+//             var message = "Post reported. Thank you"
+//             showFlashMessage(message)
+//             $('#ReportModal').modal("hide")
+//             }
+//         })
+//     }
+// };
+
+// function set_report() {
+
+//   $('#custom_report_button').on('click', function(e){
+//       e.preventDefault();
+//       var textarea = $('#custom_report_textarea');
+//       var button = $(this);
+//       var pollid = $(".reportp").data("poll_id");
+//       var issueid = textarea.attr('issue_id');
+//       var issuemsg;
+      
+//       // check if textarea is not empty and have no blank spaces instead of text
+//       if ($.trim(textarea.val()).length) {
+//           issuemsg = textarea.val();
+//           poll_report_ajax_calling(pollid, issueid, issuemsg);
+//           textarea.val('')
+//       }
+//       else{
+//           issuemsg = false;
+//           poll_report_ajax_calling(pollid, issueid, issuemsg);
+//           textarea.val('')
+//       };
+//   });
+
+//   $(".reportp").click(function(e){
+//       //preventdefault is important because it stops the original button from working and uses the javascript method
+//       e.preventDefault();
+//       var pollid = $(".reportp").data("poll_id");
+//       var issueid = $(this).attr("issue_id");
+//       var issuemsg = true;
+
+//       $(".hidesubmission").hide();
+//       $(".spinreport").fadeIn(1000);
+
+//       poll_report_ajax_calling(pollid, issueid, issuemsg);
+//   });
+
+// }
+
+
+
+function set_fav() {
+
+  // $(".favorite").click(function(e){
+  $(".favorite").off( "click" ).click(function(e){
+    event.preventDefault();
+    var poll_id = $(this).attr("poll_id");
+
+      $.ajax({
+        dataType: 'json',
+        type: 'POST',
+        data: 'poll_id=' + poll_id,
+        url: '/polls/fav/',
+        success: function(jsondata) {
+
+        if (jsondata.result=="favorited"){
+          var message = "Favorited Tip"
+          var color = "gold"
+        }else{
+          var message = "Unfavorited Tip"
+          var color = "dodgerblue"
+        }
+        // showFlashMessage(message)
+            var fav_id = "#fav-type-" + poll_id;
+            
+            if (jsondata.msg === "login_requred") {
+                // alert('login required!')
+                window.location.replace("/accounts/login/");
+            } else {
+                $(fav_id).css( "color", color );
+
+            }
+        }
+      });
+  });
+
+}
+
+// addPollIdEvent();
+set_fav();
+set_votes();
+set_more();
+// set_report();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#  </script>#}
+
+
+
+
+
+
+{% endblock %}
+
+
+
+

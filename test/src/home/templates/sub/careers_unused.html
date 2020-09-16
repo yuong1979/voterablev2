@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+<style>
+{% block style %}
+
+{% endblock %}
+</style>
+
+
+
+
+
+{% block content %}
+<div class="container">
+<small>
+
+<br>
+<br>
+
+<div class="col-sm-6 col-sm-offset-3">
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title"><b>Careers</b></h4></div>
+<div class="panel-body">
+
+<br>
+<img src="{% static 'img/Careers bnw.png' %}" alt="My image" width=100%/>
+<br>
+<br>
+
+      <ul>
+        
+        <li><p><b>We are currently looking for testers. Please <a href="{% url 'Contact' %}">Contact</a> us if you are interested.</b></p></li>
+
+      </ul>
+
+
+</div>
+</div>
+</div>
+
+</small>
+</div> <!-- /container -->
+{% endblock %}
+

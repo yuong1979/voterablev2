@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+<style>
+{% block style %}
+
+td {
+    padding: 8px;
+}
+
+
+{% endblock %}
+</style>
+
+
+{% block head %}
+
+
+{% endblock %}
+
+
+
+
+
+{% block special %}
+
+
+
+
+
+  <div class="mainboxstyle">
+
+
+
+      <div class="col-12 col-sm-6">
+
+        <div><i class="fas fa-shopping-cart fa-1x mainheaderstyle"></i> &nbsp;&nbsp;<span class="mainheaderstyle">Select your Plan</span></div>
+
+        <hr>
+        <b style="color: red;">Get access to all content and features now!</b>
+        <hr>
+            <table style="width:100%">
+
+              <tr>
+                <td>&nbsp;<i class="fas fa-magic fa-2x"></i></td>
+                <td><small><b>View all tips</b></td></small> 
+              </tr>
+
+              <tr>
+                <td>&nbsp;<i class="fas fa-info-circle fa-2x"></i></td>
+                <td><small><b>Access to all videos</b></td></small> 
+              </tr>
+
+              <tr>
+                <td>&nbsp;<i class="fas fa-chart-bar fa-2x"></i></td>
+                <td><small><b>Access to analytics</b></td></small> 
+              </tr>
+
+            </table>
+
+
+      </div>
+
+
+  </div> <!-- mainboxstyle -->
+
+
+
+
+<form action='' method='POST'>{% csrf_token %}
+
+
+
+    <div class="row">
+
+        <div class="col-12 col-sm-4">
+
+          <div class="mainboxstyle" style="padding:8px; border-style:none">
+
+        <br>
+          <center>
+            <b><span style="font-size: 36px">${{Plan04price}}</span><span style="font-size: 16px"> /Month</span></b>
+            <br>
+            <b><span style="font-size: 14px">Total: ${{Plan04total}}</span></b>
+            <br><br>
+            <h5><span class="">{{Plan04subplan}} Package</span></h5>
+            <br>
+          </center>
+
+            <button class='btn btn-sm btn-primary btn-block report' name="Plan" type="submit" value="{{Plan04}}"><b>Select</b></button>
+            <br>
+
+            <table style="width:100%">
+              <tr>
+                <td>&nbsp;<i class="fas fa-sun fa-2x"></i></td>
+                <td><small><b>{{Plan04days}} days subscription</b></td></small> 
+              </tr>
+
+              <tr>
+                <td>&nbsp;<i class="fas fa-magic fa-2x"></i></td>
+                <td><small><b>Only ${{Plan04pricepertip}} per tip</b></td></small> 
+              </tr>
+
+            </table>
+
+          </div><!-- mainboxstyle -->
+        </div>
+
+
+        <div class="col-12 col-sm-4">
+
+          <div class="mainboxstyle" style="padding:8px; border-style:none">
+
+        <br>
+          <center>
+            <b><span style="font-size: 36px">${{Plan05price}}</span><span style="font-size: 16px"> /Month</span></b>
+            <br>
+            <b><span style="font-size: 14px">Total: ${{Plan05total}}</span></b>
+            <br><br>
+            <h5><span class="">{{Plan05subplan}} Package</span></h5>
+            <br>
+          </center>
+
+            <button class='btn btn-sm btn-primary btn-block report' name="Plan" type="submit" value="{{Plan05}}"><b>Select</b></button>
+            <br>
+
+            <table style="width:100%">
+              <tr>
+                <td>&nbsp;<i class="fas fa-sun fa-2x"></i></td>
+                <td><small><b>{{Plan05days}} days subscription</b></td></small> 
+              </tr>
+
+              <tr>
+                <td>&nbsp;<i class="fas fa-magic fa-2x"></i></td>
+                <td><small><b>Only ${{Plan05pricepertip}} per tip</b></td></small> 
+              </tr>
+
+            </table>
+
+          </div><!-- mainboxstyle -->
+
+        </div>
+
+
+        <div class="col-12 col-sm-4">
+
+          <div class="mainboxstyle" style="padding:8px; border-style:none">
+
+        <center><b style="color:red">MOST POPULAR</b></center>
+          <center>
+            <b><span style="font-size: 36px">${{Plan06price}}</span><span style="font-size: 16px"> /Month</span></b>
+            <br>
+            <b><span style="font-size: 14px">Total: ${{Plan06total}}</span></b>
+            <br><br>
+            <h5><span class="">{{Plan06subplan}} Package</span></h5>
+            <br>
+          </center>
+
+            <button class='btn btn-sm btn-primary btn-block report' name="Plan" type="submit" value="{{Plan06}}"><b>Select</b></button>
+            <br>
+            <table style="width:100%">
+              <tr>
+                <td>&nbsp;<i class="fas fa-sun fa-2x"></i></td>
+                <td><small><b>{{Plan06days}} days subscription</b></td></small> 
+              </tr>
+
+              <tr>
+                <td>&nbsp;<i class="fas fa-magic fa-2x"></i></td>
+                <td><small><b>Only ${{Plan06pricepertip}} per tip</b></td></small> 
+              </tr>
+
+            </table>
+
+          </div><!-- mainboxstyle -->
+
+        </div>
+
+
+    </div><!-- row -->
+
+
+
+
+
+
+</form>
+
+
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+<style>
+{% block style %}
+/*.jumbotron {
+	background-color:#155A1E;
+	color:#FFF;
+
+}*/
+{% endblock %}
+</style>
+
+
+{% block content %}
+<div class="maincontainerstyle">
+
+    <div class="mainboxstyle" style="margin:10px 0px 10px 0px">
+
+        <div class="mainheaderstyle"><i class="fas fa-pen-square fa-1x"></i>&nbsp;&nbsp;&nbsp;&nbsp;Create New Tip List</div><hr>
+
+		<div class="container">
+		  <small>
+
+			{% if user.is_authenticated %}
+
+				<form method='POST' action="" enctype='multipart/form-data'>{% csrf_token %}
+					<input type="hidden" name="type_id" value="{{ type_id }}">
+
+				{% crispy form %}
+				</form>
+				
+			{% else %}
+
+				<h2>Please register first. Thank you.</h2>
+				<a href='{% url 'account_signup' %}' class='btn btn-success buttonspace' >Sign up</a>
+
+			{% endif %}
+
+		  </small>
+		</div>
+
+    <div><!-- mainboxstyle -->
+
+<div><!-- maincontainerstyle -->
+{% endblock %}
+
+
